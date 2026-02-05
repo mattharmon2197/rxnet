@@ -339,6 +339,7 @@ const searchItems = [
         { name: "Training Managment System (TMS)", url: "https://tms.cvs.com/apps_dir_sm/tms2/index.cfm" },
         { name: "New LP Store Visit Tool #AP #LP #SVT", url: "https://ldp.cvsapps.com/sso" },
         { name: "Former Colleagues   #HR", url: "https://alumnizone.cvs.com/alumnizone" },
+        { name: "Roster Readiness / myTeam Roster Planning Tool ", url: "https://matthewstathis1.github.io/rxnet/rosterreadiness.pdf" },
 
         { name: "CVS\Domain Apps Portal (Citrix) ", url: "https://remote.cvshealth.com/Citrix/remotecvsWeb/" }
 
