@@ -208,7 +208,7 @@ const searchItems = [
         { name: "Citrix (manual login with CID) ", url: "https://appsmc.minclinic.local/Citrix/appsmcWeb/" },
         { name: "DynaMedex ", url: "https://www.dynamedex.com" },
         { name: "Clinical Key (MSU Students)", url: "https://auth.elsevier.com/ShibAuth/institutionLogin?appReturnURL=https%3A%2F%2Fwww.clinicalkey.com%2Fshibboleth%2F&entityID=urn%3Amace%3Aincommon%3Amsu.edu" },
-        { name: "Pharmacist Letter ", url: "https://pharmacist.therapeuticresearch.com/en/Home/PL" },
+        { name: "Pharmacist Letter ", url: "https://pharmacist.therapeuticresearch.com/Home/PL/?referer=cvs/desktop.urls" },
         { name: "Plumbs Veterinary ", url: "https://www.plumbsveterinarydrugs.com/" },
         { name: "Nebulizers/Spacers (Legacy) ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Nebulizer_and_Spacer_Support_JobAid_20240822_20240909140443539.pdf" },
         { name: "McKesson ", url: "https://connect.mckesson.com/content" },
