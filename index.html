@@ -232,6 +232,8 @@
         <a href="https://cvshealth.sabacloud.com/" target="_blank" rel="noopener noreferrer">LearningHub</a>
         <a href="https://cvsthinklp.lightning.force.com" target="_blank" rel="noopener noreferrer">ThinkLP</a>
         <a href="https://matthewstathis1.github.io/rxnet/mobile.html" target="_blank" rel="noopener noreferrer">Mobile Site</a>
+        
+<a href="#" onclick="openSmartSensePopup(); return false;">SmartSense</a>
 
 </div>
 
@@ -815,5 +817,73 @@ function closeCitrixPopup() {
 </div>
 
 	
+  
+  <script>
+function openSmartSensePopup() {
+  const overlay = document.createElement("div");
+  overlay.className = "popup-overlay";
+
+  overlay.innerHTML = `
+    <div class="popup-box">
+      <h3>SmartSense Login</h3>
+      <button onclick="window.open('https://smartsense.cvs.com', '_blank')">
+        Standard Login
+      </button>
+      <button onclick="openSmartSenseStore()">
+        Store SSO
+      </button>
+      <button onclick="closePopup()">Cancel</button>
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+}
+
+function openSmartSenseStore() {
+  closePopup();
+
+  const overlay = document.createElement("div");
+  overlay.className = "popup-overlay";
+
+  overlay.innerHTML = `
+    <div class="popup-box">
+      <h3>Enter Store Number</h3>
+      <input
+        type="text"
+        id="smartsenseStore"
+        placeholder="Store #"
+        style="padding:8px; width:80%; font-size:1rem;"
+        onkeydown="if (event.key === 'Enter') launchSmartSenseSSO();"
+      />
+      <br><br>
+      <button onclick="launchSmartSenseSSO()">Continue</button>
+      <button onclick="closePopup()">Cancel</button>
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+  document.getElementById("smartsenseStore").focus();
+}
+
+function launchSmartSenseSSO() {
+  const store = document.getElementById("smartsenseStore").value.trim();
+  if (!store) return;
+
+  const encoded = btoa(store);
+  const url = `https://smartsense.cvs.com/sso?store=${encoded}`;
+
+  window.open(url, "_blank");
+  closePopup();
+}
+
+function closePopup() {
+  const popup = document.querySelector(".popup-overlay");
+  if (popup) popup.remove();
+}
+</script>
+  
+  
+  
+  
 </body>
 </html>
