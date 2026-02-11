@@ -867,18 +867,18 @@ function openSmartSenseStore() {
 
 function launchSmartSenseSSO() {
   const store = document.getElementById("smartsenseStore").value.trim();
-  if (!store) return;
 
-  const encoded = btoa(store);
-  const url = `https://smartsense.cvs.com/sso?store=${encoded}`;
+  if (!/^\d{5}$/.test(store)) {
+    alert("Please enter a valid 5-digit store number.");
+    return;
+  }
+
+  const url =
+    "https://app.smartsense.co/api/Saml/InitiateSingleSignOn/CVS" +
+    "?returnUrl=https://app.smartsense.co/start/" + store;
 
   window.open(url, "_blank");
   closePopup();
-}
-
-function closePopup() {
-  const popup = document.querySelector(".popup-overlay");
-  if (popup) popup.remove();
 }
 </script>
   
