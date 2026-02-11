@@ -33,7 +33,7 @@ const searchItems = [
         { name: "Micromedex ", url: "https://www.micromedexsolutions.com/micromedex2/librarian/" },
         { name: "DailyMed ", url: "https://dailymed.nlm.nih.gov/dailymed/" },
         { name: "DynaMed ", url: "https://www.dynamed.com" },
-        { name: "Pharmacist Letter Access Job Aid ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Pharmacists_Letter_access_jobaid_20220415095427755.pdf" },
+        { name: "Pharmacist's Letter Access Job Aid ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Pharmacists_Letter_access_jobaid_20220415095427755.pdf" },
         { name: "Contraceptive Sub ", url: "https://pharmacist.therapeuticresearch.com/Content/Segments/PRL/2015/Jul/Comparison-of-Oral-Contraceptives-and-Non-Oral-Alternatives-United-States-8631" },
         { name: "Do Not Crush List ", url: "https://pharmacist.therapeuticresearch.com/Content/Segments/PRL/2014/Aug/Meds-That-Should-Not-Be-Crushed-7309" },
         { name: "All Clinical References ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/ClinicalResourceGuide_20230207125446867.pdf" },
