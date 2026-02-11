@@ -243,8 +243,7 @@ body {
 
 <div id="operational" class="grid category-panel">
   <div class="section-title">Operational</div>
-  <a href="#" onclick="openDynamicURL('https://app.smartsense.co/api/Saml/InitiateSingleSignOn/CVS?returnUrl=https://app.smartsense.co/start/XXXXX'); return false;">TempAlert/SmartSense (SSO)</a>
-  <a href="https://app.smartsense.co" target="_blank" rel="noopener noreferrer">TempAlert/SmartSense (general login)</a>
+	<a href="#" onclick="openSmartSensePopup(); return false;">SmartSense</a>
   <a href="https://cvs.retailzipline.com/field/dashboard" target="_blank" rel="noopener noreferrer">Zipline (Core)</a>
   <a href="#" onclick="openDynamicURL('https://federatione.cvs.com/affwebservices/public/saml2sso?SPID=cvshealthsp_png_cvscom&RelayState=https://authsvc.cvshealth.com/idp/startSSO.ping?PartnerSpId=https://cvs.retailzipline.com/sso/saml/metadata/?SUBSTITUTE_STORE_NUMBER=XXXXX'); return false;">Zipline (Floaters)</a>
   <a href="https://cvs.reflexisinc.com/kernel/views/authenticate/web/CVS.view" target="_blank" rel="noopener noreferrer">mySchedule</a>
@@ -494,6 +493,89 @@ body {
       if (operationalBtn) operationalBtn.classList.add('active');
     };
   </script>
+
+
+  
+<script>
+/* ---------- CLOSE ANY OPEN POPUP ---------- */
+function closePopup() {
+  const existing = document.querySelector(".popup-overlay");
+  if (existing) existing.remove();
+}
+
+/* ---------- FIRST POPUP (CHOICE) ---------- */
+function openSmartSensePopup() {
+  closePopup();
+
+  const overlay = document.createElement("div");
+  overlay.className = "popup-overlay";
+
+  overlay.innerHTML = `
+    <div class="popup-box">
+      <h3>SmartSense Login</h3>
+
+      <button onclick="window.open('https://app.smartsense.co', '_blank')">
+        Standard Login
+      </button>
+
+      <button onclick="openSmartSenseStore()">
+        Store SSO
+      </button>
+
+      <button onclick="closePopup()">Cancel</button>
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+}
+
+/* ---------- STORE NUMBER POPUP ---------- */
+function openSmartSenseStore() {
+  closePopup();
+
+  const overlay = document.createElement("div");
+  overlay.className = "popup-overlay";
+
+  overlay.innerHTML = `
+    <div class="popup-box">
+      <h3>Enter Store Number</h3>
+
+      <input
+        type="text"
+        id="smartsenseStore"
+        placeholder="5-digit store #"
+        style="padding:8px; width:80%; font-size:1rem;"
+        onkeydown="if (event.key === 'Enter') launchSmartSenseSSO();"
+      />
+
+      <br><br>
+
+      <button onclick="launchSmartSenseSSO()">Continue</button>
+      <button onclick="closePopup()">Cancel</button>
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+  document.getElementById("smartsenseStore").focus();
+}
+
+/* ---------- LAUNCH SSO ---------- */
+function launchSmartSenseSSO() {
+  const store = document.getElementById("smartsenseStore")?.value.trim();
+
+  if (!/^\d{5}$/.test(store)) {
+    alert("Please enter a valid 5-digit store number.");
+    return;
+  }
+
+  const url =
+    "https://app.smartsense.co/api/Saml/InitiateSingleSignOn/CVS" +
+    "?returnUrl=https://app.smartsense.co/start/" + store;
+
+  window.open(url, "_blank");
+  closePopup();
+}
+</script>
 
 </body>
 </html>
