@@ -813,86 +813,92 @@ function closeCitrixPopup() {
 
 	
   
-<script>
-/* ---------- CLOSE ANY OPEN POPUP ---------- */
-function closePopup() {
-  const existing = document.querySelector(".popup-overlay");
-  if (existing) existing.remove();
-}
-
-/* ---------- FIRST POPUP (CHOICE) ---------- */
-function openSmartSensePopup() {
-  closePopup();
-
-  const overlay = document.createElement("div");
-  overlay.className = "popup-overlay";
-
-  overlay.innerHTML = `
-    <div class="popup-box">
-      <h3>SmartSense Login</h3>
-
-      <button onclick="window.open('https://app.smartsense.co', '_blank')">
-        Standard Login
-      </button>
-
-      <button onclick="openSmartSenseStore()">
-        Store SSO
-      </button>
-
-      <button onclick="closePopup()">Cancel</button>
-    </div>
-  `;
-
-  document.body.appendChild(overlay);
-}
-
-/* ---------- STORE NUMBER POPUP ---------- */
-function openSmartSenseStore() {
-  closePopup();
-
-  const overlay = document.createElement("div");
-  overlay.className = "popup-overlay";
-
-  overlay.innerHTML = `
-    <div class="popup-box">
-      <h3>Enter Store Number</h3>
-
-      <input
-        type="text"
-        id="smartsenseStore"
-        placeholder="5-digit store #"
-        style="padding:8px; width:80%; font-size:1rem;"
-        onkeydown="if (event.key === 'Enter') launchSmartSenseSSO();"
-      />
-
-      <br><br>
-
-      <button onclick="launchSmartSenseSSO()">Continue</button>
-      <button onclick="closePopup()">Cancel</button>
-    </div>
-  `;
-
-  document.body.appendChild(overlay);
-  document.getElementById("smartsenseStore").focus();
-}
-
-/* ---------- LAUNCH SSO ---------- */
-function launchSmartSenseSSO() {
-  const store = document.getElementById("smartsenseStore")?.value.trim();
-
-  if (!/^\d{5}$/.test(store)) {
-    alert("Please enter a valid 5-digit store number.");
-    return;
+  <script>
+  /* ---------- CLOSE ANY OPEN POPUP ---------- */
+  function closePopup() {
+    const existing = document.querySelector(".popup-overlay");
+    if (existing) existing.remove();
   }
 
-  const url =
-    "https://app.smartsense.co/api/Saml/InitiateSingleSignOn/CVS" +
-    "?returnUrl=https://app.smartsense.co/start/" + store;
+  /* ---------- STANDARD LOGIN ---------- */
+  function launchSmartSenseStandard() {
+    window.open("https://app.smartsense.co", "_blank", "noopener");
+    closePopup();
+  }
 
-  window.open(url, "_blank");
-  closePopup();
-}
-</script>
+  /* ---------- FIRST POPUP (CHOICE) ---------- */
+  function openSmartSensePopup() {
+    closePopup();
+
+    const overlay = document.createElement("div");
+    overlay.className = "popup-overlay";
+
+    overlay.innerHTML = `
+      <div class="popup-box">
+        <h3>SmartSense Login</h3>
+
+        <button onclick="launchSmartSenseStandard()">
+          Standard Login
+        </button>
+
+        <button onclick="openSmartSenseStore()">
+          Store SSO
+        </button>
+
+        <button onclick="closePopup()">Cancel</button>
+      </div>
+    `;
+
+    document.body.appendChild(overlay);
+  }
+
+  /* ---------- STORE NUMBER POPUP ---------- */
+  function openSmartSenseStore() {
+    closePopup();
+
+    const overlay = document.createElement("div");
+    overlay.className = "popup-overlay";
+
+    overlay.innerHTML = `
+      <div class="popup-box">
+        <h3>Enter Store Number</h3>
+
+        <input
+          type="text"
+          id="smartsenseStore"
+          placeholder="5-digit store #"
+          style="padding:8px; width:80%; font-size:1rem;"
+          onkeydown="if (event.key === 'Enter') launchSmartSenseSSO();"
+        />
+
+        <br><br>
+
+        <button onclick="launchSmartSenseSSO()">Continue</button>
+        <button onclick="closePopup()">Cancel</button>
+      </div>
+    `;
+
+    document.body.appendChild(overlay);
+    document.getElementById("smartsenseStore").focus();
+  }
+
+  /* ---------- LAUNCH SSO ---------- */
+  function launchSmartSenseSSO() {
+    const store = document.getElementById("smartsenseStore")?.value.trim();
+
+    if (!/^\d{5}$/.test(store)) {
+      alert("Please enter a valid 5-digit store number.");
+      return;
+    }
+
+    const url =
+      "https://app.smartsense.co/api/Saml/InitiateSingleSignOn/CVS" +
+      "?returnUrl=https://app.smartsense.co/start/" + store;
+
+    window.open(url, "_blank", "noopener");
+    closePopup();
+  }
+  </script>
   
   
   
