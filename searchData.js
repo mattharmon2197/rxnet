@@ -335,7 +335,7 @@ const searchItems = [
         { name: "Bowel Prep Billing Tips", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Proper_Billing_of_Bowel_Preps_2025_%282%29_20251126141806523.pdf" },
         { name: "PA Technician Licensure", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Pennsylvania_Incumbent_Pharmacy_Technician_Application_Checklist_2025120917021865.pdf" },
         { name: "Print Pharmacy DEA License ", url: "https://portaldoctool.cvs.com/retailportalfiles/wlm_task_reports/RX_LICENSE_XXXXX.pdf" },
-        { name: "AP Store Visit Tool (SVT)  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/AP_SVT_-_FS_and_RX_Store_Leader_Dashboards_Guide_20260107141856115.pptx_2pdf.pdf" },
+        { name: "AP Store Visit Tool (SVT) Job Aid  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/AP_SVT_-_FS_and_RX_Store_Leader_Dashboards_Guide_20260107141856115.pptx_2pdf.pdf" },
         { name: "CPR Class Scheduling #IMZ", url: "https://c0axa109.caspio.com/dp/731b1000a87a77ff9fd24b08b4ac" },
         { name: "Training Managment System (TMS)", url: "https://tms.cvs.com/apps_dir_sm/tms2/index.cfm" },
         { name: "New LP Store Visit Tool #AP #LP #SVT", url: "https://ldp.cvsapps.com/sso" },
