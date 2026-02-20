@@ -86,6 +86,7 @@
         <a href="https://matthewstathis1.github.io/rxnet/backuphomedropdown.html" class="link-button">Dropdown Home</a>
         <a href="https://matthewstathis1.github.io/rxnet/rxnet.pdf" class="link-button">Site QR Code</a>
         <a href="https://matthewstathis1.github.io/rxnet/test" class="link-button">Test Page</a>
+        <a href="https://matthewstathis1.github.io/rxnet/quicklinks" class="link-button">Quick Links</a>
 
     </div>
 
@@ -97,24 +98,6 @@
                 button.setAttribute("rel", "noopener noreferrer");
             });
         });
-
-        function openDynamicURL(baseURL) {
-            if (baseURL.includes("XXXXX")) {
-                let storeNumber = prompt("Enter your 5-digit store number:");
-                if (storeNumber) {
-                    let finalURL = baseURL.replace("XXXXX", encodeURIComponent(storeNumber));
-                    window.open(finalURL, "_blank", "noopener,noreferrer");
-                }
-            } else if (baseURL.includes("YYYYYYYYYY")) {
-                let npiNumber = prompt("Enter your NPI number:");
-                if (npiNumber) {
-                    let finalURL = baseURL.replace("YYYYYYYYYY", encodeURIComponent(npiNumber));
-                    window.open(finalURL, "_blank", "noopener,noreferrer");
-                }
-            } else {
-                window.open(baseURL, "_blank", "noopener,noreferrer");
-            }
-        }
     </script>
 </body>
 </html>
