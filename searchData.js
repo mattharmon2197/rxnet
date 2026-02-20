@@ -341,7 +341,13 @@ const searchItems = [
         { name: "New LP Store Visit Tool #AP #LP #SVT", url: "https://ldp.cvsapps.com/sso" },
         { name: "Former Colleagues   #HR", url: "https://alumnizone.cvs.com/alumnizone" },
         { name: "Roster Readiness / myTeam Roster Planning Tool ", url: "https://matthewstathis1.github.io/rxnet/rosterreadiness.pdf" },
+        { name: "IMZ Quick Reference  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/IMZ_Clinical_%26_Safety_Resource_Landing_Page-_QRGs_%26_CDC_2025062513344230.pptx_2pdf.pdf" },
+        { name: "myInsights ", url: "https://cvs.crowdicity.com/" },
+        { name: "CFRx FAQ ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/CFRx_FAQs_WG_RB_07142022.pdf" },
+        { name: "CFRx Ordering Guide ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/CFRx_Warehouse_%26_Outside_Vendor_Ordering_Guide_20250912115922886.pptx_2pdf.pdf" },
+        { name: "CFRx Order Adjustments Job Aid ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Order_Adjustments_20230130142641714.pdf" },
 
+        
         { name: "CVS\Domain Apps Portal (Citrix) ", url: "https://remote.cvshealth.com/Citrix/remotecvsWeb/" }
 
 
