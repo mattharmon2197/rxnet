@@ -346,6 +346,7 @@ const searchItems = [
         { name: "CFRx FAQ ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/CFRx_FAQs_WG_RB_07142022.pdf" },
         { name: "CFRx Ordering Guide ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/CFRx_Warehouse_%26_Outside_Vendor_Ordering_Guide_20250912115922886.pptx_2pdf.pdf" },
         { name: "CFRx Order Adjustments Job Aid ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Order_Adjustments_20230130142641714.pdf" },
+        { name: "FlavoRx Recipe Generator Website ", url: "https://flavorxflavors.com/account/login.aspx?ReturnPage=%2fgenerator.aspx" },
 
         
         { name: "CVS\Domain Apps Portal (Citrix) ", url: "https://remote.cvshealth.com/Citrix/remotecvsWeb/" }
