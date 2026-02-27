@@ -1091,6 +1091,7 @@ function closeCitrixPopup() {
 
   /* ---------- MAIN DYNAMIC ROUTER ---------- */
   function openDynamicURL(baseURL) {
+
     // If no variables → just open normally
     if (!baseURL.includes("XXXXX") && !baseURL.includes("YYYYYYYYYY")) {
       window.open(baseURL, "_blank", "noopener,noreferrer");
@@ -1101,19 +1102,20 @@ function closeCitrixPopup() {
 
     let label = "";
     let placeholder = "";
-    let pattern = "";
-    let variableToken = "";
+    let token = "";
+    let type = "";
 
     if (baseURL.includes("XXXXX")) {
       label = "Enter Store Number";
       placeholder = "5-digit store #";
-      pattern = "^\\d{5}$";
-      variableToken = "XXXXX";
-    } else if (baseURL.includes("YYYYYYYYYY")) {
+      token = "XXXXX";
+      type = "store";
+    }
+    else if (baseURL.includes("YYYYYYYYYY")) {
       label = "Enter NPI Number";
       placeholder = "10-digit NPI #";
-      pattern = "^\\d{10}$";
-      variableToken = "YYYYYYYYYY";
+      token = "YYYYYYYYYY";
+      type = "npi";
     }
 
     const overlay = document.createElement("div");
@@ -1128,12 +1130,12 @@ function closeCitrixPopup() {
           id="dynamicInput"
           placeholder="${placeholder}"
           style="padding:8px; width:80%; font-size:1rem;"
-          onkeydown="if (event.key === 'Enter') launchDynamicURL('${baseURL}', '${variableToken}', '${pattern}');"
+          onkeydown="if (event.key === 'Enter') launchDynamicURL('${baseURL}', '${token}', '${type}');"
         />
 
         <br><br>
 
-        <button onclick="launchDynamicURL('${baseURL}', '${variableToken}', '${pattern}')">
+        <button onclick="launchDynamicURL('${baseURL}', '${token}', '${type}')">
           Continue
         </button>
 
@@ -1146,13 +1148,23 @@ function closeCitrixPopup() {
   }
 
   /* ---------- LAUNCH FINAL URL ---------- */
-  function launchDynamicURL(baseURL, token, pattern) {
+  function launchDynamicURL(baseURL, token, type) {
     const value = document.getElementById("dynamicInput")?.value.trim();
 
-    const regex = new RegExp(pattern);
+    let isValid = false;
 
-    if (!regex.test(value)) {
-      alert("Please enter a valid value.");
+    if (type === "store") {
+      isValid = /^\d{5}$/.test(value);
+    }
+    else if (type === "npi") {
+      isValid = /^\d{10}$/.test(value);
+    }
+
+    if (!isValid) {
+      alert(type === "store"
+        ? "Please enter a valid 5-digit store number."
+        : "Please enter a valid 10-digit NPI number."
+      );
       return;
     }
 
