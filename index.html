@@ -237,13 +237,7 @@
         <a href="https://cvsthinklp.lightning.force.com" target="_blank" rel="noopener noreferrer">ThinkLP</a>
         <a href="https://matthewstathis1.github.io/rxnet/mobile.html" target="_blank" rel="noopener noreferrer">Mobile Site</a>
         <a href="https://matthewstathis1.github.io/rxnet/rxnet.pdf" target="_blank" rel="noopener noreferrer">Site QR Code</a>
-        
-        
-        
-        <a href="#" onclick="openSparkPopup(); return false;">Spark</a>
-
-        
-        
+        <a href="#" onclick="openSparkPopup(); return false;">myReports</a>
         <div class="section-description">
           Contact matthew.stathis@cvshealth.com from your store email with any suggestions/requests/problems.
         </div>
@@ -257,9 +251,9 @@
   <div style="grid-column: 1 / -1; font-weight: bold; font-size: 18px; margin-bottom: 5px; border-bottom: 2px solid #ccc; padding-bottom: 5px;">
     General
   </div>
-		<a href="https://retailspark.cvs.com/spark?view=storeView" target="_blank" rel="noopener noreferrer">myReports</a>
+        <a href="#" onclick="openSparkPopup(); return false;">myReports</a>
         <a href="https://storeresources.cvsapps.com/?user_ard=MTYzMQ==&employee_ID=MTA5Mzk5MQ==&user_firstname=TWF0dGhldw==&user_lastname=U3RhdGhpcw==&user_title=UGhhcm1hY2lzdA==" target="_blank" rel="noopener noreferrer">myDocs</a>
-		<a href="https://cvs.retailzipline.com/field/dashboard" target="_blank" rel="noopener noreferrer">Zipline</a>
+        <a href="#" onclick="openZiplinePopup(); return false;">Zipline</a>
 		<a href="https://cvs.reflexisinc.com/kernel/views/authenticate/web/CVS.view" target="_blank" rel="noopener noreferrer">mySchedule</a>
 		<a href="#" onclick="openSmartSensePopup(); return false;">SmartSense</a>
 		<a href="#" onclick="chooseCitrix(); return false;">Citrix</a>
@@ -267,8 +261,6 @@
         <a href="https://matthewstathis1.github.io/rxnet/storesupplies">Store Supplies</a>
         <a href="https://matthewstathis1.github.io/rxnet/calculator" target="_blank" rel="noopener noreferrer">Calculator</a>
         <a href="https://matthewstathis1.github.io/rxnet/calendar" target="_blank" rel="noopener noreferrer">Calendar</a>
-        <a href="#" onclick="openDynamicURL('https://retailspark.cvs.com/spark?view=storeView&storeName=sXXXXXrxs'); return false;">myReports (Field)</a>
-        <a href="#" onclick="openDynamicURL('https://federatione.cvs.com/affwebservices/public/saml2sso?SPID=cvshealthsp_png_cvscom&RelayState=https://authsvc.cvshealth.com/idp/startSSO.ping?PartnerSpId=https://cvs.retailzipline.com/sso/saml/metadata/?SUBSTITUTE_STORE_NUMBER=XXXXX'); return false;">Zipline (Field)</a>
         <a href="https://matthewstathis1.github.io/rxnet/admin" target="_blank" rel="noopener noreferrer">Admin</a>
   <!-- Section Title: Manager -->
   <div style="grid-column: 1 / -1; font-weight: bold; font-size: 18px; margin: 20px 0 5px; margin-bottom: 5px; border-bottom: 2px solid #ccc; padding-bottom: 5px;">
@@ -973,6 +965,95 @@ function closeCitrixPopup() {
   
   
   
+  
+  
+  
+  
+  <script>
+  /* ---------- CLOSE ANY OPEN POPUP ---------- */
+  function closePopup() {
+    const existing = document.querySelector(".popup-overlay");
+    if (existing) existing.remove();
+  }
+
+  /* ---------- STANDARD LOGIN ---------- */
+  function launchZiplineStandard() {
+    window.open("https://cvs.retailzipline.com/field/dashboard", "_blank", "noopener");
+    closePopup();
+  }
+
+  /* ---------- FIRST POPUP (CHOICE) ---------- */
+  function openZiplinePopup() {
+    closePopup();
+
+    const overlay = document.createElement("div");
+    overlay.className = "popup-overlay";
+
+    overlay.innerHTML = `
+      <div class="popup-box">
+        <h3>Zipline Login</h3>
+
+        <button onclick="launchZiplineStandard()">
+          Default Login
+        </button>
+
+        <button onclick="openZiplineStore()">
+          Floater Login
+        </button>
+
+        <button onclick="closePopup()">Cancel</button>
+      </div>
+    `;
+
+    document.body.appendChild(overlay);
+  }
+
+  /* ---------- STORE NUMBER POPUP ---------- */
+  function openZiplineStore() {
+    closePopup();
+
+    const overlay = document.createElement("div");
+    overlay.className = "popup-overlay";
+
+    overlay.innerHTML = `
+      <div class="popup-box">
+        <h3>Enter Store Number</h3>
+
+        <input
+          type="text"
+          id="ziplineStore"
+          placeholder="5-digit store #"
+          style="padding:8px; width:80%; font-size:1rem;"
+          onkeydown="if (event.key === 'Enter') launchZiplineField();"
+        />
+
+        <br><br>
+
+        <button onclick="launchZiplineField()">Continue</button>
+        <button onclick="closePopup()">Cancel</button>
+      </div>
+    `;
+
+    document.body.appendChild(overlay);
+    document.getElementById("ziplineField").focus();
+  }
+
+  /* ---------- LAUNCH SSO ---------- */
+  function launchZiplineField() {
+    const store = document.getElementById("ziplineStore")?.value.trim();
+
+    if (!/^\d{5}$/.test(store)) {
+      alert("Please enter a valid 5-digit store number.");
+      return;
+    }
+
+    const url =
+      "https://federatione.cvs.com/affwebservices/public/saml2sso?SPID=cvshealthsp_png_cvscom&RelayState=https://authsvc.cvshealth.com/idp/startSSO.ping?PartnerSpId=https://cvs.retailzipline.com/sso/saml/metadata/?SUBSTITUTE_STORE_NUMBER=" + store;
+
+    window.open(url, "_blank", "noopener");
+    closePopup();
+  }
+  </script>
   
   
   
