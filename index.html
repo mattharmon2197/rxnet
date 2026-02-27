@@ -391,8 +391,8 @@
       Asset Protection
     </div>
           <a href="https://ldp.cvsapps.com/sso" target="_blank" rel="noopener noreferrer">AP SVT</a>
-          <a href="https://cvsthinklp.lightning.force.com" target="_blank" rel="noopener noreferrer">ThinkLP</a>
           <a href="#" onclick="openDynamicURL('https://portaldoctool.cvs.com/retailportalfiles/wlm_task_reports/INFO_XXXXX.pdf'); return false;">AP Dashboard</a>
+          <a href="https://cvsthinklp.lightning.force.com" target="_blank" rel="noopener noreferrer">ThinkLP</a>
           <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/AP_SVT_-_FS_and_RX_Store_Leader_Dashboards_Guide_20260107141856115.pptx_2pdf.pdf" target="_blank" rel="noopener noreferrer">AP SVT Job Aid</a>
           <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/AP_Resources_%2526_Job_Aids_-_Store_Leaders_20260116151815753.pptx_2pdf.pdf" target="_blank" rel="noopener noreferrer">Leader Resources</a>
           <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/2023_RX_AP_Operational_Excellence_Playbook_20230620135623197.pdf" target="_blank" rel="noopener noreferrer">Opl Excellence</a>
@@ -700,25 +700,6 @@ if (id === 'search') {
       resultsDiv.style.display = "none";
     }
   }
-
-  function openDynamicURL(baseURL) {
-    if (baseURL.includes("XXXXX")) {
-      let storeNumber = prompt("Enter your store number:");
-      if (storeNumber) {
-        let finalURL = baseURL.replace("XXXXX", encodeURIComponent(storeNumber));
-        window.open(finalURL, "_blank", "noopener,noreferrer");
-      }
-    } else if (baseURL.includes("YYYYYYYYYY")) {
-      let npi = prompt("Enter your NPI number:");
-      if (npi) {
-        let finalURL = baseURL.replace("YYYYYYYYYY", encodeURIComponent(npi));
-        window.open(finalURL, "_blank", "noopener,noreferrer");
-      }
-    } else {
-      window.open(baseURL, "_blank", "noopener,noreferrer");
-    }
-  }
-
 
 
 function chooseCitrix() {
@@ -1098,6 +1079,89 @@ function closeCitrixPopup() {
   }
   </script>
   
+  
+  
+  
+  <script>
+  /* ---------- CLOSE POPUP ---------- */
+  function closePopup() {
+    const existing = document.querySelector(".popup-overlay");
+    if (existing) existing.remove();
+  }
+
+  /* ---------- MAIN DYNAMIC ROUTER ---------- */
+  function openDynamicURL(baseURL) {
+    // If no variables → just open normally
+    if (!baseURL.includes("XXXXX") && !baseURL.includes("YYYYYYYYYY")) {
+      window.open(baseURL, "_blank", "noopener,noreferrer");
+      return;
+    }
+
+    closePopup();
+
+    let label = "";
+    let placeholder = "";
+    let pattern = "";
+    let variableToken = "";
+
+    if (baseURL.includes("XXXXX")) {
+      label = "Enter Store Number";
+      placeholder = "5-digit store #";
+      pattern = "^\\d{5}$";
+      variableToken = "XXXXX";
+    } else if (baseURL.includes("YYYYYYYYYY")) {
+      label = "Enter NPI Number";
+      placeholder = "10-digit NPI #";
+      pattern = "^\\d{10}$";
+      variableToken = "YYYYYYYYYY";
+    }
+
+    const overlay = document.createElement("div");
+    overlay.className = "popup-overlay";
+
+    overlay.innerHTML = `
+      <div class="popup-box">
+        <h3>${label}</h3>
+
+        <input
+          type="text"
+          id="dynamicInput"
+          placeholder="${placeholder}"
+          style="padding:8px; width:80%; font-size:1rem;"
+          onkeydown="if (event.key === 'Enter') launchDynamicURL('${baseURL}', '${variableToken}', '${pattern}');"
+        />
+
+        <br><br>
+
+        <button onclick="launchDynamicURL('${baseURL}', '${variableToken}', '${pattern}')">
+          Continue
+        </button>
+
+        <button onclick="closePopup()">Cancel</button>
+      </div>
+    `;
+
+    document.body.appendChild(overlay);
+    document.getElementById("dynamicInput").focus();
+  }
+
+  /* ---------- LAUNCH FINAL URL ---------- */
+  function launchDynamicURL(baseURL, token, pattern) {
+    const value = document.getElementById("dynamicInput")?.value.trim();
+
+    const regex = new RegExp(pattern);
+
+    if (!regex.test(value)) {
+      alert("Please enter a valid value.");
+      return;
+    }
+
+    const finalURL = baseURL.replace(token, encodeURIComponent(value));
+
+    window.open(finalURL, "_blank", "noopener,noreferrer");
+    closePopup();
+  }
+  </script>
 
 </body>
 </html>
