@@ -295,7 +295,6 @@ const searchItems = [
         { name: "CSOS Central POA   #power of attorney ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/DEA_Central_CSOS_POA_Documents-_Group_A_20251210140954632.pdf" },
         { name: "CSOS Registrant Exhibit A list   #power of attorney ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Exhibit_A_Retail_Registrants_2025_-_Group_A.pdf" },
         { name: "Print PIC POAs (Non-CSOS)   #power of attorney ", url: "https://portaldoctool.cvs.com/retailportalfiles/business/rx/POA_XXXXX.pdf" },
-        { name: "Print PA Pharmacy Permit/License    #Pennsylvania #Board of Pharmacy #Licensure ", url: "https://portaldoctool.cvs.com/retailportalfiles/wlm_task_reports/RX_LICENSE_XXXXX.pdf" },
         { name: "SpokenRx ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/perm/store/oth/SpokenRx_myDocs_LandingePage.pptx_2pdf.pdf" },
         { name: "LearnRx Tracking ", url: "https://aetna.quickbase.com/nav/app/bstr5x75e/action/appoverview" },
         { name: "New Hire Password Setup Job Aid ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Retail_New_Colleague_Password_Guide_20250820162352262.pdf" },
