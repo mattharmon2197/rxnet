@@ -348,6 +348,7 @@ const searchItems = [
         { name: "CFRx Order Adjustments Job Aid ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Order_Adjustments_20230130142641714.pdf" },
         { name: "FlavoRx Recipe Generator Website ", url: "https://flavorxflavors.com/account/login.aspx?ReturnPage=%2fgenerator.aspx" },
         { name: "AP Store Leader Resources ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/AP_Resources_%2526_Job_Aids_-_Store_Leaders_20260116151815753.pptx_2pdf.pdf" },
+        { name: "RSSC Helpdesk Self Service  ", url: "https://colleaguezone.cvs.com/cz?id=sc_cat_item&table=sc_cat_item&sys_id=e3625b74fb221610b562f42bbeefdc58&recordUrl=com.glideapp.servicecatalog_cat_item_view.do%3Fv%3D1&sysparm_id=e3625b74fb221610b562f42bbeefdc58x" },
 
         
         { name: "CVS\Domain Apps Portal (Citrix) ", url: "https://remote.cvshealth.com/Citrix/remotecvsWeb/" }
