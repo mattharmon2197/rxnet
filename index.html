@@ -238,6 +238,12 @@
         <a href="https://matthewstathis1.github.io/rxnet/mobile.html" target="_blank" rel="noopener noreferrer">Mobile Site</a>
         <a href="https://matthewstathis1.github.io/rxnet/rxnet.pdf" target="_blank" rel="noopener noreferrer">Site QR Code</a>
         
+        
+        
+        <a href="#" onclick="openSparkPopup(); return false;">Spark</a>
+
+        
+        
         <div class="section-description">
           Contact matthew.stathis@cvshealth.com from your store email with any suggestions/requests/problems.
         </div>
@@ -252,6 +258,7 @@
     General
   </div>
 		<a href="https://retailspark.cvs.com/spark?view=storeView" target="_blank" rel="noopener noreferrer">myReports</a>
+        <a href="https://storeresources.cvsapps.com/?user_ard=MTYzMQ==&employee_ID=MTA5Mzk5MQ==&user_firstname=TWF0dGhldw==&user_lastname=U3RhdGhpcw==&user_title=UGhhcm1hY2lzdA==" target="_blank" rel="noopener noreferrer">myDocs</a>
 		<a href="https://cvs.retailzipline.com/field/dashboard" target="_blank" rel="noopener noreferrer">Zipline</a>
 		<a href="https://cvs.reflexisinc.com/kernel/views/authenticate/web/CVS.view" target="_blank" rel="noopener noreferrer">mySchedule</a>
 		<a href="#" onclick="openSmartSensePopup(); return false;">SmartSense</a>
@@ -356,7 +363,6 @@
   <div style="grid-column: 1 / -1; font-weight: bold; font-size: 18px; margin-bottom: 5px; border-bottom: 2px solid #ccc; padding-bottom: 5px;">
     Clinical
   </div>
-	<a href="https://storeresources.cvsapps.com/?user_ard=MTYzMQ==&employee_ID=MTA5Mzk5MQ==&user_firstname=TWF0dGhldw==&user_lastname=U3RhdGhpcw==&user_title=UGhhcm1hY2lzdA==" target="_blank" rel="noopener noreferrer">myDocs</a>
         <a href="https://www.clinicalkey.com/pharmacology/" target="_blank" rel="noopener noreferrer">Clinical Pharm</a>
         <a href="https://www.micromedexsolutions.com/micromedex2/librarian/" target="_blank" rel="noopener noreferrer">Micromedex</a>
         <a href="https://www.uptodate.com/contents/search" target="_blank" rel="noopener noreferrer">UpToDate</a>
@@ -417,9 +423,10 @@
     Asset Protection
   </div>
         <a href="https://cvsthinklp.lightning.force.com" target="_blank" rel="noopener noreferrer">ThinkLP</a>
-        <a href="https://ldp.cvsapps.com/sso" target="_blank" rel="noopener noreferrer">(NEW) LP SVT</a>
+        <a href="https://ldp.cvsapps.com/sso" target="_blank" rel="noopener noreferrer">AP SVT</a>
         <a href="#" onclick="openDynamicURL('https://portaldoctool.cvs.com/retailportalfiles/wlm_task_reports/INFO_XXXXX.pdf'); return false;">AP Dashboard</a>
         <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/AP_SVT_-_FS_and_RX_Store_Leader_Dashboards_Guide_20260107141856115.pptx_2pdf.pdf" target="_blank" rel="noopener noreferrer">AP SVT Job Aid</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/AP_Resources_%2526_Job_Aids_-_Store_Leaders_20260116151815753.pptx_2pdf.pdf" target="_blank" rel="noopener noreferrer">Leader Resources</a>
         <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/2023_RX_AP_Operational_Excellence_Playbook_20230620135623197.pdf" target="_blank" rel="noopener noreferrer">Opl Excellence</a>
         <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/myShrink_Responsibility_Operational_Risk_Guide_-_Feb_2023_20230223095053563.pdf" target="_blank" rel="noopener noreferrer">Operational Risk</a>
         <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/High_Risk_Drug_Profiles_-_Q4_FINAL_%28updated_Nov_2022%29_20230320171225743.pdf" target="_blank" rel="noopener noreferrer">High Risk Drugs</a>
@@ -866,6 +873,110 @@ function closeCitrixPopup() {
     closePopup();
   }
   </script>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <script>
+  /* ---------- CLOSE ANY OPEN POPUP ---------- */
+  function closePopup() {
+    const existing = document.querySelector(".popup-overlay");
+    if (existing) existing.remove();
+  }
+
+  /* ---------- STANDARD LOGIN ---------- */
+  function launchSparkStandard() {
+    window.open("https://retailspark.cvs.com/spark?view=storeView", "_blank", "noopener");
+    closePopup();
+  }
+
+  /* ---------- FIRST POPUP (CHOICE) ---------- */
+  function openSparkPopup() {
+    closePopup();
+
+    const overlay = document.createElement("div");
+    overlay.className = "popup-overlay";
+
+    overlay.innerHTML = `
+      <div class="popup-box">
+        <h3>myReports (Spark) Login</h3>
+
+        <button onclick="launchSparkStandard()">
+          Local Store
+        </button>
+
+        <button onclick="openSparkStore()">
+          Field/Floater
+        </button>
+
+        <button onclick="closePopup()">Cancel</button>
+      </div>
+    `;
+
+    document.body.appendChild(overlay);
+  }
+
+  /* ---------- STORE NUMBER POPUP ---------- */
+  function openSparkStore() {
+    closePopup();
+
+    const overlay = document.createElement("div");
+    overlay.className = "popup-overlay";
+
+    overlay.innerHTML = `
+      <div class="popup-box">
+        <h3>Enter Store Number</h3>
+
+        <input
+          type="text"
+          id="sparkStore"
+          placeholder="5-digit store #"
+          style="padding:8px; width:80%; font-size:1rem;"
+          onkeydown="if (event.key === 'Enter') launchSparkField();"
+        />
+
+        <br><br>
+
+        <button onclick="launchSparkField()">Continue</button>
+        <button onclick="closePopup()">Cancel</button>
+      </div>
+    `;
+
+    document.body.appendChild(overlay);
+    document.getElementById("sparkField").focus();
+  }
+
+  /* ---------- LAUNCH SSO ---------- */
+  function launchSparkField() {
+    const store = document.getElementById("sparkStore")?.value.trim();
+
+    if (!/^\d{5}$/.test(store)) {
+      alert("Please enter a valid 5-digit store number.");
+      return;
+    }
+
+    const url =
+      "https://retailspark.cvs.com/spark?view=storeView&storeName=s" + store +
+      "rxs";
+
+    window.open(url, "_blank", "noopener");
+    closePopup();
+  }
+  </script>
+  
+  
+  
+  
+  
+  
+  
+  
+  
   
   
   

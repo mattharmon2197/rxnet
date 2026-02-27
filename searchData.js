@@ -338,7 +338,7 @@ const searchItems = [
         { name: "AP Store Visit Tool (SVT) Job Aid  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/AP_SVT_-_FS_and_RX_Store_Leader_Dashboards_Guide_20260107141856115.pptx_2pdf.pdf" },
         { name: "CPR Class Scheduling #IMZ", url: "https://c0axa109.caspio.com/dp/731b1000a87a77ff9fd24b08b4ac" },
         { name: "Training Managment System (TMS)", url: "https://tms.cvs.com/apps_dir_sm/tms2/index.cfm" },
-        { name: "New LP Store Visit Tool #AP #LP #SVT", url: "https://ldp.cvsapps.com/sso" },
+        { name: "New AP/LP Store Visit Tool #AP #LP #SVT", url: "https://ldp.cvsapps.com/sso" },
         { name: "Former Colleagues   #HR", url: "https://alumnizone.cvs.com/alumnizone" },
         { name: "Roster Readiness / myTeam Roster Planning Tool ", url: "https://matthewstathis1.github.io/rxnet/rosterreadiness.pdf" },
         { name: "IMZ Quick Reference  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/IMZ_Clinical_%26_Safety_Resource_Landing_Page-_QRGs_%26_CDC_2025062513344230.pptx_2pdf.pdf" },
@@ -347,6 +347,7 @@ const searchItems = [
         { name: "CFRx Ordering Guide ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/CFRx_Warehouse_%26_Outside_Vendor_Ordering_Guide_20250912115922886.pptx_2pdf.pdf" },
         { name: "CFRx Order Adjustments Job Aid ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Order_Adjustments_20230130142641714.pdf" },
         { name: "FlavoRx Recipe Generator Website ", url: "https://flavorxflavors.com/account/login.aspx?ReturnPage=%2fgenerator.aspx" },
+        { name: "AP Store Leader Resources ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/AP_Resources_%2526_Job_Aids_-_Store_Leaders_20260116151815753.pptx_2pdf.pdf" },
 
         
         { name: "CVS\Domain Apps Portal (Citrix) ", url: "https://remote.cvshealth.com/Citrix/remotecvsWeb/" }
