@@ -224,7 +224,7 @@
 		<a href="#" onclick="openSmartSensePopup(); return false;">SmartSense</a>
         <a href="https://cvs.cloud.infor.com/" target="_blank" rel="noopener noreferrer">Workbrain</a>
         <a href="https://www.clinicalkey.com/pharmacology/" target="_blank" rel="noopener noreferrer">Clinical Pharm</a>
-        <a href="https://rxdw-rximageretrieval.rxdw-cld-ap.cvshealthcloud.com/enterStore#no-back-button" target="_blank" onclick="return confirm('Alert: If the image retrieval portal loads to an error page, simply refresh the page (or press Control + R) and it will take you to the store number entry screen.');">Image Retrieval</a>        
+        <a href="#" onclick="openImageRetrievalAlert(); return false;">Image Retrieval</a>
 		<a href="https://www.myworkday.com/cvshealth/d/home.htmld" target="_blank" rel="noopener noreferrer">Workday</a>
         <a href="https://colleaguezone.cvs.com" target="_blank" rel="noopener noreferrer">ColleagueZone</a>
 		<a href="https://cvs.medallia.com/sso/cvs" target="_blank" rel="noopener noreferrer" target="_blank" rel="noopener noreferrer">MCC</a>
@@ -1190,12 +1190,11 @@ function closeCitrixPopup() {
 
     overlay.innerHTML = `
       <div class="popup-box">
-        <h3>Notice</h3>
+        <h3>Image Retrieval Tool Alert</h3>
 
         <p style="margin:15px 0;">
-          If the Image Retrieval portal loads to an error page,
-          simply refresh the page (or press Control + R) and it will
-          take you to the store number entry screen.
+        The Image Retrieval tool will load to an error page,
+        just refresh the page (press Control + R) to fix.
         </p>
 
         <button onclick="launchImageRetrieval()">
