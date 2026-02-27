@@ -244,8 +244,7 @@ body {
 <div id="operational" class="grid category-panel">
   <div class="section-title">Operational</div>
 	<a href="#" onclick="openSmartSensePopup(); return false;">SmartSense</a>
-  <a href="https://cvs.retailzipline.com/field/dashboard" target="_blank" rel="noopener noreferrer">Zipline (Core)</a>
-  <a href="#" onclick="openDynamicURL('https://federatione.cvs.com/affwebservices/public/saml2sso?SPID=cvshealthsp_png_cvscom&RelayState=https://authsvc.cvshealth.com/idp/startSSO.ping?PartnerSpId=https://cvs.retailzipline.com/sso/saml/metadata/?SUBSTITUTE_STORE_NUMBER=XXXXX'); return false;">Zipline (Floaters)</a>
+    <a href="#" onclick="openZiplinePopup(); return false;">Zipline</a>
   <a href="https://cvs.reflexisinc.com/kernel/views/authenticate/web/CVS.view" target="_blank" rel="noopener noreferrer">mySchedule</a>
   <a href="https://cvs.cloud.infor.com/" target="_blank" rel="noopener noreferrer">Workbrain</a>
   <a href="https://cvs.medallia.com/sso/cvs" target="_blank" rel="noopener noreferrer">My Customer Connection</a>
@@ -254,7 +253,7 @@ body {
   <a href="https://matthewstathis1.github.io/rxnet/directory">Main Directory</a>
   <a href="https://matthewstathis1.github.io/rxnet/storesupplies">Store Supplies</a>
   <a href="https://authsvc.cvshealth.com/idp/startSSO.ping?PartnerSpId=https://login.servicechannel.com">Service Channel (Home Store only)</a>
-  <a href="https://c0axa109.caspio.com/dp/731b1000a87a77ff9fd24b08b4ac" target="_blank" rel="noopener noreferrer">CPR Scheduling</a>
+  <a href="#" onclick="openCaspioPopup(); return false;">CPR Scheduling</a>
   <a href="https://matthewstathis1.github.io/rxnet/rxnet.pdf" target="_blank" rel="noopener noreferrer">Site QR Code</a>
 </div>
 
@@ -582,7 +581,153 @@ body {
     closePopup();
   }
   </script>
+  
+  
+  
+  
+  <script>
+  /* ---------- CLOSE ANY OPEN POPUP ---------- */
+  function closePopup() {
+    const existing = document.querySelector(".popup-overlay");
+    if (existing) existing.remove();
+  }
 
+  /* ---------- STANDARD LOGIN ---------- */
+  function launchZiplineStandard() {
+    window.open("https://cvs.retailzipline.com/field/dashboard", "_blank", "noopener");
+    closePopup();
+  }
+
+  /* ---------- FIRST POPUP (CHOICE) ---------- */
+  function openZiplinePopup() {
+    closePopup();
+
+    const overlay = document.createElement("div");
+    overlay.className = "popup-overlay";
+
+    overlay.innerHTML = `
+      <div class="popup-box">
+        <h3>Zipline Login</h3>
+
+        <button onclick="launchZiplineStandard()">
+          Default Login
+        </button>
+
+        <button onclick="openZiplineStore()">
+          Floater Login
+        </button>
+
+        <button onclick="closePopup()">Cancel</button>
+      </div>
+    `;
+
+    document.body.appendChild(overlay);
+  }
+
+  /* ---------- STORE NUMBER POPUP ---------- */
+  function openZiplineStore() {
+    closePopup();
+
+    const overlay = document.createElement("div");
+    overlay.className = "popup-overlay";
+
+    overlay.innerHTML = `
+      <div class="popup-box">
+        <h3>Enter Store Number</h3>
+
+        <input
+          type="text"
+          id="ziplineStore"
+          placeholder="5-digit store #"
+          style="padding:8px; width:80%; font-size:1rem;"
+          onkeydown="if (event.key === 'Enter') launchZiplineField();"
+        />
+
+        <br><br>
+
+        <button onclick="launchZiplineField()">Continue</button>
+        <button onclick="closePopup()">Cancel</button>
+      </div>
+    `;
+
+    document.body.appendChild(overlay);
+    document.getElementById("ziplineStore").focus();
+  }
+
+  /* ---------- LAUNCH SSO ---------- */
+  function launchZiplineField() {
+    const store = document.getElementById("ziplineStore")?.value.trim();
+
+    if (!/^\d{5}$/.test(store)) {
+      alert("Please enter a valid 5-digit store number.");
+      return;
+    }
+
+    const url =
+      "https://federatione.cvs.com/affwebservices/public/saml2sso?SPID=cvshealthsp_png_cvscom&RelayState=https://authsvc.cvshealth.com/idp/startSSO.ping?PartnerSpId=https://cvs.retailzipline.com/sso/saml/metadata/?SUBSTITUTE_STORE_NUMBER=" + store;
+
+    window.open(url, "_blank", "noopener");
+    closePopup();
+  }
+  </script>
+  
+  
+  
+  
+  <script>
+  /* ---------- CLOSE ANY OPEN POPUP ---------- */
+  function closePopup() {
+    const existing = document.querySelector(".popup-overlay");
+    if (existing) existing.remove();
+  }
+
+  /* ---------- LAUNCH OPTION 1 ---------- */
+  function launchCaspioGroupOne() {
+    window.open(
+      "https://c0axa109.caspio.com/dp/731b1000a87a77ff9fd24b08b4ac",
+      "_blank",
+      "noopener"
+    );
+    closePopup();
+  }
+
+  /* ---------- LAUNCH OPTION 2 ---------- */
+  function launchCaspioGroupTwo() {
+    window.open(
+      "https://c0axa109.caspio.com/dp/731b10004bfbccf50890404a9346",
+      "_blank",
+      "noopener"
+    );
+    closePopup();
+  }
+
+  /* ---------- OPEN POPUP ---------- */
+  function openCaspioPopup() {
+    closePopup();
+
+    const overlay = document.createElement("div");
+    overlay.className = "popup-overlay";
+
+    overlay.innerHTML = `
+      <div class="popup-box">
+        <h3>Select Your Role</h3>
+
+        <button onclick="launchCaspioGroupOne()">
+          Pharmacists, Interns & Techs (CA, DE, IA, LA, MD, MO, NM, OH, OR, UT, WA, WV)
+        </button>
+
+        <button onclick="launchCaspioGroupTwo()">
+          All Other Technicians
+        </button>
+
+        <button onclick="closePopup()">Cancel</button>
+      </div>
+    `;
+
+    document.body.appendChild(overlay);
+  }
+  </script>
+  
 </body>
 </html>
 
