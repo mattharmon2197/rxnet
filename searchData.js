@@ -23,7 +23,7 @@ const searchItems = [
         { name: "Chain Launcher (JNLP) ", url: "https://jnlplauncher.rxc.cvs.com:7289/RxConnectRxP/" },
         { name: "CoverMyMeds ", url: "https://portal.covermymeds.com/requests" },
         { name: "Citrix ", url: "https://appsmcsaml.corp.cvscaremark.com/" },
-        { name: "myDocs ", url: "https://storeresources.cvsapps.com/?user_ard=MTYzMQ==&employee_ID=MTA5Mzk5MQ==&user_firstname=TWF0dGhldw==&user_lastname=U3RhdGhpcw==&user_title=UGhhcm1hY2lzdA==" },
+        { name: "myDocs ", url: "https://storeresources.cvsapps.com/?user_ard=MTYzMQ==&employee_ID=MjI2Nzg0Nw==&user_firstname=R2VuZXJpYyBteURvY3M=&user_lastname=QWNjb3VudA==&user_title=UGhhcm1hY2lzdA==" },
         { name: "Store Supplies ", url: "https://matthewstathis1.github.io/rxnet/storesupplies" },
         { name: "Outlook ", url: "https://mail.cvshealth.com/" },
         { name: "Apps Portal ", url: "https://apps.cvshealth.com/logon/LogonPoint/tmindex.html" },
