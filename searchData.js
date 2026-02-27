@@ -73,7 +73,7 @@ const searchItems = [
         { name: "Incident Reporting ", url: "https://epso.corp.cvscaremark.com/EPSO_PROD/Infocenter/Client/InfoPageIndex.aspx" },
         { name: "PA PDMP ", url: "https://pennsylvania.pmpaware.net/" },
         { name: "NPI Registry ", url: "https://npiregistry.cms.hhs.gov/search" },
-        { name: "PALS Portal  #Licensing  #Pennsylvania ", url: "https://www.dos.pa.gov/ProfessionalLicensing/VerifyaProfessional/Pages/default.aspx" },
+        { name: "PALS Portal  #Licensing  #Pennsylvania ", url: "https://pals.pa.gov" },
         { name: "Store Licenses ", url: "https://wa-licensesrep-ui-prod1.ase-usc-otia-licenserep-prod-v3.appserviceenvironment.net" },
         { name: "Pennsylvania Code ", url: "https://www.pacodeandbulletin.gov/Display/pacode?file=/secure/pacode/data/049/chapter27/chap27toc.html&d=reduce" },
         { name: "Print TempAlert Log ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Printing_Twice_Daily_Temperature_Logs.pdf" },
