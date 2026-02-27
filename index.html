@@ -323,7 +323,7 @@
   </div>
         <a href="https://matthewstathis1.github.io/rxnet/rxtelephonev2.pdf" target="_blank" rel="noopener noreferrer">Rx Phone Order</a>
         <a href="https://matthewstathis1.github.io/rxnet/rxtransferv2.pdf" target="_blank" rel="noopener noreferrer">Rx Transfer</a>
-        <a href="https://rxdw-rximageretrieval.rxdw-cld-ap.cvshealthcloud.com/enterStore#no-back-button" target="_blank" onclick="return confirm('Alert: If the image retrieval portal loads to an error page, simply refresh the page (or press Control + R) and it will take you to the store number entry screen.');">Image Retrieval</a>        
+        <a href="#" onclick="openImageRetrievalAlert(); return false;">Image Retrieval</a>
         <a href="https://ipledgeprogram.com/?connection=cvs" target="_blank" rel="noopener noreferrer">iPledge</a>
         <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/RxConnect_SIG_Codes_Best_Practices.pdf" target="_blank" rel="noopener noreferrer">SIG Code Sheet</a>
         <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Naloxone_Program_Support_Page_20240102165341901.pdf" target="_blank" rel="noopener noreferrer">Naloxone</a>
@@ -387,7 +387,7 @@
 
 <div id="regulatoryap" class="grid category-panel" style="display: none;">
     <!-- Section Title: Asset Protection -->
-    <div style="grid-column: 1 / -1; font-weight: bold; font-size: 18px; margin: 20px 0 5px; margin-bottom: 5px; border-bottom: 2px solid #ccc; padding-bottom: 5px;">
+    <div style="grid-column: 1 / -1; font-weight: bold; font-size: 18px; margin-bottom: 5px; border-bottom: 2px solid #ccc; padding-bottom: 5px;">
       Asset Protection
     </div>
           <a href="https://ldp.cvsapps.com/sso" target="_blank" rel="noopener noreferrer">AP SVT</a>
@@ -1174,6 +1174,55 @@ function closeCitrixPopup() {
     closePopup();
   }
   </script>
+  
+  
+  <script>
+  function closePopup() {
+    const existing = document.querySelector(".popup-overlay");
+    if (existing) existing.remove();
+  }
+
+  function openImageRetrievalAlert() {
+    closePopup();
+
+    const overlay = document.createElement("div");
+    overlay.className = "popup-overlay";
+
+    overlay.innerHTML = `
+      <div class="popup-box">
+        <h3>Notice</h3>
+
+        <p style="margin:15px 0;">
+          If the Image Retrieval portal loads to an error page,
+          simply refresh the page (or press Control + R) and it will
+          take you to the store number entry screen.
+        </p>
+
+        <button onclick="launchImageRetrieval()">
+          OK
+        </button>
+
+        <button onclick="closePopup()">
+          Cancel
+        </button>
+      </div>
+    `;
+
+    document.body.appendChild(overlay);
+  }
+
+  function launchImageRetrieval() {
+    window.open(
+      "https://rxdw-rximageretrieval.rxdw-cld-ap.cvshealthcloud.com/enterStore#no-back-button",
+      "_blank",
+      "noopener,noreferrer"
+    );
+    closePopup();
+  }
+  </script>
+
+  
+  
 
 </body>
 </html>
