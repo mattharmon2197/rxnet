@@ -254,7 +254,7 @@ const searchItems = [
         { name: "Immunization Clinic IT Guide    #IMZ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/IMZ_Clinic_NTID_VPN_and_IT_Equipment_Job_Aid.pdf" },
         { name: "Opill Contraceptive ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Opill_HandoutRx_2024012910540322.pdf" },
         { name: "Calls in Queue Homepage ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Calls_in_Queue_Homepage.pdf" },
-        { name: "Mifepristone ", url: "https://cvshealth.sabacloud.com/Saba/document/NA10P1PRD006/simrs000000000025533" },
+        { name: "Mifepristone ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/MifeprexRetailDispensingJobAid_20240306103911611.pdf" },
         { name: "Grad Intern Program ", url: "https://cvshealth.sabacloud.com/Saba/document/NA10P1PRD006/simrs000000000025922" },
         { name: "CVS Savings Finder ", url: "https://spmfinder.corp.cvscaremark.com:32513/navigator/" },
         { name: "GoodRx ", url: "https://www.goodrx.com/" },
@@ -351,6 +351,8 @@ const searchItems = [
         { name: "RSSC Helpdesk Self Service  ", url: "https://colleaguezone.cvs.com/cz?id=sc_cat_item&table=sc_cat_item&sys_id=e3625b74fb221610b562f42bbeefdc58&recordUrl=com.glideapp.servicecatalog_cat_item_view.do%3Fv%3D1&sysparm_id=e3625b74fb221610b562f42bbeefdc58x" },
         { name: "Print PSE Certificate Job Aid  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/PRINTING_A_PSE_CERTIFICATE_updated_20241227113233927.pdf" },
         { name: "Target Floater Certification  ", url: "https://colleaguezone.cvs.com/cz?id=cz_people_leader_services" },
+        { name: "Print CPR Certificate  ", url: "https://resources.cardiopartners.com/page50/" },
+
 
 
 
