@@ -53,7 +53,7 @@ const searchItems = [
         { name: "mySchedule (formerly myWork -- search Zipline for new task management portal) ", url: "https://cvs.reflexisinc.com/kernel/views/authenticate/web/CVS.view" },
         { name: "My Customer Connection  #MCC ", url: "https://cvs.medallia.com/sso/cvs" },
         { name: "LearningHub ", url: "https://cvshealth.sabacloud.com/" },
-        { name: "RRT Approval  #Remote Training ", url: "https://app-corp-rewrite-prod-use2-web.azurewebsites.net/rrtAccessManagement" },
+        { name: "Remote Training Approval aka RRT  #Remote Training ", url: "https://app-corp-rewrite-prod-use2-web.azurewebsites.net/rrtAccessManagement" },
         { name: "Workbrain ", url: "https://cvs.cloud.infor.com/" },
         { name: "Service Channel ", url: "https://authsvc.cvshealth.com/idp/startSSO.ping?PartnerSpId=https://login.servicechannel.com" },
         { name: "DL Store Visit Tool (SVT)", url: "https://svt.cvsapps.com/sso" },
