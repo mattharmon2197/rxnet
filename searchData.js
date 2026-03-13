@@ -352,6 +352,8 @@ const searchItems = [
         { name: "Print PSE Certificate Job Aid  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/PRINTING_A_PSE_CERTIFICATE_updated_20241227113233927.pdf" },
         { name: "Target Floater Certification  ", url: "https://colleaguezone.cvs.com/cz?id=cz_people_leader_services" },
         { name: "Print CPR Certificate  ", url: "https://resources.cardiopartners.com/page50/" },
+        { name: "Uniform Ordering  ", url: "https://cvstracking.hpidirectstore.net/?saml_sso" },
+        { name: "LearnRx Guide  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/LearnRx_2.0_Resource_Page_20230320172428811.pptx_2pdf.pdf" },
 
 
 
