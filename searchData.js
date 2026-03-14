@@ -354,6 +354,7 @@ const searchItems = [
         { name: "Print CPR Certificate  ", url: "https://resources.cardiopartners.com/page50/" },
         { name: "Uniform Ordering  ", url: "https://cvstracking.hpidirectstore.net/?saml_sso" },
         { name: "LearnRx Guide  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/LearnRx_2.0_Resource_Page_20230320172428811.pptx_2pdf.pdf" },
+        { name: "CFRx Order Check-In Job Aid  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Delivery_CheckIn_Standalone_06282022_20230110190051769.pdf" },
 
 
 
