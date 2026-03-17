@@ -355,6 +355,14 @@ const searchItems = [
         { name: "Uniform Ordering  ", url: "https://cvstracking.hpidirectstore.net/?saml_sso" },
         { name: "LearnRx Guide  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/LearnRx_2.0_Resource_Page_20230320172428811.pptx_2pdf.pdf" },
         { name: "CFRx Order Check-In Job Aid  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Delivery_CheckIn_Standalone_06282022_20230110190051769.pdf" },
+        { name: "Values in Action  ", url: "https://cvs.achievers.com" },
+        { name: "Generic Substitution Signage  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/D10647RX16_Compliance_PA_BiosimilarSign_%28003%29_2021081014032909_20221118093014786.pdf" },
+        { name: "Naloxone Signage  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/NaloxoneSign_2019_20190514111434617_20221118092845263.pdf" },
+        { name: "ScriptPro Cleaning Log  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/ScriptPro_Maintenance_Schedule_Log_20260213092753871.pdf" },
+        { name: "Kirby Cleaning Log  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/KL_Countertop_Cleaning_and_Calibration_Log_20241217123110219.pdf" },
+        { name: "Top 200 Drugs Signage  ", url: "https://matthewstathis1.github.io/rxnet/docs/Top200.pdf" },
+        { name: "Liquid medication with stock bottle BUD expiration chart  ", url: "https://matthewstathis1.github.io/rxnet/docs/BUD%20stock%20bottles.pdf" },
+        { name: "No Smoking Sign  ", url: "https://matthewstathis1.github.io/rxnet/docs/No%20Smoking%20English%20Color.pdf" },
 
 
 
