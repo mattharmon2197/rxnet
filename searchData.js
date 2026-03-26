@@ -365,6 +365,7 @@ const searchItems = [
         { name: "No Smoking Sign  ", url: "https://matthewstathis1.github.io/rxnet/docs/No%20Smoking%20English%20Color.pdf" },
         { name: "Biometrics/Facial Recognition Scan  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Facial_Scan_Biometrics_-_Quick_Reference_Guide_%285%29_20250617114810499.pdf" },
         { name: "CFRx Outside Vendor (OV) Returns  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/OV_Return_%C2%96_SystemGenerated_FebruaryVersion_20240329123432484.pptx_2pdf.pdf" },
+        { name: "Warehouse/Distribution Center Delivery Job Aid  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/perm/fm/oth/DC_Delivery_Job_Aid_Master.pdf" },
 
 
 
