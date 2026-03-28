@@ -366,11 +366,12 @@ const searchItems = [
         { name: "Biometrics/Facial Recognition Scan  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Facial_Scan_Biometrics_-_Quick_Reference_Guide_%285%29_20250617114810499.pdf" },
         { name: "CFRx Outside Vendor (OV) Returns  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/OV_Return_%C2%96_SystemGenerated_FebruaryVersion_20240329123432484.pptx_2pdf.pdf" },
         { name: "Warehouse/Distribution Center Delivery Job Aid  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/perm/fm/oth/DC_Delivery_Job_Aid_Master.pdf" },
+        { name: "Ecosia (Google alternative)  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/perm/fm/oth/DC_Delivery_Job_Aid_Master.pdf" },
 
 
 
         
-        { name: "CVS\Domain Apps Portal (Citrix) ", url: "https://remote.cvshealth.com/Citrix/remotecvsWeb/" }
+        { name: "CVS\Domain Apps Portal (Citrix) ", url: "https://www.ecosia.org" }
 
 
         
