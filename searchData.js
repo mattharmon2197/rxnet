@@ -149,7 +149,7 @@ const searchItems = [
         { name: "RxDelivery Home ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/perm/fm/oth/RxDelivery_Resource_Center.pdf" },
         { name: "Policy/Procedure ", url: "https://policy.corp.cvscaremark.com/pnp/faces/home.xhtml" },
         { name: "CE Tracking  #License  #certifications ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/RPh_Letter_Updated.pptx_2pdf.pdf" },
-        { name: "Waiting Bin Inventory ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/WaitingBinManagementOverview-2025_20241223140545695.pdf" },
+        { name: "Waiting Bin Inventory Schedule 2026", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/2026_Waiting_bin_inventory_dates_20251210093144638.docx_2pdf.pdf" },
         { name: "OTC Syringe Sales ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/OTC_Syringe_Spreadsheet_Master_20210519141310407.pdf" },
         { name: "RPh Daily Task List ", url: "https://cvshealth.sabacloud.com/Saba/document/NA10P1PRD006/simrs000000000025831" },
         { name: "Expanded Services ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/RPh_prescribing_myDocs_State_Specific_resources_11.23_2023111612555506_20231116132148708.pptx_2pdf.pdf" },
@@ -367,6 +367,10 @@ const searchItems = [
         { name: "CFRx Outside Vendor (OV) Returns  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/OV_Return_%C2%96_SystemGenerated_FebruaryVersion_20240329123432484.pptx_2pdf.pdf" },
         { name: "Warehouse/Distribution Center Delivery Job Aid  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/perm/fm/oth/DC_Delivery_Job_Aid_Master.pdf" },
         { name: "Ecosia (Google alternative)  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/perm/fm/oth/DC_Delivery_Job_Aid_Master.pdf" },
+        { name: "GLP-1 Adherence  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/PCC_P4P_Adherence_Focus_jobaid_Pick_Up_Now_v4_20260325133410650.pdf" },
+        { name: "Waiting Bin Inventory FAQs  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Waiting_Bin_Inventory_Tips_and_Tricks_-_Updated%5B2%5D_20231221152654526.docx_2pdf.pdf" },
+        { name: "State Specific Technician Licensing Master Guide  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/CVS_Pharmacy_Technician_and_Unlicensed_Personnel_Guide_20240102095358844_%2812%29_20260213135146707.pdf" },
+
 
 
 
