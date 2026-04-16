@@ -93,7 +93,7 @@ const searchItems = [
         { name: "OV Order Issues ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Delivery_Check-In_Expectations_Quick_Guide_1122_20250702130337426.docx_2pdf.pdf" },
         { name: "eBOH Job Aid ", url: "https://cvsthinklp.my.salesforce.com/sfc/p/36000001HXbW/a/Kf000000QBkY/VX87Io7HdgsVvwbiHOyuh9.yS8XvYoDLN9yg2aniEbI" },
         { name: "Immunization Dashboard #IMZ  ", url: "https://imzdash.rxc.cvs.com:31213/immunization/" },
-        { name: "CDC Vaccine Schedules ", url: "https://www.cdc.gov/vaccines/imz-schedules/index.html" },
+        { name: "CDC Vaccine Schedules ", url: "https://www.cdc.gov/vaccines/hcp/imz-schedules/index.html" },
         { name: "Vaccine QR Codes ", url: "https://matthewstathis1.github.io/rxnet/imzndcs" },
         { name: "Immunization Protocols #IMZ  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/IMZ_Resource_Center_State_pages_20230531143412947.pdf" },
         { name: "Immunization Ordering Guide  #IMZ ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Immunization_Program_Ordering_Guide_Expanded_Vaccines_20190318112807758.pdf" },
