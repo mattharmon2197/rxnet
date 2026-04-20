@@ -365,16 +365,18 @@ const searchItems = [
         { name: "Biometrics/Facial Recognition Scan  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Facial_Scan_Biometrics_-_Quick_Reference_Guide_%285%29_20250617114810499.pdf" },
         { name: "CFRx Outside Vendor (OV) Returns  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/OV_Return_%C2%96_SystemGenerated_FebruaryVersion_20240329123432484.pptx_2pdf.pdf" },
         { name: "Warehouse/Distribution Center Delivery Job Aid  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/perm/fm/oth/DC_Delivery_Job_Aid_Master.pdf" },
-        { name: "Ecosia (Google alternative)  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/perm/fm/oth/DC_Delivery_Job_Aid_Master.pdf" },
+        { name: "Ecosia (Google alternative)  ", url: "https://www.ecosia.org" },
         { name: "GLP-1 Adherence  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/PCC_P4P_Adherence_Focus_jobaid_Pick_Up_Now_v4_20260325133410650.pdf" },
         { name: "Waiting Bin Inventory FAQs  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Waiting_Bin_Inventory_Tips_and_Tricks_-_Updated%5B2%5D_20231221152654526.docx_2pdf.pdf" },
         { name: "State Specific Technician Licensing Master Guide  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/CVS_Pharmacy_Technician_and_Unlicensed_Personnel_Guide_20240102095358844_%2812%29_20260213135146707.pdf" },
+        { name: "Controlled Substance Early Fill Job Aid  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Early_Fill_Job_Aid_20260416171014384.pdf" },
+        { name: "Controlled Substance Scheduling Fill Job Aid  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/CS_Scheduling_Job_Aid_20260211164335417.pdf" },
 
 
 
 
         
-        { name: "CVS\Domain Apps Portal (Citrix) ", url: "https://www.ecosia.org" }
+        { name: "CVS\Domain Apps Portal (Citrix) ", url: "https://remote.cvshealth.com/Citrix/remotecvsWeb/" }
 
 
         
