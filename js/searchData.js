@@ -86,7 +86,7 @@ const searchItems = [
         { name: "Prescriber Request QR Codes ", url: "/rxnet/docs/prqrcodes.pdf" },
         { name: "ThinkLP  #Loss Prevention #Asset Protection #My Professional Practice ", url: "https://cvsthinklp.lightning.force.com" },
         { name: "Operational Excellence Playbook ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/2023_RX_AP_Operational_Excellence_Playbook_20230620135623197.pdf" },
-        { name: "Operational Risk ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/myShrink_Responsibility_Operational_Risk_Guide_-_Feb_2023_20230223095053563.pdf" },
+        { name: "Operational Risk Full Guide ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/myShrink_Responsibility_Operational_Risk_Guide_-_Feb_2023_20230223095053563.pdf" },
         { name: "High Risk Drugs ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/High_Risk_Drug_Profiles_-_Q4_FINAL_%28updated_Nov_2022%29_20230320171225743.pdf" },
         { name: "ICAP Job Aid ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/ThinkLP_ICAPs_Guide_20241009105750305.docx_2pdf.pdf" },
         { name: "SafetyHub ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/perm/fm/rpt/mySafetyHub.pdf" },
@@ -287,7 +287,7 @@ const searchItems = [
         { name: "OPI ", url: "https://portaldoctool.cvs.com/portalDocTool/viewDocuments.do?listingID=complianceModReports&roles=myReports&deptType=RX&metricID=storeXXXXX" },
         { name: "IER Monthly Scorecard ", url: "https://portaldoctool.cvs.com/retailportalfiles/business/iermonthlyscorecards/IER_Monthly_Scorecard_SXXXXX.pdf" },
         { name: "Central Fill Homepage ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Central_Fill_Homepage_20240206170244882.pdf" },
-        { name: "POS Modernization/Register Update ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Improving_the_tools_you_use-_POS_Modernization_and_Self_Check-In_at_Pharmacy_Pickup.pdf" },
+        { name: "POS Modernization/Register Update ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/POS_Mod_Landing_Page_20260423145002918.pptx_2pdf.pdf" },
         { name: "Rx/iO Update Homepage   #RxOS  #Rx/iO", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/RxOS_Homepage_20250610161035278.pdf" },
         { name: "Virtual Verification Homepage ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Virtual_Verification_RxNet_Landing_Page.pdf" },
         { name: "Corp\Domain Apps Portal (Citrix) ", url: "https://remote.cvscaremark.com/Citrix/remotecorpWeb/" },
@@ -369,6 +369,10 @@ const searchItems = [
         { name: "State Specific Technician Licensing Master Guide  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/CVS_Pharmacy_Technician_and_Unlicensed_Personnel_Guide_20240102095358844_%2812%29_20260213135146707.pdf" },
         { name: "Controlled Substance Early Fill Job Aid  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Early_Fill_Job_Aid_20260416171014384.pdf" },
         { name: "Controlled Substance Scheduling Fill Job Aid  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/CS_Scheduling_Job_Aid_20260211164335417.pdf" },
+        { name: "COVID Testing/RPh Prescribing LearningHub Module Training Guide  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Pharmacist_Testing_%26_Prescribing_LearningHub_Training_updated_Nov_2025_20251103163913693.docx_2pdf.pdf" },
+        { name: "Medicare Part B Billing Landing Page", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Medicare_Part_B_Landing_Page_20240729113534498.pptx_2pdf.pdf" },
+        { name: "Medicare Part B Billing myWork Guide", url: "/docs/medbmywork.pdf" },
+        { name: "AP Operational Risk Metrics", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/2026_Asset_Protection_Operational_Risks_20260116135056794.pdf" },
 
 
 
