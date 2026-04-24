@@ -1276,12 +1276,12 @@ function closeCitrixPopup() {
 
     overlay.innerHTML = `
       <div class="popup-box">
-        <h3>Enter Credentials</h3>
+        <h3>Enter JNLP RxC Credentials</h3>
 
         <input
           type="text"
           id="barcodeInput"
-          placeholder="3-letter credentials"
+          placeholder="ABC"
           maxlength="3"
           style="padding:8px; width:80%; font-size:1rem; text-transform:uppercase;"
           oninput="this.value = this.value.toUpperCase();"
@@ -1299,7 +1299,7 @@ function closeCitrixPopup() {
     document.getElementById("barcodeInput").focus();
   }
 
-  /* ---------- LAUNCH BARCODE ---------- */
+  /* ---------- LAUNCH URL ---------- */
   function launchBarcode() {
     const input = document.getElementById("barcodeInput")?.value.trim();
 
@@ -1309,9 +1309,7 @@ function closeCitrixPopup() {
       return;
     }
 
-    const url =
-      "https://barcode.tec-it.com/barcode.ashx?data=" + input +
-      "&code=Code128&translate-esc=on&download=true";
+    const url = "https://barcode.tec-it.com/en/Code128?data=" + input;
 
     window.open(url, "_blank", "noopener,noreferrer");
     closePopup();
