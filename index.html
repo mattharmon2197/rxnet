@@ -583,7 +583,7 @@
   </div>
 		<a href="https://barcode.tec-it.com/en/GS1QRCode?data=" target="_blank" rel="noopener noreferrer">QR Generator</a>
         <a href="#" onclick="openBarcodePopup(); return false;">
-          Barcode Generator
+          Print Credentials
         </a>
         <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Facial_Scan_Biometrics_-_Quick_Reference_Guide_%285%29_20250617114810499.pdf" target="_blank" rel="noopener noreferrer">Biometrics</a>
         <a href="https://chainlauncher.rxc.cvs.com:7188/Launcher/AppLauncher.jnlp" target="_blank" rel="noopener noreferrer">RxC Launcher</a>
@@ -1259,7 +1259,7 @@ function closeCitrixPopup() {
     closePopup();
   }
   </script>
-
+  
   <script>
   /* ---------- CLOSE POPUP ---------- */
   function closePopup() {
@@ -1299,7 +1299,7 @@ function closeCitrixPopup() {
     document.getElementById("barcodeInput").focus();
   }
 
-  /* ---------- LAUNCH URL ---------- */
+  /* ---------- LAUNCH BARCODE ---------- */
   function launchBarcode() {
     const input = document.getElementById("barcodeInput")?.value.trim();
 
@@ -1309,13 +1309,14 @@ function closeCitrixPopup() {
       return;
     }
 
-    const url = "https://barcode.tec-it.com/en/Code128?data=" + input;
+    const url =
+      "https://barcode.tec-it.com/barcode.ashx?data=" + input +
+      "&code=Code128&translate-esc=on&download=true";
 
     window.open(url, "_blank", "noopener,noreferrer");
     closePopup();
   }
   </script>
-  
 
 </body>
 </html>
