@@ -24,7 +24,7 @@ const searchItems = [
         { name: "CoverMyMeds ", url: "https://portal.covermymeds.com/requests" },
         { name: "Citrix ", url: "https://appsmcsaml.corp.cvscaremark.com/" },
         { name: "myDocs ", url: "https://storeresources.cvsapps.com/?user_ard=MTYzMQ==&employee_ID=MjI2Nzg0Nw==&user_firstname=R2VuZXJpYyBteURvY3M=&user_lastname=QWNjb3VudA==&user_title=UGhhcm1hY2lzdA==" },
-        { name: "Store Supplies ", url: "https://matthewstathis1.github.io/rxnet/storesupplies" },
+        { name: "Store Supplies ", url: "/rxnet/storesupplies" },
         { name: "Outlook ", url: "https://mail.cvshealth.com/" },
         { name: "Apps Portal ", url: "https://apps.cvshealth.com/logon/LogonPoint/tmindex.html" },
         { name: "Ariba ", url: "https://s1.ariba.com/Buyer/Main/aw?awh=r&awssk=zzWQVycDkiqf98cE&realm=CVS-P2P&awrdt=1" },
