@@ -373,7 +373,7 @@ const searchItems = [
         { name: "Medicare Part B Billing Landing Page", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Medicare_Part_B_Landing_Page_20240729113534498.pptx_2pdf.pdf" },
         { name: "Medicare Part B Billing myWork Guide", url: "/docs/medbmywork.pdf" },
         { name: "AP Operational Risk Metrics", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/2026_Asset_Protection_Operational_Risks_20260116135056794.pdf" },
-        { name: "Workers' Compensation Procedure", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Workers_Compensation_Procedures_4.26.26_20260424113946208.pdf" },
+        { name: "Workers' Compensation Procedure", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/WorkersCompensationProcedures_20260427120218993.pdf" },
 
 
 
