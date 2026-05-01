@@ -374,7 +374,15 @@ const searchItems = [
         { name: "Medicare Part B Billing myWork Guide", url: "/docs/medbmywork.pdf" },
         { name: "AP Operational Risk Metrics", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/2026_Asset_Protection_Operational_Risks_20260116135056794.pdf" },
         { name: "Workers' Compensation Procedure", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/WorkersCompensationProcedures_20260427120218993.pdf" },
+        { name: "Vacuum Ordering, Maintinence, and Supplies  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/service_channel_job_aid___Vacuums_2023041210230004.pdf" },
+        { name: "Lilly Cold Chain Product Temperature Excursion Evaluation Tool  ", url: "https://tempex.lilly.com/us/" },
+        { name: "Novo Nordisk Cold Chain Product Temperature Excursion Evaluation Tool  ", url: "https://virtual.mi-owi.com/mi/calculator" },
+        { name: "CII Incremental/Partial Fills CVS Policy Document  ", url: "https://policy.corp.cvscaremark.com/cs/groups/public/@pnp/@all/@7110/documents/sop/chat/mdg3/%7Eedisp/ropp-087714.pdf" },
+        { name: "CII Incremental/Partial Fills Law Document  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/21_CFR_1306.13_%28up_to_date_as_of_2-20-2026%29_20260224154819718.pdf" },
+        { name: "Lebanon Hiring Site  ", url: "https://sites.google.com/view/cvs-hiring-lebanon-pa/home" },
 
+        
+        
 
 
 
