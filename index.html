@@ -747,8 +747,8 @@
     } else {
       document.getElementById(id).style.display = 'grid';
 
-      // 👇 Show search bar on Favorites page
-      if (id === 'favorites') {
+      // 👇 Show search bar on Home page
+      if (id === 'home') {
         document.getElementById('searchPanel').style.display = 'block';
 
         setTimeout(() => {
@@ -837,10 +837,10 @@ function closeCitrixPopup() {
   });
 
   window.onload = function () {
-    showCategory('favorites');
-    const favoritesBtn = Array.from(document.getElementsByClassName('dock-button'))
-      .find(btn => btn.textContent.trim().toLowerCase() === 'favorites');
-    if (favoritesBtn) favoritesBtn.classList.add('active');
+    showCategory('home');
+    const homeBtn = Array.from(document.getElementsByClassName('dock-button'))
+      .find(btn => btn.textContent.trim().toLowerCase() === 'home');
+    if (homeBtn) homeBtn.classList.add('active');
   };
 </script>
 
