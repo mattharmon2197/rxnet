@@ -378,12 +378,18 @@ const searchItems = [
         { name: "CII Incremental/Partial Fills Law Document #Regulatory ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/21_CFR_1306.13_%28up_to_date_as_of_2-20-2026%29_20260224154819718.pdf" },
         { name: "Lebanon Hiring Site  ", url: "https://sites.google.com/view/cvs-hiring-lebanon-pa/home" },
 
-        
-        
+        { name: "RxConnect Compliance Reactivation  #Regulatory  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/RxConnect_Access_Validation_Overview_2024090415191751.pdf" },
+
+        { name: "IAM Portal #Human Resources  ", url: "https://idmgmt.cvshealth.com/iam-selfserviceportal-oci/home" },
+        { name: "IMZ Status Report #Immunizations  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Curriculum_for_IMZ_Immunizer_Status_Report_Job_Aid__2024041813265361.pdf" },
+        { name: "Engagement Survey (Colleague Voices) #Human Resources ", url: "https://voices.cvshealth.com/" },
+        { name: "Benefits Portal (Manual Login) #Human Resources  ", url: "https://cvshealthbenefits.bswift.com/" },
+        { name: "Focal Performance Review Ratings Distribution Guidelines  #Human Resources  ", url: "https://colleaguezone.cvs.com/cz?id=kb_article&sysparm_article=KB0062056" },
+        { name: "NIOSH Handling and Supplies #Regulatory  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/USP_800_myDocs_Page_112023_2023112010251754.pdf" },
+        { name: "Warfarin Stock Bottle Disposal #Regulatory  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Empty_Warfarin_Bottle_Management_20240228180255110.pdf" },
+        { name: "Sharps Disposal (PA)  #Required Docs  ", url: "https://www.pa.gov/content/dam/copapwp-pagov/en/health/documents/topics/documents/opioids/Sharps%20Disposal%20Tips.pdf" },
 
 
-
-        
         { name: "CVS\Domain Apps Portal (Citrix) ", url: "https://remote.cvshealth.com/Citrix/remotecvsWeb/" }
 
 
