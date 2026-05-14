@@ -1229,7 +1229,7 @@ function closeCitrixPopup() {
       type = "npi";
     }
     else if (baseURL.includes("ZZZZZZZZZZZ")) {
-      label = "Enter 11-digit NDC";
+      label = "Enter 11-digit NDC (no dashes)";
       placeholder = "11-digit NDC";
       token = "ZZZZZZZZZZZ";
       type = "ndc";
@@ -1280,10 +1280,17 @@ function closeCitrixPopup() {
     }
 
     if (!isValid) {
-      alert(type === "store"
-        ? "Please enter a valid 5-digit store number."
-        : "Please enter a valid 10-digit NPI number."
-      );
+      let errorMessage = "Please enter a valid value.";
+      if (type === "store") {
+        errorMessage = "Please enter a valid 5-digit store number.";
+      }
+      else if (type === "npi") {
+        errorMessage = "Please enter a valid 10-digit NPI number.";
+      }
+      else if (type === "ndc") {
+        errorMessage = "Please enter a valid 11-digit NDC (no dashes).";
+      }
+      alert(errorMessage);
       return;
     }
 
