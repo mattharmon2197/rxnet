@@ -804,7 +804,7 @@
         else if (item.url.includes("ZZZZZZZZZZZ")) {
           link.href = "#";
           link.onclick = function () {
-            let ndc = prompt("Enter 11-digit NDC (no dashes)):");
+            let ndc = prompt("Enter 11-digit NDC:");
             if (ndc) window.open(item.url.replace("ZZZZZZZZZZZ", ndc), "_blank");
           };
         }
@@ -1239,7 +1239,7 @@ function closeCitrixPopup() {
       type = "npi";
     }
     else if (baseURL.includes("ZZZZZZZZZZZ")) {
-      label = "Enter 11-digit NDC (no dashes)";
+      label = "Enter 11-digit NDC";
       placeholder = "11-digit NDC";
       token = "ZZZZZZZZZZZ";
       type = "ndc";
@@ -1302,7 +1302,7 @@ function closeCitrixPopup() {
         errorMessage = "Please enter a valid 10-digit NPI number.";
       }
       else if (type === "ndc") {
-        errorMessage = "Please enter a valid 11-digit NDC (no dashes).";
+        errorMessage = "Please enter a valid 11-digit NDC.";
       }
       alert(errorMessage);
       return;
