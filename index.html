@@ -1265,8 +1265,12 @@ function closeCitrixPopup() {
 
   /* ---------- LAUNCH FINAL URL ---------- */
   function launchDynamicURL(baseURL, token, type) {
-    const value = document.getElementById("dynamicInput")?.value.trim();
+      let value = document.getElementById("dynamicInput")?.value.trim();
 
+      // Remove all non-digits for NPI/NDC/store
+      if (type === "store" || type === "npi" || type === "ndc") {
+        value = value.replace(/\D/g, "");
+      }
     let isValid = false;
 
     if (type === "store") {
