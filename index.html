@@ -355,6 +355,7 @@
         <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/PCC_P4P_Adherence_Focus_jobaid_Pick_Up_Now_v4_20260325133410650.pdf" target="_blank" rel="noopener noreferrer">GLP-1 Adherence</a>
         <a href="https://tempex.lilly.com/us/" target="_blank" rel="noopener noreferrer">Lilly Excursions</a>
         <a href="https://virtual.mi-owi.com/mi/calculator" target="_blank" rel="noopener noreferrer">Novo Nor. Excursions</a>
+        <a href="#" onclick="openDynamicURL('https://www.clinicalkey.com/pharmacology/find-by/ndc?ndc=ZZZZZZZZZZZ'); return false;">CK NDC Search</a>
         <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/ClinicalResourceGuide_20230207125446867.pdf" target="_blank" rel="noopener noreferrer">All References</a>
 </div>
 
@@ -1203,7 +1204,7 @@ function closeCitrixPopup() {
   function openDynamicURL(baseURL) {
 
     // If no variables → just open normally
-    if (!baseURL.includes("XXXXX") && !baseURL.includes("YYYYYYYYYY")) {
+    if (!baseURL.includes("XXXXX") && !baseURL.includes("YYYYYYYYYY") && !baseURL.includes("ZZZZZZZZZZZ")) {
       window.open(baseURL, "_blank", "noopener,noreferrer");
       return;
     }
@@ -1227,7 +1228,12 @@ function closeCitrixPopup() {
       token = "YYYYYYYYYY";
       type = "npi";
     }
-
+    else if (baseURL.includes("ZZZZZZZZZZZ")) {
+      label = "Enter 11-digit NDC";
+      placeholder = "11-digit NDC";
+      token = "ZZZZZZZZZZZ";
+      type = "ndc";
+    }
     const overlay = document.createElement("div");
     overlay.className = "popup-overlay";
 
@@ -1268,6 +1274,9 @@ function closeCitrixPopup() {
     }
     else if (type === "npi") {
       isValid = /^\d{10}$/.test(value);
+    }
+    else if (type === "ndc") {
+      isValid = /^\d{11}$/.test(value);
     }
 
     if (!isValid) {
