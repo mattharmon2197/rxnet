@@ -800,7 +800,19 @@
             let npi = prompt("Enter your NPI number:");
             if (npi) window.open(item.url.replace("YYYYYYYYYY", npi), "_blank");
           };
-        } else {
+        }
+        
+        
+        else if (item.url.includes("ZZZZZZZZZZZ")) {
+          link.href = "#";
+          link.onclick = function () {
+            let ndc = prompt("Enter 11-digit NDC (no dashes)):");
+            if (ndc) window.open(item.url.replace("ZZZZZZZZZZZ", ndc), "_blank");
+          };
+        }
+        
+        
+        else {
           link.href = item.url;
           link.target = "_blank";
         }

@@ -388,6 +388,8 @@ const searchItems = [
         { name: "NIOSH Handling and Supplies #Regulatory  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/USP_800_myDocs_Page_112023_2023112010251754.pdf" },
         { name: "Warfarin Stock Bottle Disposal #Regulatory  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Empty_Warfarin_Bottle_Management_20240228180255110.pdf" },
         { name: "Sharps Disposal (PA)  #Required Docs  ", url: "https://www.pa.gov/content/dam/copapwp-pagov/en/health/documents/topics/documents/opioids/Sharps%20Disposal%20Tips.pdf" },
+        { name: "Clinical Pharmacology NDC Search #Clinical", url: "https://www.clinicalkey.com/pharmacology/find-by/ndc?ndc=YYYYYYYYYYY" },
+        { name: "Workday Candidate Pipeline #Human Resources ", url: "https://www.myworkday.com/cvshealth/d/task/3005$3943.htmld" },
 
 
         { name: "CVS\Domain Apps Portal (Citrix) ", url: "https://remote.cvshealth.com/Citrix/remotecvsWeb/" }
