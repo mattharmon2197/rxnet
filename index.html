@@ -13,16 +13,28 @@
       overflow: hidden;
     }
 
-    .dock {
-      width: 190px;
-      background-color: #1e3f3f;
-      display: flex;
-      flex-direction: column;
-      padding-top: 10px;
-      color: white;
-	overflow-y: auto;
-	  padding-bottom: 60px;
-    }
+      .dock {
+        width: 190px;
+        background-color: #1e3f3f;
+        display: flex;
+        flex-direction: column;
+        color: white;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      .dock-header {
+        flex-shrink: 0;
+        padding-top: 10px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid rgba(255,255,255,0.15);
+      }
+
+      .dock-menu {
+        overflow-y: auto;
+        flex-grow: 1;
+        padding-bottom: 80px;
+      }
 
     .dock-button {
       padding: 12px 16px;
@@ -180,11 +192,14 @@
   </style>
 </head>
 <body>
-  <div class="dock">
-<h1 class="site-title" style="display: flex; align-items: center; font-size: 18px; margin: 0 0 8px 16px;">
-  <img src="/rxnet/docs/heartlogo.png" alt="CVS Heart" style="height: 24px; margin-right: 8px;">
-  RxNet
-</h1>
+    <div class="dock">
+      <div class="dock-header">
+          <h1 class="site-title" style="display: flex; align-items: center; font-size: 18px; margin: 0 0 8px 16px;">
+            <img src="/rxnet/docs/heartlogo.png" alt="CVS Heart" style="height: 24px; margin-right: 8px;">
+            RxNet
+          </h1>
+      </div>
+      <div class="dock-menu">
     <button class="dock-button" onclick="showCategory('home', this)">Home</button>
     <button class="dock-button" onclick="showCategory('operational', this)">Operational</button>
     <button class="dock-button" onclick="showCategory('manager', this)">Manager</button>
@@ -208,7 +223,9 @@
     <button class="dock-button" onclick="showCategory('admin', this)">Admin</button>
 
   </div>
-
+</div>
+    
+    
   <div class="content">
     <div id="searchPanel" style="display: none;">
       <div class="search-container">
@@ -474,7 +491,7 @@
         <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/WorkersCompensationProcedures_20260427120218993.pdf" target="_blank" rel="noopener noreferrer">Workers' Comp</a>
         <a href="https://idmgmt.cvshealth.com/iam-selfserviceportal-oci/home" target="_blank" rel="noopener noreferrer">IAM Portal</a>
         <a href="https://voices.cvshealth.com/" target="_blank" rel="noopener noreferrer">Engagement Survey</a>
-        <a href="https://cvshealthbenefits.bswift.com/" target="_blank" rel="noopener noreferrer">Benefits Portal</a>
+        <a href="https://authsvc.cvshealth.com/idp/startSSO.ping?PartnerSpId=SP_Ping_SM_Bridge&TargetResource=https://federatione.cvshealth.com/affwebservices/public/saml2sso?SPID=secure.bswift.com" target="_blank" rel="noopener noreferrer">Benefits Portal</a>
         <a href="https://colleaguezone.cvs.com/cz?id=kb_article&sysparm_article=KB0062056" target="_blank" rel="noopener noreferrer">Ratings Distribution</a>
         <a href="https://www.myworkday.com/cvshealth/d/task/3005$3943.htmld" target="_blank" rel="noopener noreferrer">Candidate Pipeline</a>
 </div>
