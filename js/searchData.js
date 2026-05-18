@@ -349,7 +349,7 @@ const searchItems = [
         { name: "Uniform Ordering  #Manager", url: "https://cvstracking.hpidirectstore.net/?saml_sso" },
         { name: "LearnRx Guide  #New Hires", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/LearnRx_2.0_Resource_Page_20230320172428811.pptx_2pdf.pdf" },
         { name: "CFRx Order Check-In Job Aid #Inventory ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Delivery_CheckIn_Standalone_06282022_20230110190051769.pdf" },
-        { name: "Values in Action  #Manager", url: "https://cvs.achievers.com" },
+        { name: "Values in Action  #Manager #Human Resources", url: "https://cvs.achievers.com" },
         { name: "Generic Substitution Signage  #Required Docs", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/D10647RX16_Compliance_PA_BiosimilarSign_%28003%29_2021081014032909_20221118093014786.pdf" },
         { name: "Naloxone Signage  #Required Docs", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/NaloxoneSign_2019_20190514111434617_20221118092845263.pdf" },
         { name: "ScriptPro Cleaning Log #Required Docs ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/ScriptPro_Maintenance_Schedule_Log_20260213092753871.pdf" },
@@ -391,6 +391,7 @@ const searchItems = [
         { name: "Sharps Disposal (PA)  #Required Docs  ", url: "https://www.pa.gov/content/dam/copapwp-pagov/en/health/documents/topics/documents/opioids/Sharps%20Disposal%20Tips.pdf" },
         { name: "Clinical Pharmacology NDC Search #Clinical", url: "https://www.clinicalkey.com/pharmacology/find-by/ndc?ndc=ZZZZZZZZZZZ" },
         { name: "Workday Candidate Pipeline #Human Resources ", url: "https://www.myworkday.com/cvshealth/d/task/3005$3943.htmld" },
+        { name: "The Heart Collection Apparel Store #Operational ", url: "https://www.thecvsheartcollection.com/theheartcollection/shop/apparel" },
 
 
         { name: "CVS\Domain Apps Portal (Citrix) ", url: "https://remote.cvshealth.com/Citrix/remotecvsWeb/" }
