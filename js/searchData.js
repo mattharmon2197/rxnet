@@ -396,8 +396,7 @@ const searchItems = [
         { name: "Tetris #Admin", url: "/rxnet/tetris" },
         { name: "Pacman #Admin", url: "/rxnet/pacman" },
         { name: "Spark (External/Field) #Admin", url: "https://retailspark-aetnao365.msappproxy.net" },
-        { name: "Spark (External/Field - Store Specific) #Admin", url: "https://retailspark-aetnao365.msappproxy.net/spark?view=storeView&storeName=sXXXXXrxs
-" },
+        { name: "Spark (External/Field - Store Specific) #Admin", url: "https://retailspark-aetnao365.msappproxy.net/spark?view=storeView&storeName=sXXXXXrxs" },
 
 
         { name: "CVS\Domain Apps Portal (Citrix) ", url: "https://remote.cvshealth.com/Citrix/remotecvsWeb/" }
