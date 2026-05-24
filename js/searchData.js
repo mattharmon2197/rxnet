@@ -397,8 +397,7 @@ const searchItems = [
         { name: "Pacman #Admin", url: "/rxnet/pacman" },
         { name: "Spark (External/Field) #Admin", url: "https://retailspark-aetnao365.msappproxy.net" },
         { name: "Spark (External/Field - Store Specific) #Admin", url: "https://retailspark-aetnao365.msappproxy.net/spark?view=storeView&storeName=sXXXXXrxs" },
-        { name: "mySchedule Legacy/SAML SSO Login #Admin", url: "https://federatione.cvs.com/siteminderagent/forms/enterpriselogin.fcc?TYPE=33554433&REALMOID=06-000b85c2-7455-17b6-bef3-f8a50a5ca09e&GUID=&SMAUTHREASON=0&METHOD=GET&SMAGENTNAME=-SM-4qv8ej3I%2bef50jOTXBfzddyxWLgCk4rIl4aQ5C1Iv8Cpj7PHBvrt2ao8JPl1Sd7S&TARGET=-SM-HTTPS%3a%2f%2ffederatione%2ecvs%2ecom%2fsiteminderagent%2fredirectjsp%2fredirect%2ejsp%3fSPID%3dcvshealthsp_png_cvscom%26RelayState%3dhttps%3a%2f%2fcvs%2ereflexisinc%2ecom%2fkernel%2fviews%2fauthenticate%2fweb%2fCVS%2eview%26SMPORTALURL%3dhttps-%3A-%2F-%2Ffederatione%2ecvs%2ecom-%2Faffwebservices-%2Fpublic-%2Fsaml2sso%26SAMLTRANSACTIONID%3d8f897c89--6a8931ff--f5e8b1b2--dd468af6--3b0c612e--6
-" },
+        { name: "mySchedule Legacy/SAML SSO Login #Admin", url: "https://federatione.cvs.com/siteminderagent/forms/enterpriselogin.fcc?TYPE=33554433&REALMOID=06-000b85c2-7455-17b6-bef3-f8a50a5ca09e&GUID=&SMAUTHREASON=0&METHOD=GET&SMAGENTNAME=-SM-4qv8ej3I%2bef50jOTXBfzddyxWLgCk4rIl4aQ5C1Iv8Cpj7PHBvrt2ao8JPl1Sd7S&TARGET=-SM-HTTPS%3a%2f%2ffederatione%2ecvs%2ecom%2fsiteminderagent%2fredirectjsp%2fredirect%2ejsp%3fSPID%3dcvshealthsp_png_cvscom%26RelayState%3dhttps%3a%2f%2fcvs%2ereflexisinc%2ecom%2fkernel%2fviews%2fauthenticate%2fweb%2fCVS%2eview%26SMPORTALURL%3dhttps-%3A-%2F-%2Ffederatione%2ecvs%2ecom-%2Faffwebservices-%2Fpublic-%2Fsaml2sso%26SAMLTRANSACTIONID%3d8f897c89--6a8931ff--f5e8b1b2--dd468af6--3b0c612e--6" },
 
 
         { name: "CVS\Domain Apps Portal (Citrix) ", url: "https://remote.cvshealth.com/Citrix/remotecvsWeb/" }
