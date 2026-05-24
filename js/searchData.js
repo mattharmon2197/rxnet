@@ -393,7 +393,7 @@ const searchItems = [
         { name: "Workday Candidate Pipeline #Human Resources ", url: "https://www.myworkday.com/cvshealth/d/task/3005$3943.htmld" },
         { name: "The Heart Collection Apparel Store #Operational ", url: "https://www.thecvsheartcollection.com/theheartcollection/shop/apparel" },
         { name: "Solitaire #Admin", url: "/rxnet/solitaire" },
-        { name: "Tetris #Admin", url: "/rxnet/test" },
+        { name: "Tetris #Admin", url: "/rxnet/tetris" },
         { name: "Pacman #Admin", url: "/rxnet/pacman" },
         { name: "Spark (External/Field) #Admin", url: "https://retailspark-aetnao365.msappproxy.net" },
         { name: "Spark (External/Field - Store Specific) #Admin", url: "https://retailspark-aetnao365.msappproxy.net/spark?view=storeView&storeName=sXXXXXrxs
