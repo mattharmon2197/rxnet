@@ -78,6 +78,7 @@ const searchItems = [
         { name: "StrongPak Label #Regulatory", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Single_Tote_Hazardous_Waste_Label_PHARMACY__20200522125334240.pdf" },
         { name: "MethCheck #Regulatory", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/MethCheck_20230103130702122.pdf" },
         { name: "Patient Care Central (PCQ) #Communications", url: "https://storepcc.rxc.cvs.com:30491/pccui/v1/#/OpportunitiesList/" },
+        { name: "Patient Care Central (PCQ) Local Link #Communications", url: "https://storepcc.rxc.cvs.com:30491/pccui/home.html?hostname=localhost&store=XXXXX&port=30000&session=1&wks=wks10" },        
         { name: "Main Directory #Communications", url: "/rxnet/directory" },
         { name: "Transfer Directory #Communications", url: "/rxnet/transfer" },
         { name: "Store Locator #Communications", url: "https://www.cvs.com/store-locator/landing" },
