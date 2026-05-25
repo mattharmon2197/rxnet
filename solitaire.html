@@ -260,17 +260,27 @@ function renderStock() {
 }
 
 function drawFromStock() {
+
+    // If stock is empty, recycle waste back into stock
     if (stock.length === 0) {
+
+        if (waste.length === 0) return;
+
         stock = waste.reverse().map(card => {
             card.faceUp = false;
             return card;
         });
+
         waste = [];
-    } else {
-        const card = stock.pop();
-        card.faceUp = true;
-        waste.push(card);
+
+        render();
+        return;
     }
+
+    // Draw one card from stock to waste
+    const card = stock.pop();
+    card.faceUp = true;
+    waste.push(card);
 
     render();
 }
