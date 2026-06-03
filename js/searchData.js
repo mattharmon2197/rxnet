@@ -41,7 +41,6 @@ const searchItems = [
         { name: "Image Retrieval Tool **refresh the page if it loads with an error**   #Dispensing", url: "https://rxdw-rximageretrieval.rxdw-cld-ap.cvshealthcloud.com/imageRequest#no-back-button" },
         { name: "Formulary #Inventory", url: "/rxnet/formulary" },
         { name: "iPledge #Dispensing", url: "https://ipledgeprogram.com/?connection=cvs" },
-        { name: "Uniform Sizing Guide #Operational", url: "https://cvstracking.hpidirectstore.net/images/store_images/Uniform_Sizing_Guide.pdf" },
         { name: "Syringes/Needles #Inventory", url: "/rxnet/syringes" },
         { name: "SIG Code Sheet #Dispensing", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/RxConnect_SIG_Codes_Best_Practices.pdf" },
         { name: "Nebulizers/Spacers (Legacy - alt) #Dispensing", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Nebulizer_and_Spacer_Support_RxNet_Page_KP_20210618153949167.pptx_2pdf.pdf" },
@@ -237,10 +236,10 @@ const searchItems = [
         { name: "Records Job Aid ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Proper_Storage_of_Confidential_Records_20221125115322488.pdf" },
         { name: "MethCheck Job Aid ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/MethCheck_Overview_and_Portal_Access_20240830152909613.pptx_2pdf.pdf" },
         { name: "Regulatory Review Job Aid ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/PM_Reg_Review_Store_Job_Aid_2023112413070971.pptx_2pdf.pdf" },
-        { name: "Drug Disposal ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Drug_Disposal_ERecord_Keeping_FINAL_20230818130247663.pdf" },
+        { name: "Drug Disposal ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Drug_Disposal_Electronic_Recordkeeping_Job_Aid_-_FINAL_5.26.2026_20260527124609311.pdf" },
         { name: "Emergency Procedure Packet #Required Docs", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Retail_EPP_Printable_English.pdf" },
         { name: "Immunization Patient Considerations ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Beyond_the_Basics_Expanded_Vaccine_Topics_for_Pharmacists_20240911154235709.pdf" },
-        { name: "Immunization Registry #Immunizations", url: "https://federatione.cvs.com/affwebservices/public/saml2sso?SPID=https://poct-sso.stchome.net/auth/realms/immslink" },
+        { name: "Immunization Registry #Immunizations", url: "https://authsvc.cvshealth.com/idp/SSO.saml2sso?SPID=https://poct-sso.stchome.net/auth/realms/immslink" },
         { name: "Warehouse Backorders ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Back_Order_Rpt.pdf" },
         { name: "WeCare Weekly #Reports", url: "https://portaldoctool.cvs.com/rxreports/wecare/weekly/WeCare_Scorecard_SXXXXX.pdf" },
         { name: "WeCare Hourly #Reports", url: "https://dashboard.rxc.cvs.com:33210/WeCare/?store_id=Y3Zzd2VibWFzdGVy&roleType=Y29ycA%3D%3D" },
@@ -401,11 +400,17 @@ const searchItems = [
         { name: "mySchedule Legacy/SAML SSO Login #Admin", url: "https://federatione.cvs.com/siteminderagent/forms/enterpriselogin.fcc?TYPE=33554433&REALMOID=06-000b85c2-7455-17b6-bef3-f8a50a5ca09e&GUID=&SMAUTHREASON=0&METHOD=GET&SMAGENTNAME=-SM-4qv8ej3I%2bef50jOTXBfzddyxWLgCk4rIl4aQ5C1Iv8Cpj7PHBvrt2ao8JPl1Sd7S&TARGET=-SM-HTTPS%3a%2f%2ffederatione%2ecvs%2ecom%2fsiteminderagent%2fredirectjsp%2fredirect%2ejsp%3fSPID%3dcvshealthsp_png_cvscom%26RelayState%3dhttps%3a%2f%2fcvs%2ereflexisinc%2ecom%2fkernel%2fviews%2fauthenticate%2fweb%2fCVS%2eview%26SMPORTALURL%3dhttps-%3A-%2F-%2Ffederatione%2ecvs%2ecom-%2Faffwebservices-%2Fpublic-%2Fsaml2sso%26SAMLTRANSACTIONID%3d8f897c89--6a8931ff--f5e8b1b2--dd468af6--3b0c612e--6" },
         { name: "RSSC Help Desk Self Service Tool (new link) #IT Resources", url: "https://cvshealth.service-now.com/cz?id=sc_cat_item&sys_id=437c428f3bc73e544f812964c3e45ac6&sysparm_category=2ad34ff01bdf2c10ba5b77761a4bcb83&catalog_id=e0d08b13c3330100c8b837659bba8fb4" },
         { name: "Ped Meds Homepage  #Pet Meds/CF/SPAR", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Pet_Med_Resource_Page.pdf" },
+        { name: "Sign Ordering Form  #Manager", url: "https://www.cognitoforms.com/LSI8/CVSGraphicsOrderForm" },
+        { name: "Uniform Ordering Size Guide  #Manager", url: "https://cvstracking.hpidirectstore.net/images/store_images/Uniform_Sizing_Guide.pdf" },
+        { name: "APhA Immunization Certification Reprint Job Aid  #Immunizations", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/APhA_IMZ_Training_Cert_Guide_20241114165913892.pptx_2pdf.pdf" },
+        { name: "State Immunization LearningHub Modules Landing Page  #Training  #Immunizations", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/State_IMZ_Landing_Page__v2_20241114170446105.pptx_2pdf.pdf" },
+        { name: "1-Source Credentialing Guide  #Immunizations", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/1-Source_Credential_Gap_Resolution_Guide_02132026_Pilot_20260303133039815.docx_2pdf.pdf" },
+        { name: "XXXXXXXXXXXXXXX  #XXXXXXXXXX", url: "XXXXXXXXXXXXXXX" },
 
+        
+        
+        
         { name: "CVS\Domain Apps Portal (Citrix) ", url: "https://remote.cvshealth.com/Citrix/remotecvsWeb/" }
 
-
-        
-        
 ];
 
