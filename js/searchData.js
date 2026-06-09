@@ -89,7 +89,7 @@ const searchItems = [
         { name: "ICAP Job Aid #Asset Protection", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/ThinkLP_ICAPs_Guide_20241009105750305.docx_2pdf.pdf" },
         { name: "SafetyHub #Asset Protection", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/perm/fm/rpt/mySafetyHub.pdf" },
         { name: "OV Order Issues #Asset Protection", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Delivery_Check-In_Expectations_Quick_Guide_1122_20250702130337426.docx_2pdf.pdf" },
-        { name: "eBOH Job Aid #Asset Protection", url: "https://cvsthinklp.my.salesforce.com/sfc/p/36000001HXbW/a/Kf000000QBkY/VX87Io7HdgsVvwbiHOyuh9.yS8XvYoDLN9yg2aniEbI" },
+        { name: "eBOH Job Aid #Asset Protection", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/eBOH_Update_20230616112533749.pdf" },
         { name: "Immunization Dashboard #Immunizations ", url: "https://imzdash.rxc.cvs.com:31213/immunization/" },
         { name: "CDC Vaccine Schedules #Immunizations", url: "https://www.cdc.gov/vaccines/hcp/imz-schedules/index.html" },
         { name: "Vaccine QR Codes #Immunizations", url: "/rxnet/imzndcs" },
