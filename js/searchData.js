@@ -294,7 +294,7 @@ const searchItems = [
         { name: "SpokenRx #Miscellaneous", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/perm/store/oth/SpokenRx_myDocs_LandingePage.pptx_2pdf.pdf" },
         { name: "LearnRx Tracking #New Hires", url: "https://aetna.quickbase.com/nav/app/bstr5x75e/action/appoverview" },
         { name: "New Hire Password Setup Job Aid #New Hires", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Retail_New_Colleague_Password_Guide_20250820162352262.pdf" },
-        { name: "Calculator #Operational ", url: "/rxnet/calculator" },
+        { name: "Calculator #Operational ", url: "https://ti84hub.com/?embed=true" },
         { name: "Novavax #COVID", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/COVID_Novavax_Quick_Reference_9.17_FINAL_20250919151950379.pdf" },
         { name: "IMZ Ordering Portal   #Immunizations ", url: "https://ciim.rx.cvs.com/rx-coa/#/iit/login?store=FACILITY_ID" },
         { name: "Compliance Signage #Required Docs", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/perm/fm/oth/Compliance_Sustainability_RX_Signage_Review_File.pdf" },
