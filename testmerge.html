@@ -1,0 +1,1579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>RxNet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+      .dock {
+        width: 190px;
+        background-color: #1e3f3f;
+        display: flex;
+        flex-direction: column;
+        color: white;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      .dock-header {
+        flex-shrink: 0;
+        padding-top: 10px;
+        padding-bottom: 6px;
+        border-bottom: 1px solid rgba(255,255,255,0.15);
+      }
+
+      .dock-menu {
+        overflow-y: auto;
+        flex-grow: 1;
+        padding-bottom: 80px;
+      }
+
+    .dock-button {
+      padding: 12px 16px;
+      border: none;
+      background: none;
+      text-align: left;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      width: 100%;
+      transition: background 0.3s;
+    }
+
+    .dock-button:hover,
+    .dock-button.active {
+      background-color: #2e5f5f;
+    }
+
+    .content {
+      flex-grow: 1;
+      background-color: #f5f5f5;
+      padding: 30px;
+      overflow-y: auto;
+    height: 95dvh;
+    padding-bottom: 80px;
+
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 20px;
+    padding-bottom: 80px;
+
+    }
+
+    .grid a {
+      display: block;
+      background-color: #148275;
+      color: white;
+      text-decoration: none;
+      padding: 12px;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 14px;
+      transition: background 0.3s;
+
+    }
+
+    .grid a:hover {
+      background-color: #0f5d4f;
+    }
+
+    #searchBox {
+      padding: 10px;
+      width: 100%;
+      max-width: 90vw;
+      font-size: 1rem;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+      
+      #searchPanel {
+        margin-bottom: 15px;
+      }
+
+    .search-results {
+      display: none;
+      position: absolute;
+      background-color: white;
+      width: 100%;
+      max-width: 600px;
+      max-height: 300px;
+      overflow-y: auto;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+    }
+
+    .search-result {
+      display: block;
+      padding: 10px;
+      text-decoration: none;
+      color: black;
+      font-size: 1rem;
+    }
+
+    .search-result:hover {
+      background-color: #f1f1f1;
+    }
+
+    .search-container {
+      position: relative;
+      width: 90%;
+      max-width: 100vw;
+      margin: 0 auto;
+    }
+.site-title {
+  color: white;
+}
+
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.popup-box {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.popup-box h3 {
+  margin-bottom: 15px;
+}
+
+.popup-box button {
+  margin: 5px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  background: #148275;
+  color: white;
+}
+
+.popup-box button:hover {
+  background: #0f5d4f;
+}
+
+  .section-description {
+    grid-column: 1 / -1;
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 15px;
+    line-height: 1.4;
+    text-align: center;
+  }
+
+      
+  </style>
+</head>
+<body>
+    <div class="dock">
+      <div class="dock-header">
+          <h1 class="site-title" style="display: flex; align-items: center; font-size: 18px; margin: 0 0 8px 16px;">
+            <img src="/rxnet/docs/heartlogo.png" alt="CVS Heart" style="height: 24px; margin-right: 10px;">
+            RxNet
+            <img src="/rxnet/docs/rxnetlogo2.svg" alt="RxNet Logo" style="height: 26px; margin-left: 10px;">
+          </h1>
+      </div>
+      <div class="dock-menu">
+    <button class="dock-button" onclick="showCategory('home', this)">Home</button>
+    <button class="dock-button" onclick="showCategory('operational', this)">Operational</button>
+    <button class="dock-button" onclick="showCategory('manager', this)">Manager</button>
+    <button class="dock-button" onclick="showCategory('inventory', this)">Inventory</button>
+    <button class="dock-button" onclick="showCategory('dispensing', this)">Dispensing</button>
+    <button class="dock-button" onclick="showCategory('clinical', this)">Clinical</button>
+    <button class="dock-button" onclick="showCategory('immunizations', this)">Immunizations</button>
+    <button class="dock-button" onclick="showCategory('regulatory', this)">Regulatory</button>
+    <button class="dock-button" onclick="showCategory('assetprotection', this)">Asset Protection</button>
+    <button class="dock-button" onclick="showCategory('communications', this)">Communications</button>
+    <button class="dock-button" onclick="showCategory('humanresources', this)">Human Resources</button>
+    <button class="dock-button" onclick="showCategory('training', this)">Training</button>
+    <button class="dock-button" onclick="showCategory('newhires', this)">New Hires</button>
+    <button class="dock-button" onclick="showCategory('itresources', this)">IT Resources</button>
+    <button class="dock-button" onclick="showCategory('reports', this)">Reports</button>
+    <button class="dock-button" onclick="showCategory('requireddocs', this)">Required Docs</button>
+    <button class="dock-button" onclick="showCategory('miscellaneous', this)">Miscellaneous</button>
+    <button class="dock-button" onclick="showCategory('petcfspar', this)">Pet Meds/CF/SPAR</button>
+    <button class="dock-button" onclick="showCategory('covid', this)">COVID</button>
+    <button class="dock-button" onclick="showCategory('compounding', this)">Compounding</button>
+    <button class="dock-button" onclick="showCategory('admin', this)">Admin</button>
+
+  </div>
+</div>
+    
+    
+  <div class="content">
+    <div id="searchPanel" style="display: none;">
+      <div class="search-container">
+        <input type="text" id="searchBox" placeholder="Start typing to search..." onkeyup="searchFunction()">
+        <div id="searchResults" class="search-results"></div>
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+<div id="home" class="grid category-panel" style="display: none;">
+  <!-- Section Title: Favorites -->
+  <div style="grid-column: 1 / -1; font-weight: bold; font-size: 18px; margin-bottom: 5px; border-bottom: 2px solid #ccc; padding-bottom: 5px;">
+    Favorites
+  </div>
+        <a href="https://www1.cardinalhealth.com/" target="_blank" rel="noopener noreferrer">Cardinal</a>
+        <a href="/rxnet/docs/rxtelephonev2.pdf" target="_blank" rel="noopener noreferrer">Rx Phone Order</a>
+        <a href="https://mail.cvshealth.com/" target="_blank" rel="noopener noreferrer">Outlook</a>
+        <a href="#" onclick="openZiplinePopup(); return false;">Zipline</a>
+        <a href="https://cvs.reflexisinc.com/kernel/views/authenticate/web/CVS.view" target="_blank" rel="noopener noreferrer">mySchedule</a>
+        <a href="#" onclick="openSmartSensePopup(); return false;">SmartSense</a>
+        <a href="https://cvs.cloud.infor.com/" target="_blank" rel="noopener noreferrer">Workbrain</a>
+        <a href="https://www.clinicalkey.com/pharmacology/" target="_blank" rel="noopener noreferrer">Clinical Pharm</a>
+        <a href="#" onclick="openImageRetrievalAlert(); return false;">Image Retrieval</a>
+        <a href="https://www.myworkday.com/cvshealth/d/home.htmld" target="_blank" rel="noopener noreferrer">Workday</a>
+        <a href="https://colleaguezone.cvs.com" target="_blank" rel="noopener noreferrer">ColleagueZone</a>
+        <a href="https://cvs.medallia.com/sso/cvs" target="_blank" rel="noopener noreferrer" target="_blank" rel="noopener noreferrer">myCust. Connection</a>
+        <a href="https://rxcreports.rxc.cvs.com:31210/airsupport/queuesummary" target="_blank" rel="noopener noreferrer">Queue Depth</a>
+        <a href="https://imzdash.rxc.cvs.com:31213/immunization/" target="_blank" rel="noopener noreferrer">IMZ Dashboard</a>
+        <a href="https://retailspark.cvs.com/rbi/?options-base=on&storeNumber=" target="_blank" rel="noopener noreferrer">Store Digest</a>
+        <a href="https://cvshealth.sabacloud.com/" target="_blank" rel="noopener noreferrer">LearningHub</a>
+          <a href="https://ldp.cvsapps.com/sso" target="_blank" rel="noopener noreferrer">AP SVT</a>
+        <a href="/rxnet/mobile.html" target="_blank" rel="noopener noreferrer">Mobile Site</a>
+        <a href="/rxnet/docs/rxnet.pdf" target="_blank" rel="noopener noreferrer">Site QR Code</a>
+        <a href="#" onclick="openSparkPopup(); return false;">myReports</a>
+        <div class="section-description">
+          Contact matthew.stathis@cvshealth.com from your store email with any suggestions/requests/problems.
+        </div>
+</div>
+
+
+      
+      
+<div id="operational" class="grid category-panel" style="display: none;">
+  <!-- Section Title: Operational -->
+  <div style="grid-column: 1 / -1; font-weight: bold; font-size: 18px; margin-bottom: 5px; border-bottom: 2px solid #ccc; padding-bottom: 5px;">
+    Operational
+  </div>
+        <a href="#" onclick="openSparkPopup(); return false;">myReports</a>
+        <a href="https://storeresources.cvsapps.com/?user_ard=MTYzMQ==&employee_ID=MjI2Nzg0Nw==&user_firstname=R2VuZXJpYyBteURvY3M=&user_lastname=QWNjb3VudA==&user_title=UGhhcm1hY2lzdA==" target="_blank" rel="noopener noreferrer">myDocs</a>
+        <a href="#" onclick="openZiplinePopup(); return false;">Zipline</a>
+        <a href="https://cvs.reflexisinc.com/kernel/views/authenticate/web/CVS.view" target="_blank" rel="noopener noreferrer">mySchedule</a>
+        <a href="#" onclick="openSmartSensePopup(); return false;">SmartSense</a>
+        <a href="#" onclick="chooseCitrix(); return false;">Citrix</a>
+        <a href="https://chainlauncher.rxc.cvs.com:7188/Launcher/AppLauncher.jnlp" target="_blank" rel="noopener noreferrer">RxC Launcher</a>
+        <a href="/rxnet/storesupplies">Store Supplies</a>
+        <a href="/rxnet/calculator" target="_blank" rel="noopener noreferrer">Calculator</a>
+        <a href="/rxnet/calendar" target="_blank" rel="noopener noreferrer">Calendar</a>
+        <a href="https://www.duckduckgo.com" target="_blank" rel="noopener noreferrer">DuckDuckGo</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/perm/fm/oth/RxDelivery_Resource_Center.pdf" target="_blank" rel="noopener noreferrer">RxDelivery Home</a>
+</div>
+
+<div id="manager" class="grid category-panel" style="display: none;">
+  <!-- Section Title: Manager -->
+  <div style="grid-column: 1 / -1; font-weight: bold; font-size: 18px; margin-bottom: 5px; border-bottom: 2px solid #ccc; padding-bottom: 5px;">
+    Manager
+  </div>
+        <a href="https://cvs.cloud.infor.com/" target="_blank" rel="noopener noreferrer">Workbrain</a>
+        <a href="https://cvs.servicechannel.com " target="_blank" rel="noopener noreferrer">Service Channel</a>
+        <a href="https://svt.cvsapps.com/sso" target="_blank" rel="noopener noreferrer">DL Store Visit Tool</a>
+        <a href="/rxnet/docs/rosterreadiness.pdf" target="_blank" rel="noopener noreferrer">Roster Planning Tool</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Attendance_Tracker_7.2018__20180731161449175.pdf" target="_blank" rel="noopener noreferrer">Attendance</a>
+        <a href="https://nametagger.cvs.com" target="_blank" rel="noopener noreferrer">Name Tag Labels</a>
+        <a href="https://cvstracking.hpidirectstore.net/?saml_sso" target="_blank" rel="noopener noreferrer">Uniform Ordering</a>
+        <a href="https://cvstracking.hpidirectstore.net/images/store_images/Uniform_Sizing_Guide.pdf" target="_blank" rel="noopener noreferrer">Uniform Size Guide</a>
+        <a href="https://www.thecvsheartcollection.com/theheartcollection/shop/apparel" target="_blank" rel="noopener noreferrer">The Heart Collection</a>
+        <a href="https://cvs.achievers.com" target="_blank" rel="noopener noreferrer">Values in Action</a>
+        <a href="https://www.cognitoforms.com/LSI8/CVSGraphicsOrderForm" target="_blank" rel="noopener noreferrer">Sign Ordering</a>
+
+</div>
+      
+
+
+      
+<div id="inventory" class="grid category-panel" style="display: none;">
+<!-- Section Title: Inventory -->
+  <div style="grid-column: 1 / -1; font-weight: bold; font-size: 18px; margin-bottom: 5px; border-bottom: 2px solid #ccc; padding-bottom: 5px;">
+    Inventory
+  </div>
+        <a href="https://www1.cardinalhealth.com/" target="_blank" rel="noopener noreferrer">Cardinal</a>
+        <a href="/rxnet/formulary">Formulary</a>
+        <a href="/rxnet/syringes">Syringes/Needles</a>
+        <a href="https://connect.mckesson.com/content" target="_blank" rel="noopener noreferrer">McKesson</a>
+        <a href="/rxnet/pegforms">PEG Formulations</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/CFRx_FAQs_WG_RB_07142022.pdf" target="_blank" rel="noopener noreferrer">CFRx FAQ</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/CFRx_Warehouse_%26_Outside_Vendor_Ordering_Guide_20250912115922886.pptx_2pdf.pdf" target="_blank" rel="noopener noreferrer">CFRx Ordering</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Order_Adjustments_20230130142641714.pdf" target="_blank" rel="noopener noreferrer">CFRx Order Adj.</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/OV_Return_%C2%96_SystemGenerated_FebruaryVersion_20240329123432484.pptx_2pdf.pdf" target="_blank" rel="noopener noreferrer">CFRx OV Returns</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/DRAFT_DSCSA_Full_Functionality_Job_Aid_for_Pilot_Stores_20251522163222156.pdf" target="_blank" rel="noopener noreferrer">DSCSA Intro</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/CFRx_DSCSA_Quarantine_Delivery_Check-In_Workflow_10302025_20251030153056926.pdf" target="_blank" rel="noopener noreferrer">DSCSA Quarantine</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Delivery_CheckIn_Standalone_06282022_20230110190051769.pdf" target="_blank" rel="noopener noreferrer">DSCSA Check-in</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Delivery_Check-In_Expectations_Quick_Guide_20230113165419628.pdf" target="_blank" rel="noopener noreferrer">DSCSA FAQ</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Delivery_CheckIn_Standalone_06282022_20230110190051769.pdf" target="_blank" rel="noopener noreferrer">Order Check-In</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/perm/fm/oth/DC_Delivery_Job_Aid_Master.pdf" target="_blank" rel="noopener noreferrer">WH/DC Deliveries</a>
+</div>
+
+
+<div id="dispensing" class="grid category-panel" style="display: none;">
+<!-- Section Title: Dispensing -->
+<div style="grid-column: 1 / -1; font-weight: bold; font-size: 18px; margin-bottom: 5px; border-bottom: 2px solid #ccc; padding-bottom: 5px;">
+    Dispensing
+  </div>
+        <a href="/rxnet/docs/rxtelephonev2.pdf" target="_blank" rel="noopener noreferrer">Rx Phone Order</a>
+        <a href="/rxnet/docs/rxtransferv2.pdf" target="_blank" rel="noopener noreferrer">Rx Transfer</a>
+        <a href="#" onclick="openImageRetrievalAlert(); return false;">Image Retrieval</a>
+        <a href="https://ipledgeprogram.com/?connection=cvs" target="_blank" rel="noopener noreferrer">iPledge</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/RxConnect_SIG_Codes_Best_Practices.pdf" target="_blank" rel="noopener noreferrer">SIG Code Sheet</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Naloxone_Program_Support_Page_20240102165341901.pdf" target="_blank" rel="noopener noreferrer">Naloxone</a>
+        <a href="/rxnet/insurancetips.html" target="_blank" rel="noopener noreferrer">Insurance Tips</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Medicare_Part_B_Landing_Page_20240729113534498.pptx_2pdf.pdf" target="_blank" rel="noopener noreferrer">Med B Billing</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Proper_Billing_of_Bowel_Preps_2025_%282%29_20251126141806523.pdf" target="_blank" rel="noopener noreferrer">Bowel Prep Billing</a>
+        <a href="#" onclick="openDynamicURL('https://federatione.cvs.com/affwebservices/public/saml2sso?SPID=https://prc.express-scripts.com&RelayState=YYYYYYYYYY'); return false;">Express Scripts PRC</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Nebulizer_Dispensing_Job_Aid_2025_10_29_20251110134417326.pdf" target="_blank" rel="noopener noreferrer">Nebulizes/Spacers</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/MifeprexRetailDispensingJobAid_20240306103911611.pdf" target="_blank" rel="noopener noreferrer">Mifepristone</a>
+</div>
+
+
+<div id="clinical" class="grid category-panel" style="display: none;">
+<!-- Section Title: Clinical -->
+  <div style="grid-column: 1 / -1; font-weight: bold; font-size: 18px; margin-bottom: 5px; border-bottom: 2px solid #ccc; padding-bottom: 5px;">
+    Clinical
+  </div>
+        <a href="https://www.clinicalkey.com/pharmacology/" target="_blank" rel="noopener noreferrer">Clinical Pharm</a>
+        <a href="https://www.micromedexsolutions.com/micromedex2/librarian/" target="_blank" rel="noopener noreferrer">Micromedex</a>
+        <a href="https://www.uptodate.com/contents/search" target="_blank" rel="noopener noreferrer">UpToDate</a>
+        <a href="https://dailymed.nlm.nih.gov/dailymed/" target="_blank" rel="noopener noreferrer">DailyMed</a>
+        <a href="https://app.plumbs.com/auth" target="_blank" rel="noopener noreferrer">Plumb's</a>
+        <a href="https://dynamedex.com" target="_blank" rel="noopener noreferrer">DynaMedex</a>
+        <a href="https://pharmacist.therapeuticresearch.com/Home/PL/?referer=cvs/desktop.urls" target="_blank" rel="noopener noreferrer">Pharmacist's Letter</a>
+        <a href="https://pharmacist.therapeuticresearch.com/Content/Segments/PRL/2015/Jul/Comparison-of-Oral-Contraceptives-and-Non-Oral-Alternatives-United-States-8631" target="_blank" rel="noopener noreferrer">Contraceptive Sub</a>
+        <a href="https://pharmacist.therapeuticresearch.com/Content/Segments/PRL/2014/Aug/Meds-That-Should-Not-Be-Crushed-7309" target="_blank" rel="noopener noreferrer">Do Not Crush List</a>
+        <a href="https://flavorxflavors.com/account/login.aspx?ReturnPage=%2fgenerator.aspx" target="_blank" rel="noopener noreferrer">FlavoRx Recipes</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/PCC_P4P_Adherence_Focus_jobaid_Pick_Up_Now_v4_20260325133410650.pdf" target="_blank" rel="noopener noreferrer">GLP-1 Adherence</a>
+        <a href="https://tempex.lilly.com/us/" target="_blank" rel="noopener noreferrer">Lilly Excursions</a>
+        <a href="https://virtual.mi-owi.com/mi/calculator" target="_blank" rel="noopener noreferrer">Novo Nor. Excursions</a>
+        <a href="#" onclick="openDynamicURL('https://www.clinicalkey.com/pharmacology/find-by/ndc?ndc=ZZZZZZZZZZZ'); return false;">CK NDC Search</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/ClinicalResourceGuide_20230207125446867.pdf" target="_blank" rel="noopener noreferrer">All References</a>
+</div>
+
+<div id="immunizations" class="grid category-panel" style="display: none;">
+<!-- Section Title: Immunizations -->
+<div style="grid-column: 1 / -1; font-weight: bold; font-size: 18px; margin-bottom: 5px; border-bottom: 2px solid #ccc; padding-bottom: 5px;">
+    Immunizations
+  </div>
+        <a href="https://www.cdc.gov/vaccines/hcp/imz-schedules/index.html" target="_blank" rel="noopener noreferrer">Vaccine Schedule</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/IMZ_Clinical_%26_Safety_Resource_Landing_Page-_QRGs_%26_CDC_2025062513344230.pptx_2pdf.pdf" target="_blank" rel="noopener noreferrer">IMZ Quick Ref.</a>
+        <a href="#" onclick="openCaspioPopup(); return false;">CPR Scheduling</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/IMZ_Training_Resource_20240829_20240830093611879.pdf" target="_blank" rel="noopener noreferrer">IMZ Home Page</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Immunization_Program_Ordering_Guide_Expanded_Vaccines_20190318112807758.pdf" target="_blank" rel="noopener noreferrer">IMZ Ordering Guide</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Immunization_Inventory_Tool_Job_Aid_20240614123353339.pdf" target="_blank" rel="noopener noreferrer">Inv Tool Job Aid</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/TravelVaccineDetails_20241106120156848.pdf" target="_blank" rel="noopener noreferrer">Travel IMZ NDCs</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Travel_IMZ_Cheat_Sheet_12122024_20241212111427361.docx_2pdf.pdf" target="_blank" rel="noopener noreferrer">Travel IMZ Ref</a>
+        <a href="https://wwwnc.cdc.gov/travel/page/yellowbook-home" target="_blank" rel="noopener noreferrer">CDC Yellow Book</a>
+        <a href="https://ciim.rx.cvs.com/rx-coa/#/iit/login?store=FACILITY_ID" target="_blank" rel="noopener noreferrer">Ordering Portal</a>
+        <a href="https://authsvc.cvshealth.com/idp/startSSO.ping?PartnerSpId=https%3A%2F%2Fpoct-sso.stchome.net%2Fauth%2Frealms%2Fimmslink" target="_blank" rel="noopener noreferrer">IMZ Registry</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/B_-_Vaccine_Clinic_Checklist_2023_%281%29_20230803170903218.pdf" target="_blank" rel="noopener noreferrer">IMZ Clinic Prep</a>
+        <a href="https://resources.cardiopartners.com/page50/" target="_blank" rel="noopener noreferrer">Print CPR Cert</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Curriculum_for_IMZ_Immunizer_Status_Report_Job_Aid__2024041813265361.pdf" target="_blank" rel="noopener noreferrer">IMZ Status Report</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/APhA_IMZ_Training_Cert_Guide_20241114165913892.pptx_2pdf.pdf" target="_blank" rel="noopener noreferrer">Reprint APhA Cert</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/State_IMZ_Landing_Page__v2_20241114170446105.pptx_2pdf.pdf" target="_blank" rel="noopener noreferrer">IMZ Modules by State</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/1-Source_Credential_Gap_Resolution_Guide_02132026_Pilot_20260303133039815.docx_2pdf.pdf" target="_blank" rel="noopener noreferrer">1-Source Guide</a>
+</div>
+
+<div id="regulatory" class="grid category-panel" style="display: none;">
+  <!-- Section Title: Regulatory -->
+  <div style="grid-column: 1 / -1; font-weight: bold; font-size: 18px; margin-bottom: 5px; border-bottom: 2px solid #ccc; padding-bottom: 5px;">
+    Regulatory
+  </div>
+        <a href="https://epso.corp.cvscaremark.com/EPSO_PROD/Infocenter/Client/InfoPageIndex.aspx" target="_blank" rel="noopener noreferrer">Error Reporting</a>
+        <a href="#" onclick="openDynamicURL('https://rxdw-esignature-store.rxdw-cld-ap.cvshealthcloud.com/GetSMEsigStore.do?method=perform&StoreNum=XXXXX'); return false;">Rx Signature Log</a>
+        <a href="https://pennsylvania.pmpaware.net/" target="_blank" rel="noopener noreferrer">PA PDMP</a>
+        <a href="https://npiregistry.cms.hhs.gov/search" target="_blank" rel="noopener noreferrer">NPI Registry</a>
+        <a href="https://pals.pa.gov" target="_blank" rel="noopener noreferrer">PALS Portal</a>
+<a href="#" onclick="openDEAChecker(); return false;">DEA Validator</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/CVS_Pharmacy_Technician_and_Unlicensed_Personnel_Guide_20240102095358844_%2812%29_20260213135146707.pdf" target="_blank" rel="noopener noreferrer">Tech Licensing Guide</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Printing_Twice_Daily_Temperature_Logs.pdf" target="_blank" rel="noopener noreferrer">TempAlert Log</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Single_Tote_Hazardous_Waste_Label_PHARMACY__20200522125334240.pdf" target="_blank" rel="noopener noreferrer">StrongPak Label</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Controlled_Substance_Resource_Page_Store.pdf" target="_blank" rel="noopener noreferrer">Controls Resources</a>
+        <a href="#" onclick="openDynamicURL('https://cvs.qualtrics.com/jfe/form/SV_bwP4u7V038n5hs1?Q_JFE=qdg&StoreNumber=XXXXX'); return false;">Report Reg Audit</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Scan_Pharmacy_Documents_Master_Guide_AT.pdf" target="_blank" rel="noopener noreferrer">Scan Rx Docs</a>
+        <a href="#" onclick="openDynamicURL('https://portaldoctool.cvs.com/retailportalfiles/business/rx/POA_XXXXX.pdf'); return false;">Store PIC POAs</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/DEA_Central_CSOS_POA_Documents-_Group_A_20251210140954632.pdf" target="_blank" rel="noopener noreferrer">CSOS Central POA</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Exhibit_A_Retail_Registrants_2025_-_Group_A.pdf" target="_blank" rel="noopener noreferrer">CSOS Exhibit A</a>
+        <a href="https://www.palabsbillpayment.health.pa.gov/Home.aspx" target="_blank" rel="noopener noreferrer">PA Lab License</a>
+        <a href="#" onclick="openDynamicURL('https://portaldoctool.cvs.com/retailportalfiles/wlm_task_reports/RX_LICENSE_XXXXX.pdf'); return false;">Recent License</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/NABP_e-Profile_ID__20251031144708533.pdf" target="_blank" rel="noopener noreferrer">NABP CE ID</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/perm/fm/oth/State_Reference_Onsite_Retention_Requirements_%26_Waivers_-_FINAL_-_06.06.2025.pdf" target="_blank" rel="noopener noreferrer">Record Retention</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/PRINTING_A_PSE_CERTIFICATE_updated_20241227113233927.pdf" target="_blank" rel="noopener noreferrer">Print PSE Cert</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Early_Fill_Job_Aid_20260416171014384.pdf" target="_blank" rel="noopener noreferrer">CS Early Fills</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/CS_Scheduling_Job_Aid_20260211164335417.pdf" target="_blank" rel="noopener noreferrer">CS Scheduling</a>
+        <a href="https://policy.corp.cvscaremark.com/cs/groups/public/@pnp/@all/@7110/documents/sop/chat/mdg3/%7Eedisp/ropp-087714.pdf " target="_blank" rel="noopener noreferrer">CII Partials Policy</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/21_CFR_1306.13_%28up_to_date_as_of_2-20-2026%29_20260224154819718.pdf" target="_blank" rel="noopener noreferrer">CII Partials Law</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/CS_Hub_Pharmacist_Toolkit_Store_Version_20250326151148745.pdf" target="_blank" rel="noopener noreferrer">CS Hub</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/RxConnect_Access_Validation_Overview_2024090415191751.pdf" target="_blank" rel="noopener noreferrer">RxC Reactivation</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/USP_800_myDocs_Page_112023_2023112010251754.pdf" target="_blank" rel="noopener noreferrer">NIOSH Handling</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Empty_Warfarin_Bottle_Management_20240228180255110.pdf" target="_blank" rel="noopener noreferrer">Warfarin Bottles</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Drug_Disposal_Electronic_Recordkeeping_Job_Aid_-_FINAL_5.26.2026_20260527124609311.pdf" target="_blank" rel="noopener noreferrer">Drug Disposal Guide</a>
+
+</div>
+
+
+<div id="assetprotection" class="grid category-panel" style="display: none;">
+    <!-- Section Title: Asset Protection -->
+    <div style="grid-column: 1 / -1; font-weight: bold; font-size: 18px; margin-bottom: 5px; border-bottom: 2px solid #ccc; padding-bottom: 5px;">
+      Asset Protection
+    </div>
+          <a href="https://ldp.cvsapps.com/sso" target="_blank" rel="noopener noreferrer">AP SVT</a>
+          <a href="#" onclick="openDynamicURL('https://portaldoctool.cvs.com/retailportalfiles/wlm_task_reports/INFO_XXXXX.pdf'); return false;">AP Dashboard</a>
+          <a href="https://cvsthinklp.lightning.force.com" target="_blank" rel="noopener noreferrer">ThinkLP</a>
+          <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/AP_SVT_-_FS_and_RX_Store_Leader_Dashboards_Guide_20260107141856115.pptx_2pdf.pdf" target="_blank" rel="noopener noreferrer">AP SVT Job Aid</a>
+          <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/AP_Resources_%2526_Job_Aids_-_Store_Leaders_20260116151815753.pptx_2pdf.pdf" target="_blank" rel="noopener noreferrer">Leader Resources</a>
+          <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/2023_RX_AP_Operational_Excellence_Playbook_20230620135623197.pdf" target="_blank" rel="noopener noreferrer">Opl Excellence</a>
+          <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/myShrink_Responsibility_Operational_Risk_Guide_-_Feb_2023_20230223095053563.pdf" target="_blank" rel="noopener noreferrer">Opl Risk Guide</a>
+          <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/2026_Asset_Protection_Operational_Risks_20260116135056794.pdf" target="_blank" rel="noopener noreferrer">Opl Risk Metrics</a>
+
+          <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/High_Risk_Drug_Profiles_-_Q4_FINAL_%28updated_Nov_2022%29_20230320171225743.pdf" target="_blank" rel="noopener noreferrer">High Risk Drugs</a>
+          <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/ThinkLP_ICAPs_Guide_20241009105750305.docx_2pdf.pdf" target="_blank" rel="noopener noreferrer">ICAP Job Aid</a>
+          <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/perm/fm/rpt/mySafetyHub.pdf" target="_blank" rel="noopener noreferrer">SafetyHub</a>
+          <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Delivery_Check-In_Expectations_Quick_Guide_1122_20250702130337426.docx_2pdf.pdf" target="_blank" rel="noopener noreferrer">OV Issues</a>
+          <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/eBOH_Update_20230616112533749.pdf" target="_blank" rel="noopener noreferrer">eBOH Job Aid</a>
+</div>
+    
+<div id="communications" class="grid category-panel" style="display: none;">
+    <!-- Section Title: Communications -->
+    <div style="grid-column: 1 / -1; font-weight: bold; font-size: 18px; margin-bottom: 5px; border-bottom: 2px solid #ccc; padding-bottom: 5px;">
+        Communications
+    </div>
+        <a href="https://mail.cvshealth.com/" target="_blank" rel="noopener noreferrer">Outlook</a>
+        <a href="https://cvs.medallia.com/sso/cvs" target="_blank" rel="noopener noreferrer" target="_blank" rel="noopener noreferrer">myCust. Connection</a>
+        <a href="https://storepcc.rxc.cvs.com:30491/pccui/v1/#/OpportunitiesList/" target="_blank" rel="noopener noreferrer">PCQ (Remote)</a>
+      <a href="#" onclick="openDynamicURL('https://storepcc.rxc.cvs.com:30491/pccui/home.html?hostname=localhost&store=XXXXX&port=30000&session=1&wks=wks10'); return false;">PCQ (Local)</a>
+        <a href="/rxnet/directory">Main Directory</a>
+        <a href="/rxnet/transfer">Transfer Directory</a>
+        <a href="https://www.cvs.com/store-locator/landing" target="_blank" rel="noopener noreferrer">Store Locator</a>
+        <a href="/rxnet/docs/prqrcodes.pdf" target="_blank" rel="noopener noreferrer">PR QR Codes</a>
+</div>
+
+<div id="humanresources" class="grid category-panel" style="display: none;">
+ <!-- Section Title: Human Resources -->
+  <div style="grid-column: 1 / -1; font-weight: bold; font-size: 18px; margin-bottom: 5px; border-bottom: 2px solid #ccc; padding-bottom: 5px;">
+    Human Resources
+  </div>
+    <a href="https://www.myworkday.com/cvshealth/d/home.htmld" target="_blank" rel="noopener noreferrer">Workday</a>
+        <a href="https://colleaguezone.cvs.com" target="_blank" rel="noopener noreferrer">ColleagueZone</a>
+        <a href="https://colleaguezone.cvs.com/cz?id=sc_cat_item&table=sc_cat_item&sys_id=ee91566efb81a69026f7f2b455efdc0a&recordUrl=com.glideapp.servicecatalog_cat_item_view.do%3Fv%3D1&sysparm_id=ee91566efb81a69026f7f2b455efdc0a" target="_blank" rel="noopener noreferrer">Hiring Support</a>
+        <a href="https://mfa.cvshealth.com/myaccount/" target="_blank" rel="noopener noreferrer">MFA/2FA Setup</a>
+    <a href="http://mypassword.cvs.com/" target="_blank" rel="noopener noreferrer">My Password Reset</a>
+    <a href="https://cvs.achievers.com" target="_blank" rel="noopener noreferrer">Values in Action</a>
+    <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/perm/fm/oth/Ping_Mobile_Registration_External_Network_from_Personal_Device.pdf" target="_blank" rel="noopener noreferrer">PingID Setup</a>
+        <a href="https://colleaguezone.cvs.com/cz?id=kb_article&sysparm_article=KB0058118" target="_blank" rel="noopener noreferrer">Attendance Policy</a>
+        <a href="https://colleaguezone.cvs.com/cz?id=kb_article_view&sysparm_article=KB0061720" target="_blank" rel="noopener noreferrer">Hiring Guide</a>
+        <a href="https://colleaguezone.cvs.com/cz?id=kb_article&sysparm_article=KB0059260" target="_blank" rel="noopener noreferrer">COVID Sick Policy</a>
+        <a href="https://colleaguezone.cvs.com/cz?id=sc_cat_item&sys_id=3a46341d1be5d598f839caae6e4bcbc5" target="_blank" rel="noopener noreferrer">Meal Break Waiver</a>
+        <a href="https://federatione.cvshealth.com/affwebservices/public/saml2sso?SPID=p0089280mxzg" target="_blank" rel="noopener noreferrer">Concur</a>
+        <a href="https://alumnizone.cvs.com/alumnizone" target="_blank" rel="noopener noreferrer">Former Colleagues</a>
+        <a href="https://colleaguezone.cvs.com/cz?id=cz_people_leader_services" target="_blank" rel="noopener noreferrer">Target Floater</a>
+        <a href="https://stores.heartbeat.cvshealth.com/" target="_blank" rel="noopener noreferrer">Heartbeat</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/WorkersCompensationProcedures_20260427120218993.pdf" target="_blank" rel="noopener noreferrer">Workers' Comp</a>
+        <a href="https://idmgmt.cvshealth.com/iam-selfserviceportal-oci/home" target="_blank" rel="noopener noreferrer">IAM Portal</a>
+        <a href="https://voices.cvshealth.com/" target="_blank" rel="noopener noreferrer">Engagement Survey</a>
+        <a href="https://authsvc.cvshealth.com/idp/startSSO.ping?PartnerSpId=SP_Ping_SM_Bridge&TargetResource=https://federatione.cvshealth.com/affwebservices/public/saml2sso?SPID=secure.bswift.com" target="_blank" rel="noopener noreferrer">Benefits Portal</a>
+        <a href="https://colleaguezone.cvs.com/cz?id=kb_article&sysparm_article=KB0062056" target="_blank" rel="noopener noreferrer">Ratings Distribution</a>
+
+        <a href="https://www.myworkday.com/cvshealth/d/task/3005$3943.htmld" target="_blank" rel="noopener noreferrer">Candidate Pipeline</a>
+</div>
+
+<div id="training" class="grid category-panel" style="display: none;">
+    <!-- Section Title: Training -->
+  <div style="grid-column: 1 / -1; font-weight: bold; font-size: 18px; margin-bottom: 5px; border-bottom: 2px solid #ccc; padding-bottom: 5px;">
+    Training
+  </div>
+        <a href="https://cvshealth.sabacloud.com/" target="_blank" rel="noopener noreferrer">LearningHub</a>
+        <a href="https://app-corp-rewrite-prod-use2-web.azurewebsites.net/rrtAccessManagement" target="_blank" rel="noopener noreferrer">Remote Access</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/LearningHub_Analytics_MyTeam_Compliance_Reporting_2023062113415949.pdf" target="_blank" rel="noopener noreferrer">Report Job Aid</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/RPh_Letter_Updated.pptx_2pdf.pdf" target="_blank" rel="noopener noreferrer">CE Tracking</a>
+        <a href="https://cvshealth.sabacloud.com/Saba/Web_spf/NA10P1PRD006/app/shared;spf-url=pages%2Fpagelistview%2Fpgcnt000000000537180" target="_blank" rel="noopener noreferrer">PTCB Workspace</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/IMZ_Training_Resource_20240829_20240830093611879.pdf" target="_blank" rel="noopener noreferrer">IMZ Training</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/FS_at_Rx_POS_Attestation_Tracker_20250930135204234.pdf" target="_blank" rel="noopener noreferrer">FS @ Rx Attestation</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Pennsylvania_Incumbent_Pharmacy_Technician_Application_Checklist_2025120917021865.pdf" target="_blank" rel="noopener noreferrer">PA Tech Licensure</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/State_IMZ_Landing_Page__v2_20241114170446105.pptx_2pdf.pdf" target="_blank" rel="noopener noreferrer">IMZ Modules by State</a>
+</div>
+
+
+<div id="newhires" class="grid category-panel" style="display: none;">
+  <!-- Section Title: New Hires -->
+  <div style="grid-column: 1 / -1; font-weight: bold; font-size: 18px; margin-bottom: 5px; border-bottom: 2px solid #ccc; padding-bottom: 5px;">
+    New Hires
+  </div>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/SmartStart_Participant_Guide_20250808144624526.pdf" target="_blank" rel="noopener noreferrer">StartSmart Packet</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/perm/fm/oth/New_Colleague_Onboarding_Welcome_Guide.pdf" target="_blank" rel="noopener noreferrer">Welcome Packet</a>
+        <a href="https://cvshealth.sabacloud.com/Saba/document/NA10P1PRD006/simrs000000000030627" target="_blank" rel="noopener noreferrer">Shift 1 Packet</a>
+        <a href="https://cvshealth.sabacloud.com/Saba/Web_spf/NA10P1PRD006/app/shared;spf-url=pages%2Fpagedetailview%2Fspage000000000006982%2Flearnrx-2.0%2Fresourcesz" target="_blank" rel="noopener noreferrer">LearnRx Main Page</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/perm/fm/rpt/POS_Profile_Creation_Guide.pdf" target="_blank" rel="noopener noreferrer">POS Profile Creation</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Retail_New_Colleague_Password_Guide_20250820162352262.pdf" target="_blank" rel="noopener noreferrer">Password Setup</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/SmartStart_Facilitator_Guide_20250808150140318.pdf" target="_blank" rel="noopener noreferrer">StartSmart Facilitator</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/StartSmart_Job_Aid_20250922145418800.pdf" target="_blank" rel="noopener noreferrer">StartSmart Job Aid</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/StartSmart_FAQ_20250917112917976.pdf" target="_blank" rel="noopener noreferrer">StartSmart FAQs</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/LearnRx_2.0_Resource_Page_20230320172428811.pptx_2pdf.pdf" target="_blank" rel="noopener noreferrer">LearnRx Guide</a>
+        <a href="https://aetna.quickbase.com/nav/app/bstr5x75e/action/appoverview" target="_blank" rel="noopener noreferrer">LearnRx Tracker</a>
+</div>
+    
+<div id="itresources" class="grid category-panel" style="display: none;">
+<!-- Section Title: Technology -->
+  <div style="grid-column: 1 / -1; font-weight: bold; font-size: 18px; margin-bottom: 5px; border-bottom: 2px solid #ccc; padding-bottom: 5px;">
+    IT Resources
+  </div>
+        <a href="https://barcode.tec-it.com/en/GS1QRCode?data=" target="_blank" rel="noopener noreferrer">QR Generator</a>
+        <a href="#" onclick="openBarcodePopup(); return false;">Print Credentials</a>
+        <a href="https://cvshealth.service-now.com/cz?id=sc_cat_item&sys_id=437c428f3bc73e544f812964c3e45ac6&sysparm_category=2ad34ff01bdf2c10ba5b77761a4bcb83&catalog_id=e0d08b13c3330100c8b837659bba8fb4" target="_blank" rel="noopener noreferrer">RSSC Self Service</a>
+        <a href="https://supportlink.stores.cvs.com/" target="_blank" rel="noopener noreferrer">Device Management</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Facial_Scan_Biometrics_-_Quick_Reference_Guide_%285%29_20250617114810499.pdf" target="_blank" rel="noopener noreferrer">Biometrics</a>
+        <a href="https://cvshealth.sabacloud.com/Saba/Web_spf/NA10P1PRD006/app/me/myfiles;spf-url=common%2Fprofile%2Fmyfiles%2Femplo000000000082945" target="_blank" rel="noopener noreferrer">SabaCloud</a>
+        <a href="https://www.rephrase.info/online-text-editor" target="_blank" rel="noopener noreferrer">Text Editor Online</a>
+        <a href="/rxnet/usefulapps">Apps/Websites</a>
+        <a href="https://viptfaeast.cvs.com/" target="_blank" rel="noopener noreferrer">Symantec VIP</a>
+        <a href="https://cvsthinklp.lightning.force.com/lightning/o/ContentDocument/home" target="_blank" rel="noopener noreferrer">ThinkLP Cloud</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/POS_Mod_Landing_Page_20260423145002918.pptx_2pdf.pdf" target="_blank" rel="noopener noreferrer">POS Mod.</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/RxOS_Homepage_20250610161035278.pdf" target="_blank" rel="noopener noreferrer">Rx/iO Home</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Virtual_Verification_RxNet_Landing_Page.pdf" target="_blank" rel="noopener noreferrer">Virtual Verify</a>
+        <a href="https://cvshealth.service-now.com/cz?id=sc_cat_item&sys_id=e3625b74fb221610b562f42bbeefdc58" target="_blank" rel="noopener noreferrer">IT Self Service</a>
+        <a href="https://www.clinicalkey.com/pharmacology/login?promoCodeGroup=DID416516&promoCode=416516&associatingWith=CVS%20Co,%20General%20Access" target="_blank" rel="noopener noreferrer">Clin Pharm Remote</a>
+        <a href="https://colleaguezone.cvs.com/cz?id=sc_cat_item&table=sc_cat_item&sys_id=e3625b74fb221610b562f42bbeefdc58&recordUrl=com.glideapp.servicecatalog_cat_item_view.do%3Fv%3D1&sysparm_id=e3625b74fb221610b562f42bbeefdc58x">RSSC Self Service</a>
+</div>
+    
+    
+      
+<div id="reports" class="grid category-panel" style="display: none;">
+<!-- Section Title: Reports -->
+<div style="grid-column: 1 / -1; font-weight: bold; font-size: 18px; margin-bottom: 5px; border-bottom: 2px solid #ccc; padding-bottom: 5px;">
+  Reports
+</div>
+      <a href="#" onclick="openDynamicURL('https://portaldoctool.cvs.com/portalDocTool/viewDocuments.do?listingID=dcReportPage&roles=ZGNyZXBvcnRwYWdldXNlcg==&storeNumber=XXXXX'); return false;">Truck Manifests</a>
+      <a href="https://retailspark.cvs.com/rbi/?options-base=on&storeNumber=" target="_blank" rel="noopener noreferrer">Store Digest</a>
+      <a href="https://rxcreports.rxc.cvs.com:31210/airsupport/queuesummary" target="_blank" rel="noopener noreferrer">Queue Depth</a>
+      <a href="https://imzdash.rxc.cvs.com:31213/immunization/" target="_blank" rel="noopener noreferrer">IMZ Dashboard</a>
+      <a href="https://ciim.cvs.com/ciimappnew/#/login" target="_blank" rel="noopener noreferrer">CIIM</a>
+      <a href="/rxnet/docs/scoreboard.pdf" target="_blank" rel="noopener noreferrer">Rx Scoreboard</a>
+      <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Environmental_Health_%26_Safety_Reports_Portal_Job_Aid.pdf" target="_blank" rel="noopener noreferrer">Evo/Safety Reports</a>
+      <a href="#" onclick="openDynamicURL('https://portaldoctool.cvs.com/retailbireports/msh/mcp/mSH_MCP_Spotlight_SXXXXX.pdf'); return false;">MCP Spotlight</a>
+      <a href="#" onclick="openDynamicURL('https://portaldoctool.cvs.com/rxreports/mpc/weekly/mPC_Scorecard_SXXXXX.pdf'); return false;">MPC Scorecard</a>
+      <a href="#" onclick="openDynamicURL('https://portaldoctool.cvs.com/retailportalfiles/business/iermonthlyscorecards/IER_Monthly_Scorecard_SXXXXX.pdf'); return false;">IER Scorecard</a>
+      <a href="#" onclick="openDynamicURL('https://portaldoctool.cvs.com/portalDocTool/viewDocuments.do?listingID=complianceModReports&roles=myReports&deptType=RX&metricID=storeXXXXX'); return false;">OPI</a>
+      <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/perm/fm/rpt/RGLandingPage.pdf" target="_blank" rel="noopener noreferrer">Roster Readiness</a>
+      <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/perm/fm/oth/mTC_Weekly_STORE.xlsx_2pdf.pdf" target="_blank" rel="noopener noreferrer">MTC Weekly</a>
+      <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/perm/fm/rpt/Store_Chainwide_TempAlert_Engagement_Reporting.xlsx_2pdf.pdf" target="_blank" rel="noopener noreferrer">Weekly TempAlert</a>
+      <a href="#" onclick="openDynamicURL('https://portaldoctool.cvs.com/rxreports/mpc/weekly/CLR_Weekly/Colleague_Level_Reporting_Weekly_SXXXXX.pdf'); return false;">MPC Colleague Lvl</a>
+      <a href="https://tms.cvs.com/apps_dir_sm/tms2/index.cfm" target="_blank" rel="noopener noreferrer">TMS</a>
+      <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/perm/fm/oth/R%26C_Training_Resource_Page.pptx_2pdf.pdf" target="_blank" rel="noopener noreferrer">Shut Off Report</a>
+      <a href="#" onclick="openDynamicURL('https://enterpriseportalreporting-prd2.corp.cvscaremark.com:8443/enterprisePortalReporting/viewDocuments.do?listingID=fmsGreenSheetsReportLandingPage&roles=Zm1zcG9ydHBhZ2V1c2Vy&storeNumber=XXXXX'); return false;">Green Sheets</a>
+</div>
+
+
+<div id="requireddocs" class="grid category-panel" style="display: none;">
+  <!-- Section Title: Required Docs -->
+  <div style="grid-column: 1 / -1; font-weight: bold; font-size: 18px; margin-bottom: 5px; border-bottom: 2px solid #ccc; padding-bottom: 5px;">
+    Required Docs
+  </div>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/perm/fm/oth/Compliance_Sustainability_RX_Signage_Review_File.pdf" target="_blank" rel="noopener noreferrer">Compliance Signage</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/PA_Pharmacy_Technician_Protocol_Sign_Off_20180730151841166_20221118092028383.pdf" target="_blank" rel="noopener noreferrer">Technician Protocol</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/NondiscriminationandAccessibilityNotice_CVSPharmacy_Final_Final_20170110140230949.pdf" target="_blank" rel="noopener noreferrer">Nondiscrimination</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/2087_7-25_Remediated_with_NOA_20250827153246920.pdf" target="_blank" rel="noopener noreferrer">NOPP (English)</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/2087_SP_7-25_Remediated_with_NOA_20250827153218407.pdf" target="_blank" rel="noopener noreferrer">NOPP (Spanish)</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Top_25_Generic_Drugs_June2021_20210617145343156_2022111809252190.pdf" target="_blank" rel="noopener noreferrer">Top 25 Generics</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/PA_Notice_of_Privacy_Practices_20221118092203526.pdf" target="_blank" rel="noopener noreferrer">HIPAA Posting</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/PA_PDMP_Patient_Notice_Poster_20160715144512221.pdf" target="_blank" rel="noopener noreferrer">PDMP Posting</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/record_storage_sign.pdf" target="_blank" rel="noopener noreferrer">Records Sign</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Pharmacy_Notice_CMS_10147_508ed_03_04_2022_20220328090555137.pdf" target="_blank" rel="noopener noreferrer">Medicare (English)</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Pharmacy_Notice_CMS_-10147SPANISH_03_04_2022_508.doc_20220328095050763_20230330153114502.pdf" target="_blank" rel="noopener noreferrer">Medicare (Spanish)</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Retail_-_CVS_Pharmacy_Non-Discrimination_Notice_2024102214163535.pdf" target="_blank" rel="noopener noreferrer">Discrimination Addn</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Retail_EPP_Summary_English.pdf" target="_blank" rel="noopener noreferrer">Emerg Proc 1-pager</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/CVS_Health_Corporation_COI_2025_20241230114942787.pdf" target="_blank" rel="noopener noreferrer">Liability Ins</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Auxiliary_Service_Notice_ACA_1557_VF_2025061111454668.pdf" target="_blank" rel="noopener noreferrer">Aux Services</a>
+        
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/D10647RX16_Compliance_PA_BiosimilarSign_%28003%29_2021081014032909_20221118093014786.pdf" target="_blank" rel="noopener noreferrer">Generic Sub</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/NaloxoneSign_2019_20190514111434617_20221118092845263.pdf" target="_blank" rel="noopener noreferrer">Naloxone</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/ScriptPro_Maintenance_Schedule_Log_20260213092753871.pdf" target="_blank" rel="noopener noreferrer">ScriptPro Log</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/KL_Countertop_Cleaning_and_Calibration_Log_20241217123110219.pdf" target="_blank" rel="noopener noreferrer">Kirby Log</a>
+        <a href="/rxnet/docs/Top200.pdf" target="_blank" rel="noopener noreferrer">Top 200 Drugs</a>
+        <a href="/rxnet/docs/No%20Smoking%20English%20Color.pdf" target="_blank" rel="noopener noreferrer">No Smoking Sign</a>
+        <a href="/rxnet/docs/BUD%20stock%20bottles.pdf" target="_blank" rel="noopener noreferrer">Stock Bottle BUDs</a>
+        <a href="https://www.pa.gov/content/dam/copapwp-pagov/en/health/documents/topics/documents/opioids/Sharps%20Disposal%20Tips.pdf" target="_blank" rel="noopener noreferrer">Sharps Disposal (PA)</a>
+
+</div>
+
+<div id="miscellaneous" class="grid category-panel" style="display: none;">
+<!-- Section Title: Miscellaneous -->
+<div style="grid-column: 1 / -1; font-weight: bold; font-size: 18px; margin-bottom: 5px; border-bottom: 2px solid #ccc; padding-bottom: 5px;">
+   Miscellaneous
+ </div>
+        <a href="https://www.cvs.com/epp/remote-payment" target="_blank" rel="noopener noreferrer">Card on File</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/RTS_on_Ironman_Job_Aid.pdf" target="_blank" rel="noopener noreferrer">Ironman RTS</a>
+        <a href="https://www.calculator.net/date-calculator.html" target="_blank" rel="noopener noreferrer">Date Calculator</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Pharmacists_Letter_access_jobaid_20220415095427755.pdf" target="_blank" rel="noopener noreferrer">RPh Letter Setup</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/WaitingBinManagementOverview-2025_20241223140545695.pdf" target="_blank" rel="noopener noreferrer">WB Inventory</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/OTC_Syringe_Spreadsheet_Master_20210519141310407.pdf" target="_blank" rel="noopener noreferrer">OTC Syringe Sales</a>
+        <a href="https://cvshealth.sabacloud.com/Saba/document/NA10P1PRD006/simrs000000000025831" target="_blank" rel="noopener noreferrer">RPh Daily Task List</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/RPh_prescribing_myDocs_State_Specific_resources_11.23_2023111612555506_20231116132148708.pptx_2pdf.pdf" target="_blank" rel="noopener noreferrer">Expanded Services</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Non_Saleable_Non_CII_Drugs_v2024_11_20241105124655549.pdf" target="_blank" rel="noopener noreferrer">Non-saleable Return</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/NIOSH_DRUGS_20191203083207826.pdf" target="_blank" rel="noopener noreferrer">NIOSH Drugs</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Self_Check-In_Homepage_20250129184811220.pdf" target="_blank" rel="noopener noreferrer">Self Check-in</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/perm/store/oth/SpokenRx_myDocs_LandingePage.pptx_2pdf.pdf" target="_blank" rel="noopener noreferrer">SpokenRx</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/RxTransferJobAid_20251216160319603.pdf" target="_blank" rel="noopener noreferrer">Rx Transfer Guide</a>
+        <a href="https://cvs.crowdicity.com/" target="_blank" rel="noopener noreferrer">myInsight</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Waiting_Bin_Inventory_Tips_and_Tricks_-_Updated%5B2%5D_20231221152654526.docx_2pdf.pdf" target="_blank" rel="noopener noreferrer">WB Inventory FAQs</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/2026_Waiting_bin_inventory_dates_20251210093144638.docx_2pdf.pdf" target="_blank" rel="noopener noreferrer">WB Inv. Schedule</a>
+</div>
+
+<div id="petcfspar" class="grid category-panel" style="display: none;">
+  <!-- Section Title: Pet Meds -->
+  <div style="grid-column: 1 / -1; font-weight: bold; font-size: 18px; margin-bottom: 5px; border-bottom: 2px solid #ccc; padding-bottom: 5px;">
+    Pet Meds
+  </div>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Pet_Med_Resource_Page.pdf" target="_blank" rel="noopener noreferrer">Ped Med Home</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Quick_Med_List_and_Indication_Guide_.pdf" target="_blank" rel="noopener noreferrer">Formulary</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Preventives_Indications_Chart_20250311122103610.pdf" target="_blank" rel="noopener noreferrer">Pet Med Indications</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Pet_Med_Rebate_20250317085858808.pdf" target="_blank" rel="noopener noreferrer">Pet Med Rebate</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Pet_Meds_Colleague_Quick_Tips_20250220101023926.pdf" target="_blank" rel="noopener noreferrer">Pet Med Reference</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Pet_Meds_Training.pdf" target="_blank" rel="noopener noreferrer">Pet Med Training</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Pet_Meds_Store_Readiness_Checklist.pdf" target="_blank" rel="noopener noreferrer">Pet Med Readiness</a>
+    <!-- Section Title: Central Fill -->
+  <div style="grid-column: 1 / -1; font-weight: bold; font-size: 18px; margin: 20px 0 5px; border-bottom: 2px solid #ccc; padding-bottom: 5px;">
+    Central Fill
+  </div>
+    <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Central_Fill_Homepage_20240206170244882.pdf" target="_blank" rel="noopener noreferrer">CF Homepage</a>
+    <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Central_Fill_Job_Aid_2023041014350208.pdf" target="_blank" rel="noopener noreferrer">Quick Reference</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Central_Fill_Prescription_Maintenance_20230410143354198.pdf" target="_blank" rel="noopener noreferrer">CF RTS</a>
+  <!-- Section Title: Specialty -->
+  <div style="grid-column: 1 / -1; font-weight: bold; font-size: 18px; margin: 20px 0 5px; border-bottom: 2px solid #ccc; padding-bottom: 5px;">
+    Specialty
+  </div>
+    <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Specialty_Connect_Quick_Reference_Guide_20230227_20230227141506539.pdf" target="_blank" rel="noopener noreferrer">SPAR Quick Ref</a>
+    <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/SPAR_CheckIn_FAQs__Sep_2024_20240918165112202.pdf" target="_blank" rel="noopener noreferrer">SPAR FAQ</a>
+    <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/SPAR_Manual_CheckIn_Form_20190215082832689.pdf" target="_blank" rel="noopener noreferrer">SPAR Manual Sale</a>
+    <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/SPAR_-_RTS_Guide_20230815_20230815163603433.pdf" target="_blank" rel="noopener noreferrer">SPAR RTS</a>
+</div>
+
+
+<div id="covid" class="grid category-panel" style="display: none;">
+  <!-- Section Title: Paxlovid -->
+  <div style="grid-column: 1 / -1; font-weight: bold; font-size: 18px; margin-bottom: 5px; border-bottom: 2px solid #ccc; padding-bottom: 5px;">
+    RPh Prescribing/Paxlovid
+  </div>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Paxlovid_updated_jobaid_20230920105619983.pdf" target="_blank" rel="noopener noreferrer">Presc. Job Aid</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/OAV_Digital_Workflow.pptx_2pdf.pdf" target="_blank" rel="noopener noreferrer">General Wrkflw.</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Printing_receipts_and_POS_Barcode_in_Epic1-_updated_2023032910281489.pdf" target="_blank" rel="noopener noreferrer">Print EPIC Docs</a>
+        <a href="https://www.davita.com/tools/gfr-calculator" target="_blank" rel="noopener noreferrer">eGFR Calculator</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Commercial_Paxlovid_Paxcess_Job_Aid.pdf" target="_blank" rel="noopener noreferrer">Billing Job Aid</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/EPIC_Troubleshooting_Guide__2024.pdf" target="_blank" rel="noopener noreferrer">EPIC Help</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/httpsportaldoctool.cvs.comretailportalfilesradar_storetempstoreAccess_job_aid_20230906150438280.docx.pptx_2pdf.pdf" target="_blank" rel="noopener noreferrer">EPIC Access</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/EPIC_Playground_Step_by_step_guide_April_2024_Final_20240429151804921.pdf" target="_blank" rel="noopener noreferrer">EPIC Sandbox</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Practice_Environment_Login_Credentials.xlsx_2pdf.pdf" target="_blank" rel="noopener noreferrer">Sandbox Logins</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Pharmacist_Testing_%26_Prescribing_LearningHub_Training_updated_Nov_2025_20251103163913693.docx_2pdf.pdf" target="_blank" rel="noopener noreferrer">LH Modules</a>
+  <!-- Section Title: COVID/Flu Testing -->
+  <div style="grid-column: 1 / -1; font-weight: bold; font-size: 18px; margin: 20px 0 5px; border-bottom: 2px solid #ccc; padding-bottom: 5px;">
+    Testing Initiatives
+  </div>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Test_to_Treat_Epic_Job_Aid_V1.pdf" target="_blank" rel="noopener noreferrer">EPIC Reference</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/RX_POCT_Quidel_Training_Video_Module_Guide.pdf" target="_blank" rel="noopener noreferrer">Quidel Guide</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/RX_POCT_Lab_Manual_V1.pdf" target="_blank" rel="noopener noreferrer">Quidel Manual</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/RX_POCT_Quidel_Sofia_2_Covid_%2B_Flu_A_%26_B_Quality_Control_Log.pdf" target="_blank" rel="noopener noreferrer">Quidel QC Log</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/perm/store/oth/myDocs_Homepage_COVID19PFeb25.pdf" target="_blank" rel="noopener noreferrer">Testing Home</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/POST_PHE_Training_Roadmap_Point_of_Care.pptx_2pdf.pdf" target="_blank" rel="noopener noreferrer">Training Guide</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/COVIDTesting_Billing_Job_Aid_v5.pdf" target="_blank" rel="noopener noreferrer">Billing Job Aid</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/COVID_OTC_Test_RxNet_Page.pdf" target="_blank" rel="noopener noreferrer">OTC Test Kits</a>
+        <a href="/rxnet/docs/otckitqrtemplate.pdf" target="_blank" rel="noopener noreferrer">OTC Kit Form</a>
+<!-- Section Title: COVID Vaccine -->
+  <div style="grid-column: 1 / -1; font-weight: bold; font-size: 18px; margin: 20px 0 5px; border-bottom: 2px solid #ccc; padding-bottom: 5px;">
+    COVID Vaccine
+  </div>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/COVID-19_Monovalent_Product_Damage_Guide_20231003143049173.pdf" target="_blank" rel="noopener noreferrer">Returns Job Aid</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/COVID-19_Vaccine_State_Guideline_and_Talking_Points_Job_Aid_20250827185139490.pdf" target="_blank" rel="noopener noreferrer">Master Ref.</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Pfizer_2025.2026_COVID_Vaccine_20250827205127481.pdf" target="_blank" rel="noopener noreferrer">Pfizer</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Moderna_2025.2026_COVID_Vaccine_20250827205746158.pdf" target="_blank" rel="noopener noreferrer">Moderna</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/COVID_Novavax_Quick_Reference_9.17_FINAL_20250919151950379.pdf" target="_blank" rel="noopener noreferrer">Novavax</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/COVID_2025-26_Health_Screener_RPh_Answer_Guide_20250820170919183.docx_2pdf.pdf" target="_blank" rel="noopener noreferrer">Screening ?'s</a>
+        <a href="https://www.cdc.gov/vaccines/covid-19/clinical-considerations/interim-considerations-us.html" target="_blank" rel="noopener noreferrer">CDC Guidelines</a>
+</div>
+
+
+
+<div id="compounding" class="grid category-panel" style="display: none;">
+<!-- Section Title: Compounding -->
+<div style="grid-column: 1 / -1; font-weight: bold; font-size: 18px; margin-bottom: 5px; border-bottom: 2px solid #ccc; padding-bottom: 5px;">
+    Compounding
+  </div>
+        <a href="https://flavorxflavors.com/account/login.aspx?ReturnPage=%2fgenerator.aspx" target="_blank" rel="noopener noreferrer">FlavoRx Recipes</a>
+        <a href="/rxnet/docs/mmworderset.pdf" target="_blank" rel="noopener noreferrer">Magic Mouthwash</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Beyond_Use_Dating_Guidance_20230308162552228_2023031320045034.pdf" target="_blank" rel="noopener noreferrer">BUD Guide</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Master_Formulation_Landing_Page_20230509133428779.pdf" target="_blank" rel="noopener noreferrer">Master Formulations</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Blank_Compound_Log_20230725121319464.pdf" target="_blank" rel="noopener noreferrer">Blank Log</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Create_Your_Own_Master_Formulation_20230509131316358.pdf" target="_blank" rel="noopener noreferrer">Blank Master Form</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Monthly_FLAVORx_Auto_Maintenance_Guide_%28002%29_20221115143635353.pdf" target="_blank" rel="noopener noreferrer">FillMaster Cleaning</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Dispensing_with_the_FLAVORx_Auto_%28002%29_20240104125806446.pdf" target="_blank" rel="noopener noreferrer">FillMaster Flavoring</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Nonsterile_Compounding_Labels_20230607140522602.pdf" target="_blank" rel="noopener noreferrer">Labeling Guide</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Compounding_Binder_Guidance_Document_20230801144052106.pdf" target="_blank" rel="noopener noreferrer">CMP Binder</a>
+</div>
+
+
+<div id="admin" class="grid category-panel" style="display: none;">
+<!-- Section Title: Admin -->
+<div style="grid-column: 1 / -1; font-weight: bold; font-size: 18px; margin-bottom: 5px; border-bottom: 2px solid #ccc; padding-bottom: 5px;">
+    Admin
+  </div>
+        <a href="https://github.com/matthewstathis1/rxnet/blob/main/index.html" target="_blank" rel="noopener noreferrer">Modify Code</a>
+        <a href="https://github.com/matthewstathis1/rxnet/deployments" target="_blank" rel="noopener noreferrer">Deployments</a>
+        <a href="https://github.com/matthewstathis1/rxnet/tree/main" target="_blank" rel="noopener noreferrer">Github Main</a>
+        <a href="/rxnet/backuphomedropdown.html" target="_blank" rel="noopener noreferrer">Dropdown Home</a>
+        <a href="https://federatione.cvs.com/siteminderagent/forms/enterpriselogin.fcc?TYPE=33554433&REALMOID=06-000b85c2-7455-17b6-bef3-f8a50a5ca09e&GUID=&SMAUTHREASON=0&METHOD=GET&SMAGENTNAME=-SM-4qv8ej3I%2bef50jOTXBfzddyxWLgCk4rIl4aQ5C1Iv8Cpj7PHBvrt2ao8JPl1Sd7S&TARGET=-SM-HTTPS%3a%2f%2ffederatione%2ecvs%2ecom%2fsiteminderagent%2fredirectjsp%2fredirect%2ejsp%3fSPID%3dcvshealthsp_png_cvscom%26RelayState%3dhttps%3a%2f%2fcvs%2ereflexisinc%2ecom%2fkernel%2fviews%2fauthenticate%2fweb%2fCVS%2eview%26SMPORTALURL%3dhttps-%3A-%2F-%2Ffederatione%2ecvs%2ecom-%2Faffwebservices-%2Fpublic-%2Fsaml2sso%26SAMLTRANSACTIONID%3d8f897c89--6a8931ff--f5e8b1b2--dd468af6--3b0c612e--6" target="_blank" rel="noopener noreferrer">mySchedule (SAML)</a>
+        <a href="/rxnet/docs/rxnet.pdf" target="_blank" rel="noopener noreferrer">Site QR Code</a>
+        <a href="/rxnet/quicklinks" target="_blank" rel="noopener noreferrer">Quick Links</a>
+        <a href="/rxnet/tetris" target="_blank" rel="noopener noreferrer">Tetris</a>
+        <a href="/rxnet/solitaire" target="_blank" rel="noopener noreferrer">Solitaire</a>
+        <a href="/rxnet/pacman" target="_blank" rel="noopener noreferrer">Pacman</a>
+        <a href="https://retailspark-aetnao365.msappproxy.net" target="_blank" rel="noopener noreferrer">Spark (external)</a>
+        <a href="https://retailspark-aetnao365.msappproxy.net/spark?view=storeView&storeName=sXXXXXrxs" target="_blank" rel="noopener noreferrer">Spark (ext-store)</a>
+        <a href="/rxnet/placeholder" target="_blank" rel="noopener noreferrer">Placeholder</a>
+
+
+        
+</div>
+
+
+
+
+
+
+  <script src="/rxnet/js/searchData.js"></script>
+
+ <script>
+  function showCategory(id, el = null) {
+    document.querySelectorAll('.category-panel').forEach(panel => {
+      panel.style.display = 'none';
+    });
+
+    document.getElementById('searchPanel').style.display = 'none';
+    document.getElementById('searchBox').value = '';
+    document.getElementById('searchResults').innerHTML = '';
+    document.getElementById('searchResults').style.display = 'none';
+
+    document.querySelectorAll('.dock-button').forEach(btn => {
+      btn.classList.remove('active');
+    });
+
+    if (el) {
+      el.classList.add('active');
+    }
+
+    if (id === 'search') {
+      document.getElementById('searchPanel').style.display = 'block';
+      setTimeout(() => {
+        document.getElementById('searchBox').focus();
+      }, 50);
+    } else {
+      document.getElementById(id).style.display = 'grid';
+
+      // 👇 Show search bar on Home page
+      if (id === 'home') {
+        document.getElementById('searchPanel').style.display = 'block';
+
+        setTimeout(() => {
+          document.getElementById('searchBox').focus();
+        }, 50);
+      }
+    }
+  }
+
+  function searchFunction() {
+    let input = document.getElementById("searchBox").value.toLowerCase();
+    let resultsDiv = document.getElementById("searchResults");
+    resultsDiv.innerHTML = "";
+
+    if (input.length === 0) {
+      resultsDiv.style.display = "none";
+      return;
+    }
+
+    let matches = searchItems.filter(item => item.name.toLowerCase().includes(input));
+
+    if (matches.length > 0) {
+      resultsDiv.style.display = "block";
+      matches.forEach(item => {
+        let link = document.createElement("a");
+        link.innerText = item.name;
+        link.className = "search-result";
+
+        if (item.url.includes("XXXXX")) {
+          link.href = "#";
+          link.onclick = function () {
+            let store = prompt("Enter your store number:");
+            if (store) window.open(item.url.replace("XXXXX", store), "_blank");
+          };
+        } else if (item.url.includes("YYYYYYYYYY")) {
+          link.href = "#";
+          link.onclick = function () {
+            let npi = prompt("Enter your NPI number:");
+            if (npi) window.open(item.url.replace("YYYYYYYYYY", npi), "_blank");
+          };
+        }
+        else if (item.url.includes("ZZZZZZZZZZZ")) {
+          link.href = "#";
+          link.onclick = function () {
+            let ndc = prompt("Enter 11-digit NDC:");
+            if (ndc) window.open(item.url.replace("ZZZZZZZZZZZ", ndc), "_blank");
+          };
+        }
+        
+        else {
+          link.href = item.url;
+          link.target = "_blank";
+        }
+
+        resultsDiv.appendChild(link);
+      });
+    } else {
+      resultsDiv.style.display = "none";
+    }
+  }
+
+
+function chooseCitrix() {
+  document.getElementById("citrixPopup").style.display = "flex";
+}
+
+function openCitrix(choice) {
+  if (choice === "corp") {
+    window.open("https://remote.cvscaremark.com/Citrix/remotecorpWeb/", "_blank", "noopener,noreferrer");
+  } else if (choice === "cvs") {
+    window.open("https://remote.cvshealth.com/Citrix/remotecvsWeb/", "_blank", "noopener,noreferrer");
+  } else if (choice === "epic") {
+    window.open("https://appsmcsaml.corp.cvscaremark.com/", "_blank", "noopener,noreferrer");
+  } else if (choice === "mc legacy") {
+    window.open("https://appsmc.minclinic.local/Citrix/appsmcWeb/", "_blank", "noopener,noreferrer");
+  } else if (choice === "appsportal") {
+    window.open("https://apps.cvshealth.com/logon/LogonPoint/tmindex.html/", "_blank", "noopener,noreferrer");
+  }
+  closeCitrixPopup();
+}
+
+function closeCitrixPopup() {
+  document.getElementById("citrixPopup").style.display = "none";
+}
+
+
+
+     
+  document.addEventListener("click", function (event) {
+    let searchBox = document.getElementById("searchBox");
+    let resultsDiv = document.getElementById("searchResults");
+    if (!searchBox.contains(event.target) && !resultsDiv.contains(event.target)) {
+      resultsDiv.style.display = "none";
+    }
+  });
+
+  window.onload = function () {
+    showCategory('home');
+    const homeBtn = Array.from(document.getElementsByClassName('dock-button'))
+      .find(btn => btn.textContent.trim().toLowerCase() === 'home');
+    if (homeBtn) homeBtn.classList.add('active');
+  };
+</script>
+
+    
+<div id="citrixPopup" class="popup-overlay" style="display:none;">
+  <div class="popup-box">
+    <h3>Select Citrix Domain</h3>
+     <button onclick="openCitrix('epic')">EPIC</button>
+    <button onclick="openCitrix('appsportal')">Apps Portal</button>
+    <button onclick="openCitrix('mc legacy')">MC (Legacy)</button>
+      <button onclick="openCitrix('corp')">CORP (external)</button>
+    <button onclick="openCitrix('cvs')">CVS (external)</button>
+    <button onclick="closeCitrixPopup()">Cancel</button>
+  </div>
+</div>
+
+    
+  
+  <script>
+  /* ---------- CLOSE ANY OPEN POPUP ---------- */
+  function closePopup() {
+    const existing = document.querySelector(".popup-overlay");
+    if (existing) existing.remove();
+  }
+
+  /* ---------- STANDARD LOGIN ---------- */
+  function launchSmartSenseStandard() {
+    window.open("https://app.smartsense.co", "_blank", "noopener");
+    closePopup();
+  }
+
+  /* ---------- FIRST POPUP (CHOICE) ---------- */
+  function openSmartSensePopup() {
+    closePopup();
+
+    const overlay = document.createElement("div");
+    overlay.className = "popup-overlay";
+
+    overlay.innerHTML = `
+      <div class="popup-box">
+        <h3>SmartSense Login</h3>
+
+        <button onclick="launchSmartSenseStandard()">
+          Standard Login
+        </button>
+
+        <button onclick="openSmartSenseStore()">
+          Store SSO
+        </button>
+
+        <button onclick="closePopup()">Cancel</button>
+      </div>
+    `;
+
+    document.body.appendChild(overlay);
+  }
+
+  /* ---------- STORE NUMBER POPUP ---------- */
+  function openSmartSenseStore() {
+    closePopup();
+
+    const overlay = document.createElement("div");
+    overlay.className = "popup-overlay";
+
+    overlay.innerHTML = `
+      <div class="popup-box">
+        <h3>Enter Store Number</h3>
+
+        <input
+          type="text"
+          id="smartsenseStore"
+          placeholder="5-digit store #"
+          style="padding:8px; width:80%; font-size:1rem;"
+          onkeydown="if (event.key === 'Enter') launchSmartSenseSSO();"
+        />
+
+        <br><br>
+
+        <button onclick="launchSmartSenseSSO()">Continue</button>
+        <button onclick="closePopup()">Cancel</button>
+      </div>
+    `;
+
+    document.body.appendChild(overlay);
+    document.getElementById("smartsenseStore").focus();
+  }
+
+  /* ---------- LAUNCH SSO ---------- */
+  function launchSmartSenseSSO() {
+    const store = document.getElementById("smartsenseStore")?.value.trim();
+
+    if (!/^\d{5}$/.test(store)) {
+      alert("Please enter a valid 5-digit store number.");
+      return;
+    }
+
+    const url =
+      "https://app.smartsense.co/api/Saml/InitiateSingleSignOn/CVS" +
+      "?returnUrl=https://app.smartsense.co/start/" + store;
+
+    window.open(url, "_blank", "noopener");
+    closePopup();
+  }
+  </script>
+  
+  
+  <script>
+  /* ---------- CLOSE ANY OPEN POPUP ---------- */
+  function closePopup() {
+    const existing = document.querySelector(".popup-overlay");
+    if (existing) existing.remove();
+  }
+
+  /* ---------- STANDARD LOGIN ---------- */
+  function launchSparkStandard() {
+    window.open("https://retailspark.cvs.com/spark?view=storeView", "_blank", "noopener");
+    closePopup();
+  }
+
+  /* ---------- FIRST POPUP (CHOICE) ---------- */
+  function openSparkPopup() {
+    closePopup();
+
+    const overlay = document.createElement("div");
+    overlay.className = "popup-overlay";
+
+    overlay.innerHTML = `
+      <div class="popup-box">
+        <h3>myReports (Spark) Login</h3>
+
+        <button onclick="launchSparkStandard()">
+          Local Store
+        </button>
+
+        <button onclick="openSparkStore()">
+          Field/Floater
+        </button>
+
+        <button onclick="closePopup()">Cancel</button>
+      </div>
+    `;
+
+    document.body.appendChild(overlay);
+  }
+
+  /* ---------- STORE NUMBER POPUP ---------- */
+  function openSparkStore() {
+    closePopup();
+
+    const overlay = document.createElement("div");
+    overlay.className = "popup-overlay";
+
+    overlay.innerHTML = `
+      <div class="popup-box">
+        <h3>Enter Store Number</h3>
+
+        <input
+          type="text"
+          id="sparkStore"
+          placeholder="5-digit store #"
+          style="padding:8px; width:80%; font-size:1rem;"
+          onkeydown="if (event.key === 'Enter') launchSparkField();"
+        />
+
+        <br><br>
+
+        <button onclick="launchSparkField()">Continue</button>
+        <button onclick="closePopup()">Cancel</button>
+      </div>
+    `;
+
+    document.body.appendChild(overlay);
+    document.getElementById("sparkStore").focus();
+  }
+
+  /* ---------- LAUNCH SSO ---------- */
+  function launchSparkField() {
+    const store = document.getElementById("sparkStore")?.value.trim();
+
+    if (!/^\d{5}$/.test(store)) {
+      alert("Please enter a valid 5-digit store number.");
+      return;
+    }
+
+    const url =
+      "https://retailspark.cvs.com/spark?view=storeView&storeName=s" + store +
+      "rxs";
+
+    window.open(url, "_blank", "noopener");
+    closePopup();
+  }
+  </script>
+  
+  
+  
+  <script>
+  /* ---------- CLOSE ANY OPEN POPUP ---------- */
+  function closePopup() {
+    const existing = document.querySelector(".popup-overlay");
+    if (existing) existing.remove();
+  }
+
+  /* ---------- STANDARD LOGIN ---------- */
+  function launchZiplineStandard() {
+    window.open("https://cvs.retailzipline.com/field/dashboard", "_blank", "noopener");
+    closePopup();
+  }
+
+  /* ---------- FIRST POPUP (CHOICE) ---------- */
+  function openZiplinePopup() {
+    closePopup();
+
+    const overlay = document.createElement("div");
+    overlay.className = "popup-overlay";
+
+    overlay.innerHTML = `
+      <div class="popup-box">
+        <h3>Zipline Login</h3>
+
+        <button onclick="launchZiplineStandard()">
+          Default Login
+        </button>
+
+        <button onclick="openZiplineStore()">
+          Floater Login
+        </button>
+
+        <button onclick="closePopup()">Cancel</button>
+      </div>
+    `;
+
+    document.body.appendChild(overlay);
+  }
+
+  /* ---------- STORE NUMBER POPUP ---------- */
+  function openZiplineStore() {
+    closePopup();
+
+    const overlay = document.createElement("div");
+    overlay.className = "popup-overlay";
+
+    overlay.innerHTML = `
+      <div class="popup-box">
+        <h3>Enter Store Number</h3>
+
+        <input
+          type="text"
+          id="ziplineStore"
+          placeholder="5-digit store #"
+          style="padding:8px; width:80%; font-size:1rem;"
+          onkeydown="if (event.key === 'Enter') launchZiplineField();"
+        />
+
+        <br><br>
+
+        <button onclick="launchZiplineField()">Continue</button>
+        <button onclick="closePopup()">Cancel</button>
+      </div>
+    `;
+
+    document.body.appendChild(overlay);
+    document.getElementById("ziplineStore").focus();
+  }
+
+  /* ---------- LAUNCH SSO ---------- */
+  function launchZiplineField() {
+    const store = document.getElementById("ziplineStore")?.value.trim();
+
+    if (!/^\d{5}$/.test(store)) {
+      alert("Please enter a valid 5-digit store number.");
+      return;
+    }
+
+    const url =
+      "https://federatione.cvs.com/affwebservices/public/saml2sso?SPID=cvshealthsp_png_cvscom&RelayState=https://authsvc.cvshealth.com/idp/startSSO.ping?PartnerSpId=https://cvs.retailzipline.com/sso/saml/metadata/?SUBSTITUTE_STORE_NUMBER=" + store;
+
+    window.open(url, "_blank", "noopener");
+    closePopup();
+  }
+  </script>
+  
+  
+  
+  
+  <script>
+  /* ---------- CLOSE ANY OPEN POPUP ---------- */
+  function closePopup() {
+    const existing = document.querySelector(".popup-overlay");
+    if (existing) existing.remove();
+  }
+
+  /* ---------- LAUNCH OPTION 1 ---------- */
+  function launchCaspioGroupOne() {
+    window.open(
+      "https://c0axa109.caspio.com/dp/731b1000a87a77ff9fd24b08b4ac",
+      "_blank",
+      "noopener"
+    );
+    closePopup();
+  }
+
+  /* ---------- LAUNCH OPTION 2 ---------- */
+  function launchCaspioGroupTwo() {
+    window.open(
+      "https://c0axa109.caspio.com/dp/731b10004bfbccf50890404a9346",
+      "_blank",
+      "noopener"
+    );
+    closePopup();
+  }
+
+  /* ---------- OPEN POPUP ---------- */
+  function openCaspioPopup() {
+    closePopup();
+
+    const overlay = document.createElement("div");
+    overlay.className = "popup-overlay";
+
+    overlay.innerHTML = `
+      <div class="popup-box">
+        <h3>Select Your Role</h3>
+
+        <button onclick="launchCaspioGroupOne()">
+          Pharmacists, Interns & Techs (CA, DE, IA, LA, MD, MO, NM, OH, OR, UT, WA, WV)
+        </button>
+
+        <button onclick="launchCaspioGroupTwo()">
+          All Other Technicians
+        </button>
+
+        <button onclick="closePopup()">Cancel</button>
+      </div>
+    `;
+
+    document.body.appendChild(overlay);
+  }
+  </script>
+  
+  
+  
+  
+  <script>
+  /* ---------- CLOSE POPUP ---------- */
+  function closePopup() {
+    const existing = document.querySelector(".popup-overlay");
+    if (existing) existing.remove();
+  }
+
+  /* ---------- MAIN DYNAMIC ROUTER ---------- */
+  function openDynamicURL(baseURL) {
+
+    // If no variables → just open normally
+    if (!baseURL.includes("XXXXX") && !baseURL.includes("YYYYYYYYYY") && !baseURL.includes("ZZZZZZZZZZZ")) {
+      window.open(baseURL, "_blank", "noopener,noreferrer");
+      return;
+    }
+
+    closePopup();
+
+    let label = "";
+    let placeholder = "";
+    let token = "";
+    let type = "";
+
+    if (baseURL.includes("XXXXX")) {
+      label = "Enter Store Number";
+      placeholder = "5-digit store #";
+      token = "XXXXX";
+      type = "store";
+    }
+    else if (baseURL.includes("YYYYYYYYYY")) {
+      label = "Enter NPI Number";
+      placeholder = "10-digit NPI #";
+      token = "YYYYYYYYYY";
+      type = "npi";
+    }
+    else if (baseURL.includes("ZZZZZZZZZZZ")) {
+      label = "Enter 11-digit NDC";
+      placeholder = "11-digit NDC";
+      token = "ZZZZZZZZZZZ";
+      type = "ndc";
+    }
+    const overlay = document.createElement("div");
+    overlay.className = "popup-overlay";
+
+    overlay.innerHTML = `
+      <div class="popup-box">
+        <h3>${label}</h3>
+
+        <input
+          type="text"
+          id="dynamicInput"
+          placeholder="${placeholder}"
+          style="padding:8px; width:80%; font-size:1rem;"
+          onkeydown="if (event.key === 'Enter') launchDynamicURL('${baseURL}', '${token}', '${type}');"
+        />
+
+        <br><br>
+
+        <button onclick="launchDynamicURL('${baseURL}', '${token}', '${type}')">
+          Continue
+        </button>
+
+        <button onclick="closePopup()">Cancel</button>
+      </div>
+    `;
+
+    document.body.appendChild(overlay);
+    document.getElementById("dynamicInput").focus();
+  }
+
+  /* ---------- LAUNCH FINAL URL ---------- */
+  function launchDynamicURL(baseURL, token, type) {
+      let value = document.getElementById("dynamicInput")?.value.trim();
+
+      // Remove all non-digits for NPI/NDC/store
+      if (type === "store" || type === "npi" || type === "ndc") {
+        value = value.replace(/\D/g, "");
+      }
+    let isValid = false;
+
+    if (type === "store") {
+      isValid = /^\d{5}$/.test(value);
+    }
+    else if (type === "npi") {
+      isValid = /^\d{10}$/.test(value);
+    }
+    else if (type === "ndc") {
+      isValid = /^\d{11}$/.test(value);
+    }
+
+    if (!isValid) {
+      let errorMessage = "Please enter a valid value.";
+      if (type === "store") {
+        errorMessage = "Please enter a valid 5-digit store number.";
+      }
+      else if (type === "npi") {
+        errorMessage = "Please enter a valid 10-digit NPI number.";
+      }
+      else if (type === "ndc") {
+        errorMessage = "Please enter a valid 11-digit NDC.";
+      }
+      alert(errorMessage);
+      return;
+    }
+
+    const finalURL = baseURL.replace(token, encodeURIComponent(value));
+
+    window.open(finalURL, "_blank", "noopener,noreferrer");
+    closePopup();
+  }
+  </script>
+  
+  
+  <script>
+  function closePopup() {
+    const existing = document.querySelector(".popup-overlay");
+    if (existing) existing.remove();
+  }
+
+  function openImageRetrievalAlert() {
+    closePopup();
+
+    const overlay = document.createElement("div");
+    overlay.className = "popup-overlay";
+
+    overlay.innerHTML = `
+      <div class="popup-box">
+        <h3>Image Retrieval Tool Alert</h3>
+
+        <p style="margin:15px 0;">
+        The Image Retrieval tool will load to an error page,
+        just refresh the page (press Control + R) to fix.
+        </p>
+
+        <button onclick="launchImageRetrieval()">
+          OK
+        </button>
+
+        <button onclick="closePopup()">
+          Cancel
+        </button>
+      </div>
+    `;
+
+    document.body.appendChild(overlay);
+    overlay.querySelector("button").focus();
+  }
+
+  function launchImageRetrieval() {
+    window.open(
+      "https://rxdw-rximageretrieval.rxdw-cld-ap.cvshealthcloud.com/enterStore#no-back-button",
+      "_blank",
+      "noopener,noreferrer"
+    );
+    closePopup();
+  }
+  </script>
+  
+  <script>
+  /* ---------- CLOSE POPUP ---------- */
+  function closePopup() {
+    const existing = document.querySelector(".popup-overlay");
+    if (existing) existing.remove();
+  }
+
+  /* ---------- OPEN POPUP ---------- */
+  function openBarcodePopup() {
+    closePopup();
+
+    const overlay = document.createElement("div");
+    overlay.className = "popup-overlay";
+
+    overlay.innerHTML = `
+      <div class="popup-box">
+        <h3>Enter JNLP RxC Credentials</h3>
+
+        <input
+          type="text"
+          id="barcodeInput"
+          placeholder="ABC"
+          maxlength="3"
+          style="padding:8px; width:80%; font-size:1rem; text-transform:uppercase;"
+          oninput="this.value = this.value.toUpperCase();"
+          onkeydown="if (event.key === 'Enter') launchBarcode();"
+        />
+
+        <br><br>
+
+        <button onclick="launchBarcode()">Continue</button>
+        <button onclick="closePopup()">Cancel</button>
+      </div>
+    `;
+
+    document.body.appendChild(overlay);
+    document.getElementById("barcodeInput").focus();
+  }
+
+  /* ---------- LAUNCH URL ---------- */
+  function launchBarcode() {
+    const input = document.getElementById("barcodeInput")?.value.trim();
+
+    // Validate exactly 3 letters
+    if (!/^[A-Z]{3}$/.test(input)) {
+      alert("Please enter exactly 3 letters.");
+      return;
+    }
+
+    const url = "https://barcode.tec-it.com/en/Code128?data=" + input;
+
+    window.open(url, "_blank", "noopener,noreferrer");
+    closePopup();
+  }
+  </script>
+
+<script>
+/* ---------- CLOSE POPUP ---------- */
+function closePopup() {
+  const existing = document.querySelector(".popup-overlay");
+  if (existing) existing.remove();
+}
+
+/* ---------- OPEN DEA CHECKER ---------- */
+function openDEAChecker() {
+  closePopup();
+
+  const overlay = document.createElement("div");
+  overlay.className = "popup-overlay";
+
+  overlay.innerHTML = `
+    <div class="popup-box">
+      <h3>DEA Number Validator</h3>
+
+      <input
+        type="text"
+        id="deaInput"
+        placeholder="Enter DEA Number"
+        style="padding:8px; width:80%; font-size:1rem; text-transform:uppercase;"
+        onkeydown="if (event.key === 'Enter') validateDEA();"
+      />
+
+      <br><br>
+
+      <button id="deaValidateButton" onclick="validateDEA()">
+        Validate
+      </button>
+
+      <button onclick="closePopup()">
+        Cancel
+      </button>
+
+      <div id="deaResult" style="margin-top:15px; font-size:0.95rem;"></div>
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+
+  const input = document.getElementById("deaInput");
+  input.focus();
+}
+
+/* ---------- DEA VALIDATION ---------- */
+function validateDEA() {
+
+  const dea = document
+    .getElementById("deaInput")
+    .value
+    .trim()
+    .toUpperCase();
+
+  const resultDiv = document.getElementById("deaResult");
+
+  /* ----- BASIC FORMAT CHECK ----- */
+  if (!/^[A-Z]{2}\d{7}$/.test(dea)) {
+    resultDiv.innerHTML = `
+      <div style="color:red;">
+        Invalid format.<br>
+        DEA numbers should be 2 letters followed by 7 digits.
+      </div>
+    `;
+    return;
+  }
+
+  const digits = dea.substring(2);
+
+  /* ----- DEA CHECKSUM ----- */
+  const d1 = parseInt(digits[0]);
+  const d2 = parseInt(digits[1]);
+  const d3 = parseInt(digits[2]);
+  const d4 = parseInt(digits[3]);
+  const d5 = parseInt(digits[4]);
+  const d6 = parseInt(digits[5]);
+  const checkDigit = parseInt(digits[6]);
+
+  const oddSum = d1 + d3 + d5;
+  const evenSum = (d2 + d4 + d6) * 2;
+
+  const total = oddSum + evenSum;
+
+  const calculatedDigit = parseInt(
+    total.toString().slice(-1)
+  );
+
+  /* ----- FINAL RESULT ----- */
+  if (calculatedDigit === checkDigit) {
+
+    resultDiv.innerHTML = `
+      <div style="color:green; font-weight:bold;">
+        DEA number appears valid.
+      </div>
+
+      <div style="margin-top:8px; font-size:0.85rem;">
+        Format and checksum pass verification.<br>
+        This does NOT confirm active registration status.
+      </div>
+    `;
+
+  } else {
+
+    resultDiv.innerHTML = `
+      <div style="color:red; font-weight:bold;">
+        DEA number failed checksum validation.
+      </div>
+
+      <div style="margin-top:8px; font-size:0.85rem;">
+        The number is likely invalid or mistyped.
+      </div>
+    `;
+  }
+}
+</script>
+
+
+
+</body>
+</html>
+
