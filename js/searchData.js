@@ -372,7 +372,7 @@ const searchItems = [
         { name: "CII Incremental/Partial Fills Law Document #Regulatory ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/21_CFR_1306.13_%28up_to_date_as_of_2-20-2026%29_20260224154819718.pdf" },
         { name: "Lebanon Hiring Site  ", url: "https://sites.google.com/view/cvs-hiring-lebanon-pa/home" },
 
-        { name: "RxConnect Compliance Reactivation  #Regulatory  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/RxConnect_Access_Validation_Overview_2024090415191751.pdf" },
+        { name: "RxConnect Compliance Reactivation  #Miscellaneous  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/RxConnect_Access_Validation_Overview_2024090415191751.pdf" },
 
         { name: "IAM Portal #Human Resources  ", url: "https://idmgmt.cvshealth.com/iam-selfserviceportal-oci/home" },
         { name: "IMZ Status Report #Immunizations  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Curriculum_for_IMZ_Immunizer_Status_Report_Job_Aid__2024041813265361.pdf" },
