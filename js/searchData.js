@@ -35,7 +35,7 @@ const searchItems = [
         { name: "Contraceptive Sub #Clinical", url: "https://pharmacist.therapeuticresearch.com/Content/Segments/PRL/2015/Jul/Comparison-of-Oral-Contraceptives-and-Non-Oral-Alternatives-United-States-8631" },
         { name: "Do Not Crush List #Clinical", url: "https://pharmacist.therapeuticresearch.com/Content/Segments/PRL/2014/Aug/Meds-That-Should-Not-Be-Crushed-7309" },
         { name: "All Clinical References #Clinical", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/ClinicalResourceGuide_20230207125446867.pdf" },
-        { name: "Cardinal #Filling", url: "https://www1.cardinalhealth.com/" },
+        { name: "Cardinal #Inventory", url: "https://vantus.cardinalhealth.com" },
         { name: "Rx Phone Order #Dispensing", url: "/rxnet/docs/rxtelephonev2.pdf" },
         { name: "Rx Transfer #Dispensing", url: "/rxnet/docs/rxtransferv2.pdf" },
         { name: "Image Retrieval Tool **refresh the page if it loads with an error**   #Dispensing", url: "https://rxdw-rximageretrieval.rxdw-cld-ap.cvshealthcloud.com/imageRequest#no-back-button" },
