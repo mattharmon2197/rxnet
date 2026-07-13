@@ -407,7 +407,10 @@ const searchItems = [
         { name: "Cycle Count Enhancement Job Aid  #Inventory", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Cycle_Count_Enhancement_Job_Aid_June_2026_20260617135925591.pptx_2pdf.pdf" },
         { name: "QR Code Generator (alt/backup)  #IT Resources", url: "https://www.the-qrcode-generator.com/" },
         { name: "SPAR Manual Check-in/Sale Form  #Pet Meds/CF/Spar", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/SPAR_Manual_CheckIn_Form_20190215082832689.pdf" },
-        { name: "CII Non-Saleable Returns  #Inventory", url: "XXXXXXXXXXXXXXX" },
+        { name: "CII Non-Saleable Returns  #Inventory", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Schedule_II_Non-Saleable_Returns_v2024_11_20241105125347582.pdf" },
+        { name: "EPIC Web  #COVID Testing  #Paxlovid Prescribing", url: "https://rtl-hsweb.corp.cvscaremark.com/HSWeb_PRD/HSWeb_PRD_1140-20/" },
+        { name: "New Hire Leader Check-In Guide  #New Hires", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/New_Colleague_Leader_Check-In_Guide_20260708142056850.pdf" },
+        { name: "New Hire Check-In Conversation Guide  #New Hires", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/30-60-90_Day_Leader_Conversation_Guide_20260707161833425.pdf" },
         { name: "XXXXXXXXXXXXXXX  #XXXXXXXXXX", url: "XXXXXXXXXXXXXXX" },
 
         { name: "XXXXXXXXXXXXXXX  #XXXXXXXXXX", url: "XXXXXXXXXXXXXXX" },
