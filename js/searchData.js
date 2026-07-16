@@ -311,7 +311,6 @@ const searchItems = [
         { name: "PingID Setup   #Human Resources ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/perm/fm/oth/Ping_Mobile_Registration_External_Network_from_Personal_Device.pdf" },
         { name: "DSCSA Full Functionality Job Aid  #Inventory", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/DRAFT_DSCSA_Full_Functionality_Job_Aid_for_Pilot_Stores_20251522163222156.pdf" },
         { name: "DSCSA Quarantine Job Aid  #Inventory", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/CFRx_DSCSA_Quarantine_Delivery_Check-In_Workflow_10302025_20251030153056926.pdf" },
-        { name: "DSCSA Delivery Check-in Job Aid  #Inventory", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/DRAFT_DSCSA_Full_Functionality_Job_Aid_for_Pilot_Stores_20251522163222156.pdf" },
         { name: "DSCSA Quick Guide  #Inventory", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Delivery_Check-In_Expectations_Quick_Guide_20230113165419628.pdf" },
         { name: "StartSmart Facilitator Guide  #New Hires", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/SmartStart_Facilitator_Guide_20250808150140318.pdf" },
         { name: "StartSmart FAQs  #New Hires", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/StartSmart_FAQ_20250917112917976.pdf" },
