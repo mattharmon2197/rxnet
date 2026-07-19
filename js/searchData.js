@@ -410,8 +410,10 @@ const searchItems = [
         { name: "EPIC Web  #COVID Testing  #Paxlovid Prescribing", url: "https://rtl-hsweb.corp.cvscaremark.com/HSWeb_PRD/HSWeb_PRD_1140-20/" },
         { name: "New Hire Leader Check-In Guide  #New Hires", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/New_Colleague_Leader_Check-In_Guide_20260708142056850.pdf" },
         { name: "New Hire Check-In Conversation Guide  #New Hires", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/30-60-90_Day_Leader_Conversation_Guide_20260707161833425.pdf" },
-        { name: "XXXXXXXXXXXXXXX  #XXXXXXXXXX", url: "XXXXXXXXXXXXXXX" },
+        { name: "Artey  #Operational", url: "https://cvshealth-chat.moveworks.com/sso" },
 
+        { name: "XXXXXXXXXXXXXXX  #XXXXXXXXXX", url: "XXXXXXXXXXXXXXX" },
+        { name: "XXXXXXXXXXXXXXX  #XXXXXXXXXX", url: "XXXXXXXXXXXXXXX" },
         { name: "XXXXXXXXXXXXXXX  #XXXXXXXXXX", url: "XXXXXXXXXXXXXXX" },
 
         
