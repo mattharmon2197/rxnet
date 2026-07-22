@@ -412,9 +412,9 @@ const searchItems = [
         { name: "Artey  #Operational", url: "https://cvshealth-chat.moveworks.com" },
         { name: "IMZ Clinic IT Prep Guide  #Immunizations", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Vaccine_Clinic_IT_Guide_20260501154100137.pdf" },
         { name: "Pharmacist's Letter Remote Setup (for completing CEs) #Miscellaneous", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Pharmacists_Letter_access_jobaid_20220415095427755.pdf" },
+        { name: "Rx/iO IMZ Update  #Immunizations", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/RxIO_Playbook_IMZ_Job_Aids_20260507140640608.pdf" },
         { name: "XXXXXXXXXXXXXXX  #XXXXXXXXXX", url: "XXXXXXXXXXXXXXX" },
         { name: "XXXXXXXXXXXXXXX  #XXXXXXXXXX", url: "XXXXXXXXXXXXXXX" },
-
         
         
         
