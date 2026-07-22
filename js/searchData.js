@@ -39,7 +39,7 @@ const searchItems = [
         { name: "Rx Phone Order #Dispensing", url: "/rxnet/docs/rxtelephonev2.pdf" },
         { name: "Rx Transfer #Dispensing", url: "/rxnet/docs/rxtransferv2.pdf" },
         { name: "Image Retrieval Tool **refresh the page if it loads with an error**   #Dispensing", url: "https://rxdw-rximageretrieval.rxdw-cld-ap.cvshealthcloud.com/imageRequest#no-back-button" },
-        { name: "Formulary #Inventory", url: "/rxnet/formulary" },
+        { name: "OTC Formulary #Inventory", url: "/rxnet/formulary" },
         { name: "iPledge #Dispensing", url: "https://ipledgeprogram.com/?connection=cvs" },
         { name: "Syringes/Needles #Inventory", url: "/rxnet/syringes" },
         { name: "SIG Code Sheet #Dispensing", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/RxConnect_SIG_Codes_Best_Practices.pdf" },
@@ -411,6 +411,7 @@ const searchItems = [
         { name: "New Hire Leader Check-In Guide  #New Hires", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/New_Colleague_Leader_Check-In_Guide_20260708142056850.pdf" },
         { name: "New Hire Check-In Conversation Guide  #New Hires", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/30-60-90_Day_Leader_Conversation_Guide_20260707161833425.pdf" },
         { name: "Artey  #Operational", url: "https://cvshealth-chat.moveworks.com/sso" },
+        { name: "IMZ Clinic IT Prep Guide  #Immunizations", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Vaccine_Clinic_IT_Guide_20260501154100137.pdf" },
 
         { name: "XXXXXXXXXXXXXXX  #XXXXXXXXXX", url: "XXXXXXXXXXXXXXX" },
         { name: "XXXXXXXXXXXXXXX  #XXXXXXXXXX", url: "XXXXXXXXXXXXXXX" },
