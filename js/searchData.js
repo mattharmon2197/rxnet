@@ -79,7 +79,6 @@ const searchItems = [
         { name: "Patient Care Central (PCQ) #Communications", url: "https://storepcc.rxc.cvs.com:30491/pccui/v1/#/OpportunitiesList/" },
         { name: "Patient Care Central (PCQ) Local Link #Communications", url: "https://storepcc.rxc.cvs.com:30491/pccui/home.html?hostname=localhost&store=XXXXX&port=30000&session=1&wks=wks10" },        
         { name: "Main Directory #Communications", url: "/rxnet/directory" },
-        { name: "Transfer Directory #Communications", url: "/rxnet/transfer" },
         { name: "Store Locator #Communications", url: "https://www.cvs.com/store-locator/landing" },
         { name: "Prescriber Request QR Codes #Communications", url: "/rxnet/docs/prqrcodes.pdf" },
         { name: "ThinkLP (myProfessional Practice)  #Asset Protection ", url: "https://cvsthinklp.lightning.force.com" },
