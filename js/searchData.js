@@ -40,7 +40,7 @@ const searchItems = [
         { name: "Rx Transfer #Dispensing", url: "/rxnet/docs/rxtransferv2.pdf" },
         { name: "Image Retrieval Tool **refresh the page if it loads with an error**   #Dispensing", url: "https://rxdw-rximageretrieval.rxdw-cld-ap.cvshealthcloud.com/imageRequest#no-back-button" },
         { name: "OTC Formulary #Inventory", url: "/rxnet/formulary" },
-        { name: "iPledge #Dispensing", url: "https://ipledgeprogram.com/?connection=cvs" },
+        { name: "iPledge #Dispensing", url: "https://ipledgeprogram.com/?connection=cvs2" },
         { name: "Syringes/Needles #Inventory", url: "/rxnet/syringes" },
         { name: "SIG Code Sheet #Dispensing", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/RxConnect_SIG_Codes_Best_Practices.pdf" },
         { name: "Nebulizers/Spacers (Legacy - alt) #Dispensing", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Nebulizer_and_Spacer_Support_RxNet_Page_KP_20210618153949167.pptx_2pdf.pdf" },
