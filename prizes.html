@@ -1,1 +1,100 @@
-placeholder
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMZ prizes for this week</title>
+    <style>
+        /* Home button */
+        .home-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #35BF8E;
+            color: white;
+            padding: 10px 40px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 30px;
+        }
+
+        .home-button:hover {
+            background-color: #0f6658;
+        }
+
+        /* Centered site title */
+        .site-title {
+            font-size: 18pt;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 60px; /* Adjusted to allow space below Home button */
+            color: black;
+        }
+
+        .button-container {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 10px 45px;
+            padding: 10px;
+            max-width: 90vw;
+            margin: auto;
+        }
+
+        .link-button {
+            flex: 1 1 16%;
+            max-width: 300px;
+            min-width: 70px;
+            aspect-ratio: 12 / 1;
+            background-color: #148275;
+            color: white;
+            padding: 14px;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            text-align: center;
+            width: 100%;
+            border-radius: 12px;
+            justify-content: center;
+            align-items: center;
+            min-height: 15px;
+        }
+
+        .link-button:hover {
+            background-color: #0f5d4f;
+        }
+
+        .show { display: grid; }
+    </style>
+</head>
+<body>
+
+    <a href="/rxnet/" class="home-button">Home</a>
+
+    <h1 class="site-title">IMZ prizes for this week</h1>
+
+    <div class="button-container">
+
+        
+        
+
+        
+
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let buttons = document.querySelectorAll(".link-button");
+            buttons.forEach(button => {
+                button.setAttribute("target", "_blank");
+                button.setAttribute("rel", "noopener noreferrer");
+            });
+        });
+    </script>
+</body>
+</html>
