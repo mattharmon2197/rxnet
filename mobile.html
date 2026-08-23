@@ -378,7 +378,6 @@ body {
       <h3>Select Citrix Domain</h3>
       <button onclick="openCitrix('epic')">EPIC</button>
       <button onclick="openCitrix('appsportal')">Apps Portal</button>
-      <button onclick="openCitrix('mc legacy')">MC (Legacy)</button>
       <button onclick="openCitrix('corp')">CORP (external)</button>
       <button onclick="openCitrix('cvs')">CVS (external)</button>
       <button onclick="closeCitrixPopup()">Cancel</button>
@@ -487,8 +486,6 @@ body {
       } else if (choice === "cvs") {
         window.open("https://remote.cvshealth.com/Citrix/remotecvsWeb/", "_blank", "noopener,noreferrer");
       } else if (choice === "epic") {
-        window.open("https://appsmcsaml.corp.cvscaremark.com/", "_blank", "noopener,noreferrer");
-      } else if (choice === "mc legacy") {
         window.open("https://appsmc.minclinic.local/Citrix/appsmcWeb/", "_blank", "noopener,noreferrer");
       } else if (choice === "appsportal") {
         window.open("https://apps.cvshealth.com/logon/LogonPoint/tmindex.html/", "_blank", "noopener,noreferrer");

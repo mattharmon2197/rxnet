@@ -260,8 +260,8 @@
 		<a href="https://cvs.medallia.com/sso/cvs" target="_blank" rel="noopener noreferrer" target="_blank" rel="noopener noreferrer">myCust. Connection</a>
         <a href="https://rxcreports.rxc.cvs.com:31210/airsupport/queuesummary" target="_blank" rel="noopener noreferrer">Queue Depth</a>
 		<a href="https://imzdash.rxc.cvs.com:31213/immunization/" target="_blank" rel="noopener noreferrer">IMZ Dashboard</a>
-        <a href="https://retailspark.cvs.com/rbi/?options-base=on&storeNumber=" target="_blank" rel="noopener noreferrer">Store Digest</a>
-        <a href="https://cvshealth.sabacloud.com/" target="_blank" rel="noopener noreferrer">LearningHub</a>
+        <a href="#" onclick="chooseDigest(); return false;">Store Digest</a>
+        <a href="#" onclick="chooseLearninghub(); return false;">LearningHub/RRT</a>
           <a href="https://ldp.cvsapps.com/sso" target="_blank" rel="noopener noreferrer">AP SVT</a>
         <a href="/rxnet/mobile.html" target="_blank" rel="noopener noreferrer">Mobile Site</a>
         <a href="/rxnet/docs/rxnet.pdf" target="_blank" rel="noopener noreferrer">Site QR Code</a>
@@ -428,7 +428,7 @@
   <div style="grid-column: 1 / -1; font-weight: bold; font-size: 18px; margin-bottom: 5px; border-bottom: 2px solid #ccc; padding-bottom: 5px;">
     Regulatory
   </div>
-        <a href="#" onclick="openDynamicURL('https://rxdw-esignature-store.rxdw-cld-ap.cvshealthcloud.com/GetSMEsigStore.do?method=perform&StoreNum=XXXXX'); return false;">Rx Signature Log</a>
+        <a href="#" onclick="openDynamicURL('https://rxdw-esignature-store-v1.rxdw-cld-ap.cvshealthcloud.com/GetSMEsigStore.do?method=perform&StoreNum=XXXXX'); return false;">Rx Signature Log</a>
         <a href="https://pals.pa.gov" target="_blank" rel="noopener noreferrer">PALS Portal</a>
         <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/CVS_Pharmacy_Technician_and_Unlicensed_Personnel_Guide_20240102095358844_%2812%29_20260213135146707.pdf" target="_blank" rel="noopener noreferrer">Tech Licensing Guide</a>
         <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Printing_Twice_Daily_Temperature_Logs.pdf" target="_blank" rel="noopener noreferrer">TempAlert Log</a>
@@ -576,7 +576,7 @@
   Reports
 </div>
       <a href="#" onclick="openDynamicURL('https://portaldoctool.cvs.com/portalDocTool/viewDocuments.do?listingID=dcReportPage&roles=ZGNyZXBvcnRwYWdldXNlcg==&storeNumber=XXXXX'); return false;">Truck Manifests</a>
-      <a href="https://retailspark.cvs.com/rbi/?options-base=on&storeNumber=" target="_blank" rel="noopener noreferrer">Store Digest</a>
+      <a href="#" onclick="chooseDigest(); return false;">Store Digest</a>
       <a href="https://rxcreports.rxc.cvs.com:31210/airsupport/queuesummary" target="_blank" rel="noopener noreferrer">Queue Depth</a>
       <a href="https://imzdash.rxc.cvs.com:31213/immunization/" target="_blank" rel="noopener noreferrer">IMZ Dashboard</a>
       <a href="https://ciim.cvs.com/ciimappnew/#/login" target="_blank" rel="noopener noreferrer">CIIM</a>
@@ -855,7 +855,6 @@
 function chooseCitrix() {
   document.getElementById("citrixPopup").style.display = "flex";
 }
-
 function openCitrix(choice) {
   if (choice === "corp") {
     window.open("https://remote.cvscaremark.com/Citrix/remotecorpWeb/", "_blank", "noopener,noreferrer");
@@ -863,20 +862,47 @@ function openCitrix(choice) {
     window.open("https://remote.cvshealth.com/Citrix/remotecvsWeb/", "_blank", "noopener,noreferrer");
   } else if (choice === "epic") {
     window.open("https://appsmcsaml.corp.cvscaremark.com/", "_blank", "noopener,noreferrer");
-  } else if (choice === "mc legacy") {
-    window.open("https://appsmc.minclinic.local/Citrix/appsmcWeb/", "_blank", "noopener,noreferrer");
   } else if (choice === "appsportal") {
     window.open("https://apps.cvshealth.com/logon/LogonPoint/tmindex.html/", "_blank", "noopener,noreferrer");
   }
   closeCitrixPopup();
 }
-
 function closeCitrixPopup() {
   document.getElementById("citrixPopup").style.display = "none";
 }
 
+     
+ function chooseDigest() {
+   document.getElementById("digestPopup").style.display = "flex";
+ }
+ function openDigest(choice) {
+   if (choice === "old") {
+     window.open("https://retailspark.cvs.com/rbi/?options-base=on&storeNumber=", "_blank", "noopener,noreferrer");
+   } else if (choice === "new") {
+     window.open("https://edash-dev.corp.cvs.com/edash-dev-sd", "_blank", "noopener,noreferrer");
+   }
+   closeDigestPopup();
+ }
+ function closeDigestPopup() {
+   document.getElementById("digestPopup").style.display = "none";
+ }
 
-
+     
+     
+ function chooseLearninghub() {
+   document.getElementById("learninghubPopup").style.display = "flex";
+ }
+ function openLearninghub(choice) {
+   if (choice === "learninghub") {
+     window.open("https://cvshealth.sabacloud.com/", "_blank", "noopener,noreferrer");
+   } else if (choice === "rrt") {
+     window.open("https://app-corp-rewrite-prod-use2-web.azurewebsites.net/rrtAccessManagement", "_blank", "noopener,noreferrer");
+   }
+   closeLearninghubPopup();
+ }
+ function closeLearninghubPopup() {
+   document.getElementById("learninghubPopup").style.display = "none";
+ }
 	 
   document.addEventListener("click", function (event) {
     let searchBox = document.getElementById("searchBox");
@@ -892,6 +918,7 @@ function closeCitrixPopup() {
       .find(btn => btn.textContent.trim().toLowerCase() === 'home');
     if (homeBtn) homeBtn.classList.add('active');
   };
+     
 </script>
 
 	
@@ -900,15 +927,31 @@ function closeCitrixPopup() {
     <h3>Select Citrix Domain</h3>
      <button onclick="openCitrix('epic')">EPIC</button>
     <button onclick="openCitrix('appsportal')">Apps Portal</button>
-    <button onclick="openCitrix('mc legacy')">MC (Legacy)</button>
 	  <button onclick="openCitrix('corp')">CORP (external)</button>
     <button onclick="openCitrix('cvs')">CVS (external)</button>
     <button onclick="closeCitrixPopup()">Cancel</button>
   </div>
 </div>
 
-	
-  
+
+<div id="digestPopup" class="popup-overlay" style="display:none;">
+  <div class="popup-box">
+    <h3>Select Old or New Store Digest</h3>
+    <button onclick="openDigest('old')">Old Digest</button>
+    <button onclick="openDigest('new')">New Digest</button>
+    <button onclick="closeDigestPopup()">Cancel</button>
+  </div>
+</div>
+
+<div id="learninghubPopup" class="popup-overlay" style="display:none;">
+  <div class="popup-box">
+    <h3>Do you want to open LearningHub or Remote Training Approval (RRT)?</h3>
+    <button onclick="openLearninghub('learninghub')">LearningHub</button>
+    <button onclick="openLearninghub('rrt')">RRT</button>
+    <button onclick="closeLearninghubPopup()">Cancel</button>
+  </div>
+</div>
+
   <script>
   /* ---------- CLOSE ANY OPEN POPUP ---------- */
   function closePopup() {
@@ -1382,7 +1425,7 @@ function closeCitrixPopup() {
 
   function launchImageRetrieval() {
     window.open(
-      "https://rxdw-rximageretrieval.rxdw-cld-ap.cvshealthcloud.com/enterStore#no-back-button",
+      "https://rxdw-rximageretrieval-v1.rxdw-cld-ap.cvshealthcloud.com/enterStore#no-back-button",
       "_blank",
       "noopener,noreferrer"
     );
