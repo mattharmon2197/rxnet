@@ -754,757 +754,1037 @@
         <a href="/rxnet/placeholder" target="_blank" rel="noopener noreferrer">Placeholder</a>
 </div>
 
+<script src="/rxnet/js/searchData.js"></script>
+
+<script>
+/* =========================================================
+   RXNET MAIN FUNCTIONS
+   ========================================================= */
 
 
+/* ---------- CLOSE DYNAMIC POPUPS ONLY ---------- */
+/*
+   Dynamic popups created with JavaScript receive the class:
+   "popup-overlay dynamic-popup"
+
+   This prevents closePopup() from accidentally deleting
+   permanent popups such as Citrix, Digest, and LearningHub.
+*/
+function closePopup() {
+  const existing = document.querySelector(".popup-overlay.dynamic-popup");
+
+  if (existing) {
+    existing.remove();
+  }
+}
 
 
+/* =========================================================
+   CATEGORY / SEARCH
+   ========================================================= */
 
-  <script src="/rxnet/js/searchData.js"></script>
+function showCategory(id, el = null) {
 
- <script>
-  function showCategory(id, el = null) {
-    document.querySelectorAll('.category-panel').forEach(panel => {
-      panel.style.display = 'none';
-    });
+  document.querySelectorAll('.category-panel').forEach(panel => {
+    panel.style.display = 'none';
+  });
 
-    document.getElementById('searchPanel').style.display = 'none';
-    document.getElementById('searchBox').value = '';
-    document.getElementById('searchResults').innerHTML = '';
-    document.getElementById('searchResults').style.display = 'none';
+  document.getElementById('searchPanel').style.display = 'none';
+  document.getElementById('searchBox').value = '';
+  document.getElementById('searchResults').innerHTML = '';
+  document.getElementById('searchResults').style.display = 'none';
 
-    document.querySelectorAll('.dock-button').forEach(btn => {
-      btn.classList.remove('active');
-    });
+  document.querySelectorAll('.dock-button').forEach(btn => {
+    btn.classList.remove('active');
+  });
 
-    if (el) {
-      el.classList.add('active');
-    }
+  if (el) {
+    el.classList.add('active');
+  }
 
-    if (id === 'search') {
+  if (id === 'search') {
+
+    document.getElementById('searchPanel').style.display = 'block';
+
+    setTimeout(() => {
+      document.getElementById('searchBox').focus();
+    }, 50);
+
+  } else {
+
+    document.getElementById(id).style.display = 'grid';
+
+    /* Show search bar on Home page */
+    if (id === 'home') {
+
       document.getElementById('searchPanel').style.display = 'block';
+
       setTimeout(() => {
         document.getElementById('searchBox').focus();
       }, 50);
-    } else {
-      document.getElementById(id).style.display = 'grid';
+    }
+  }
+}
 
-      // 👇 Show search bar on Home page
-      if (id === 'home') {
-        document.getElementById('searchPanel').style.display = 'block';
 
-        setTimeout(() => {
-          document.getElementById('searchBox').focus();
-        }, 50);
+/* ---------- SEARCH ---------- */
+
+function searchFunction() {
+
+  let input = document
+    .getElementById("searchBox")
+    .value
+    .toLowerCase();
+
+  let resultsDiv = document.getElementById("searchResults");
+
+  resultsDiv.innerHTML = "";
+
+  if (input.length === 0) {
+    resultsDiv.style.display = "none";
+    return;
+  }
+
+  let matches = searchItems.filter(item =>
+    item.name.toLowerCase().includes(input)
+  );
+
+  if (matches.length > 0) {
+
+    resultsDiv.style.display = "block";
+
+    matches.forEach(item => {
+
+      let link = document.createElement("a");
+
+      link.innerText = item.name;
+      link.className = "search-result";
+
+      /* ---------- STORE NUMBER ---------- */
+
+      if (item.url.includes("XXXXX")) {
+
+        link.href = "#";
+
+        link.onclick = function () {
+
+          let store = prompt("Enter your store number:");
+
+          if (store) {
+            window.open(
+              item.url.replace("XXXXX", store),
+              "_blank"
+            );
+          }
+
+          return false;
+        };
+
       }
-    }
+
+      /* ---------- NPI ---------- */
+
+      else if (item.url.includes("YYYYYYYYYY")) {
+
+        link.href = "#";
+
+        link.onclick = function () {
+
+          let npi = prompt("Enter your NPI number:");
+
+          if (npi) {
+            window.open(
+              item.url.replace("YYYYYYYYYY", npi),
+              "_blank"
+            );
+          }
+
+          return false;
+        };
+
+      }
+
+      /* ---------- NDC ---------- */
+
+      else if (item.url.includes("ZZZZZZZZZZZ")) {
+
+        link.href = "#";
+
+        link.onclick = function () {
+
+          let ndc = prompt("Enter 11-digit NDC:");
+
+          if (ndc) {
+            window.open(
+              item.url.replace("ZZZZZZZZZZZ", ndc),
+              "_blank"
+            );
+          }
+
+          return false;
+        };
+
+      }
+
+      /* ---------- NORMAL LINK ---------- */
+
+      else {
+
+        link.href = item.url;
+        link.target = "_blank";
+      }
+
+      resultsDiv.appendChild(link);
+    });
+
+  } else {
+
+    resultsDiv.style.display = "none";
   }
+}
 
-  function searchFunction() {
-    let input = document.getElementById("searchBox").value.toLowerCase();
-    let resultsDiv = document.getElementById("searchResults");
-    resultsDiv.innerHTML = "";
 
-    if (input.length === 0) {
-      resultsDiv.style.display = "none";
-      return;
-    }
-
-    let matches = searchItems.filter(item => item.name.toLowerCase().includes(input));
-
-    if (matches.length > 0) {
-      resultsDiv.style.display = "block";
-      matches.forEach(item => {
-        let link = document.createElement("a");
-        link.innerText = item.name;
-        link.className = "search-result";
-
-        if (item.url.includes("XXXXX")) {
-          link.href = "#";
-          link.onclick = function () {
-            let store = prompt("Enter your store number:");
-            if (store) window.open(item.url.replace("XXXXX", store), "_blank");
-          };
-        } else if (item.url.includes("YYYYYYYYYY")) {
-          link.href = "#";
-          link.onclick = function () {
-            let npi = prompt("Enter your NPI number:");
-            if (npi) window.open(item.url.replace("YYYYYYYYYY", npi), "_blank");
-          };
-        }
-        else if (item.url.includes("ZZZZZZZZZZZ")) {
-          link.href = "#";
-          link.onclick = function () {
-            let ndc = prompt("Enter 11-digit NDC:");
-            if (ndc) window.open(item.url.replace("ZZZZZZZZZZZ", ndc), "_blank");
-          };
-        }
-        
-        else {
-          link.href = item.url;
-          link.target = "_blank";
-        }
-
-        resultsDiv.appendChild(link);
-      });
-    } else {
-      resultsDiv.style.display = "none";
-    }
-  }
-
+/* =========================================================
+   CITRIX
+   ========================================================= */
 
 function chooseCitrix() {
   document.getElementById("citrixPopup").style.display = "flex";
 }
+
+
 function openCitrix(choice) {
+
   if (choice === "corp") {
-    window.open("https://remote.cvscaremark.com/Citrix/remotecorpWeb/", "_blank", "noopener,noreferrer");
+
+    window.open(
+      "https://remote.cvscaremark.com/Citrix/remotecorpWeb/",
+      "_blank",
+      "noopener,noreferrer"
+    );
+
   } else if (choice === "cvs") {
-    window.open("https://remote.cvshealth.com/Citrix/remotecvsWeb/", "_blank", "noopener,noreferrer");
+
+    window.open(
+      "https://remote.cvshealth.com/Citrix/remotecvsWeb/",
+      "_blank",
+      "noopener,noreferrer"
+    );
+
   } else if (choice === "epic") {
-    window.open("https://appsmcsaml.corp.cvscaremark.com/", "_blank", "noopener,noreferrer");
+
+    window.open(
+      "https://appsmcsaml.corp.cvscaremark.com/",
+      "_blank",
+      "noopener,noreferrer"
+    );
+
   } else if (choice === "appsportal") {
-    window.open("https://apps.cvshealth.com/logon/LogonPoint/tmindex.html/", "_blank", "noopener,noreferrer");
+
+    window.open(
+      "https://apps.cvshealth.com/logon/LogonPoint/tmindex.html/",
+      "_blank",
+      "noopener,noreferrer"
+    );
   }
+
   closeCitrixPopup();
 }
+
+
 function closeCitrixPopup() {
   document.getElementById("citrixPopup").style.display = "none";
 }
 
-     
- function chooseDigest() {
-   document.getElementById("digestPopup").style.display = "flex";
- }
- function openDigest(choice) {
-   if (choice === "old") {
-     window.open("https://retailspark.cvs.com/rbi/?options-base=on&storeNumber=", "_blank", "noopener,noreferrer");
-   } else if (choice === "new") {
-     window.open("https://edash-dev.corp.cvs.com/edash-dev-sd", "_blank", "noopener,noreferrer");
-   }
-   closeDigestPopup();
- }
- function closeDigestPopup() {
-   document.getElementById("digestPopup").style.display = "none";
- }
 
-     
-     
- function chooseLearninghub() {
-   document.getElementById("learninghubPopup").style.display = "flex";
- }
- function openLearninghub(choice) {
-   if (choice === "learninghub") {
-     window.open("https://cvshealth.sabacloud.com/", "_blank", "noopener,noreferrer");
-   } else if (choice === "rrt") {
-     window.open("https://app-corp-rewrite-prod-use2-web.azurewebsites.net/rrtAccessManagement", "_blank", "noopener,noreferrer");
-   }
-   closeLearninghubPopup();
- }
- function closeLearninghubPopup() {
-   document.getElementById("learninghubPopup").style.display = "none";
- }
-	 
-  document.addEventListener("click", function (event) {
-    let searchBox = document.getElementById("searchBox");
-    let resultsDiv = document.getElementById("searchResults");
-    if (!searchBox.contains(event.target) && !resultsDiv.contains(event.target)) {
-      resultsDiv.style.display = "none";
-    }
-  });
+/* =========================================================
+   STORE DIGEST
+   ========================================================= */
 
-  window.onload = function () {
-    showCategory('home');
-    const homeBtn = Array.from(document.getElementsByClassName('dock-button'))
-      .find(btn => btn.textContent.trim().toLowerCase() === 'home');
-    if (homeBtn) homeBtn.classList.add('active');
-  };
-     
-</script>
+function chooseDigest() {
+  document.getElementById("digestPopup").style.display = "flex";
+}
 
-	
-<div id="citrixPopup" class="popup-overlay" style="display:none;">
-  <div class="popup-box">
-    <h3>Select Citrix Domain</h3>
-     <button onclick="openCitrix('epic')">EPIC</button>
-    <button onclick="openCitrix('appsportal')">Apps Portal</button>
-	  <button onclick="openCitrix('corp')">CORP (external)</button>
-    <button onclick="openCitrix('cvs')">CVS (external)</button>
-    <button onclick="closeCitrixPopup()">Cancel</button>
-  </div>
-</div>
 
+function openDigest(choice) {
 
-<div id="digestPopup" class="popup-overlay" style="display:none;">
-  <div class="popup-box">
-    <h3>Select Old or New Store Digest</h3>
-    <button onclick="openDigest('old')">Old Digest</button>
-    <button onclick="openDigest('new')">New Digest</button>
-    <button onclick="closeDigestPopup()">Cancel</button>
-  </div>
-</div>
+  if (choice === "old") {
 
-<div id="learninghubPopup" class="popup-overlay" style="display:none;">
-  <div class="popup-box">
-    <h3>Do you want to open LearningHub or Remote Training Approval (RRT)?</h3>
-    <button onclick="openLearninghub('learninghub')">LearningHub</button>
-    <button onclick="openLearninghub('rrt')">RRT</button>
-    <button onclick="closeLearninghubPopup()">Cancel</button>
-  </div>
-</div>
-
-  <script>
-  /* ---------- CLOSE ANY OPEN POPUP ---------- */
-  function closePopup() {
-    const existing = document.querySelector(".popup-overlay");
-    if (existing) existing.remove();
-  }
-
-  /* ---------- STANDARD LOGIN ---------- */
-  function launchSmartSenseStandard() {
-    window.open("https://app.smartsense.co", "_blank", "noopener");
-    closePopup();
-  }
-
-  /* ---------- FIRST POPUP (CHOICE) ---------- */
-  function openSmartSensePopup() {
-    closePopup();
-
-    const overlay = document.createElement("div");
-    overlay.className = "popup-overlay";
-
-    overlay.innerHTML = `
-      <div class="popup-box">
-        <h3>SmartSense Login</h3>
-
-        <button onclick="launchSmartSenseStandard()">
-          Standard Login
-        </button>
-
-        <button onclick="openSmartSenseStore()">
-          Store SSO
-        </button>
-
-        <button onclick="closePopup()">Cancel</button>
-      </div>
-    `;
-
-    document.body.appendChild(overlay);
-  }
-
-  /* ---------- STORE NUMBER POPUP ---------- */
-  function openSmartSenseStore() {
-    closePopup();
-
-    const overlay = document.createElement("div");
-    overlay.className = "popup-overlay";
-
-    overlay.innerHTML = `
-      <div class="popup-box">
-        <h3>Enter Store Number</h3>
-
-        <input
-          type="text"
-          id="smartsenseStore"
-          placeholder="5-digit store #"
-          style="padding:8px; width:80%; font-size:1rem;"
-          onkeydown="if (event.key === 'Enter') launchSmartSenseSSO();"
-        />
-
-        <br><br>
-
-        <button onclick="launchSmartSenseSSO()">Continue</button>
-        <button onclick="closePopup()">Cancel</button>
-      </div>
-    `;
-
-    document.body.appendChild(overlay);
-    document.getElementById("smartsenseStore").focus();
-  }
-
-  /* ---------- LAUNCH SSO ---------- */
-  function launchSmartSenseSSO() {
-    const store = document.getElementById("smartsenseStore")?.value.trim();
-
-    if (!/^\d{5}$/.test(store)) {
-      alert("Please enter a valid 5-digit store number.");
-      return;
-    }
-
-    const url =
-      "https://app.smartsense.co/api/Saml/InitiateSingleSignOn/CVS" +
-      "?returnUrl=https://app.smartsense.co/start/" + store;
-
-    window.open(url, "_blank", "noopener");
-    closePopup();
-  }
-  </script>
-  
-  
-  <script>
-  /* ---------- CLOSE ANY OPEN POPUP ---------- */
-  function closePopup() {
-    const existing = document.querySelector(".popup-overlay");
-    if (existing) existing.remove();
-  }
-
-  /* ---------- STANDARD LOGIN ---------- */
-  function launchSparkStandard() {
-    window.open("https://retailspark.cvs.com/spark?view=storeView", "_blank", "noopener");
-    closePopup();
-  }
-
-  /* ---------- FIRST POPUP (CHOICE) ---------- */
-  function openSparkPopup() {
-    closePopup();
-
-    const overlay = document.createElement("div");
-    overlay.className = "popup-overlay";
-
-    overlay.innerHTML = `
-      <div class="popup-box">
-        <h3>myReports (Spark) Login</h3>
-
-        <button onclick="launchSparkStandard()">
-          Local Store
-        </button>
-
-        <button onclick="openSparkStore()">
-          Field/Floater
-        </button>
-
-        <button onclick="closePopup()">Cancel</button>
-      </div>
-    `;
-
-    document.body.appendChild(overlay);
-  }
-
-  /* ---------- STORE NUMBER POPUP ---------- */
-  function openSparkStore() {
-    closePopup();
-
-    const overlay = document.createElement("div");
-    overlay.className = "popup-overlay";
-
-    overlay.innerHTML = `
-      <div class="popup-box">
-        <h3>Enter Store Number</h3>
-
-        <input
-          type="text"
-          id="sparkStore"
-          placeholder="5-digit store #"
-          style="padding:8px; width:80%; font-size:1rem;"
-          onkeydown="if (event.key === 'Enter') launchSparkField();"
-        />
-
-        <br><br>
-
-        <button onclick="launchSparkField()">Continue</button>
-        <button onclick="closePopup()">Cancel</button>
-      </div>
-    `;
-
-    document.body.appendChild(overlay);
-    document.getElementById("sparkStore").focus();
-  }
-
-  /* ---------- LAUNCH SSO ---------- */
-  function launchSparkField() {
-    const store = document.getElementById("sparkStore")?.value.trim();
-
-    if (!/^\d{5}$/.test(store)) {
-      alert("Please enter a valid 5-digit store number.");
-      return;
-    }
-
-    const url =
-      "https://retailspark.cvs.com/spark?view=storeView&storeName=s" + store +
-      "rxs";
-
-    window.open(url, "_blank", "noopener");
-    closePopup();
-  }
-  </script>
-  
-  
-  
-  <script>
-  /* ---------- CLOSE ANY OPEN POPUP ---------- */
-  function closePopup() {
-    const existing = document.querySelector(".popup-overlay");
-    if (existing) existing.remove();
-  }
-
-  /* ---------- STANDARD LOGIN ---------- */
-  function launchZiplineStandard() {
-    window.open("https://cvs.retailzipline.com/field/dashboard", "_blank", "noopener");
-    closePopup();
-  }
-
-  /* ---------- FIRST POPUP (CHOICE) ---------- */
-  function openZiplinePopup() {
-    closePopup();
-
-    const overlay = document.createElement("div");
-    overlay.className = "popup-overlay";
-
-    overlay.innerHTML = `
-      <div class="popup-box">
-        <h3>Zipline Login</h3>
-
-        <button onclick="launchZiplineStandard()">
-          Default Login
-        </button>
-
-        <button onclick="openZiplineStore()">
-          Floater Login
-        </button>
-
-        <button onclick="closePopup()">Cancel</button>
-      </div>
-    `;
-
-    document.body.appendChild(overlay);
-  }
-
-  /* ---------- STORE NUMBER POPUP ---------- */
-  function openZiplineStore() {
-    closePopup();
-
-    const overlay = document.createElement("div");
-    overlay.className = "popup-overlay";
-
-    overlay.innerHTML = `
-      <div class="popup-box">
-        <h3>Enter Store Number</h3>
-
-        <input
-          type="text"
-          id="ziplineStore"
-          placeholder="5-digit store #"
-          style="padding:8px; width:80%; font-size:1rem;"
-          onkeydown="if (event.key === 'Enter') launchZiplineField();"
-        />
-
-        <br><br>
-
-        <button onclick="launchZiplineField()">Continue</button>
-        <button onclick="closePopup()">Cancel</button>
-      </div>
-    `;
-
-    document.body.appendChild(overlay);
-    document.getElementById("ziplineStore").focus();
-  }
-
-  /* ---------- LAUNCH SSO ---------- */
-  function launchZiplineField() {
-    const store = document.getElementById("ziplineStore")?.value.trim();
-
-    if (!/^\d{5}$/.test(store)) {
-      alert("Please enter a valid 5-digit store number.");
-      return;
-    }
-
-    const url =
-      "https://federatione.cvs.com/affwebservices/public/saml2sso?SPID=cvshealthsp_png_cvscom&RelayState=https://authsvc.cvshealth.com/idp/startSSO.ping?PartnerSpId=https://cvs.retailzipline.com/sso/saml/metadata/?SUBSTITUTE_STORE_NUMBER=" + store;
-
-    window.open(url, "_blank", "noopener");
-    closePopup();
-  }
-  </script>
-  
-  
-  
-  
-  <script>
-  /* ---------- CLOSE ANY OPEN POPUP ---------- */
-  function closePopup() {
-    const existing = document.querySelector(".popup-overlay");
-    if (existing) existing.remove();
-  }
-
-  /* ---------- LAUNCH OPTION 1 ---------- */
-  function launchCaspioGroupOne() {
     window.open(
-      "https://c0axa109.caspio.com/dp/731b1000a87a77ff9fd24b08b4ac",
-      "_blank",
-      "noopener"
-    );
-    closePopup();
-  }
-
-  /* ---------- LAUNCH OPTION 2 ---------- */
-  function launchCaspioGroupTwo() {
-    window.open(
-      "https://c0axa109.caspio.com/dp/731b10004bfbccf50890404a9346",
-      "_blank",
-      "noopener"
-    );
-    closePopup();
-  }
-
-  /* ---------- OPEN POPUP ---------- */
-  function openCaspioPopup() {
-    closePopup();
-
-    const overlay = document.createElement("div");
-    overlay.className = "popup-overlay";
-
-    overlay.innerHTML = `
-      <div class="popup-box">
-        <h3>Select Your Role</h3>
-
-        <button onclick="launchCaspioGroupOne()">
-          Pharmacists, Interns & Techs (CA, DE, IA, LA, MD, MO, NM, OH, OR, UT, WA, WV)
-        </button>
-
-        <button onclick="launchCaspioGroupTwo()">
-          All Other Technicians
-        </button>
-
-        <button onclick="closePopup()">Cancel</button>
-      </div>
-    `;
-
-    document.body.appendChild(overlay);
-  }
-  </script>
-  
-  
-  
-  
-  <script>
-  /* ---------- CLOSE POPUP ---------- */
-  function closePopup() {
-    const existing = document.querySelector(".popup-overlay");
-    if (existing) existing.remove();
-  }
-
-  /* ---------- MAIN DYNAMIC ROUTER ---------- */
-  function openDynamicURL(baseURL) {
-
-    // If no variables → just open normally
-    if (!baseURL.includes("XXXXX") && !baseURL.includes("YYYYYYYYYY") && !baseURL.includes("ZZZZZZZZZZZ")) {
-      window.open(baseURL, "_blank", "noopener,noreferrer");
-      return;
-    }
-
-    closePopup();
-
-    let label = "";
-    let placeholder = "";
-    let token = "";
-    let type = "";
-
-    if (baseURL.includes("XXXXX")) {
-      label = "Enter Store Number";
-      placeholder = "5-digit store #";
-      token = "XXXXX";
-      type = "store";
-    }
-    else if (baseURL.includes("YYYYYYYYYY")) {
-      label = "Enter NPI Number";
-      placeholder = "10-digit NPI #";
-      token = "YYYYYYYYYY";
-      type = "npi";
-    }
-    else if (baseURL.includes("ZZZZZZZZZZZ")) {
-      label = "Enter 11-digit NDC";
-      placeholder = "11-digit NDC";
-      token = "ZZZZZZZZZZZ";
-      type = "ndc";
-    }
-    const overlay = document.createElement("div");
-    overlay.className = "popup-overlay";
-
-    overlay.innerHTML = `
-      <div class="popup-box">
-        <h3>${label}</h3>
-
-        <input
-          type="text"
-          id="dynamicInput"
-          placeholder="${placeholder}"
-          style="padding:8px; width:80%; font-size:1rem;"
-          onkeydown="if (event.key === 'Enter') launchDynamicURL('${baseURL}', '${token}', '${type}');"
-        />
-
-        <br><br>
-
-        <button onclick="launchDynamicURL('${baseURL}', '${token}', '${type}')">
-          Continue
-        </button>
-
-        <button onclick="closePopup()">Cancel</button>
-      </div>
-    `;
-
-    document.body.appendChild(overlay);
-    document.getElementById("dynamicInput").focus();
-  }
-
-  /* ---------- LAUNCH FINAL URL ---------- */
-  function launchDynamicURL(baseURL, token, type) {
-      let value = document.getElementById("dynamicInput")?.value.trim();
-
-      // Remove all non-digits for NPI/NDC/store
-      if (type === "store" || type === "npi" || type === "ndc") {
-        value = value.replace(/\D/g, "");
-      }
-    let isValid = false;
-
-    if (type === "store") {
-      isValid = /^\d{5}$/.test(value);
-    }
-    else if (type === "npi") {
-      isValid = /^\d{10}$/.test(value);
-    }
-    else if (type === "ndc") {
-      isValid = /^\d{11}$/.test(value);
-    }
-
-    if (!isValid) {
-      let errorMessage = "Please enter a valid value.";
-      if (type === "store") {
-        errorMessage = "Please enter a valid 5-digit store number.";
-      }
-      else if (type === "npi") {
-        errorMessage = "Please enter a valid 10-digit NPI number.";
-      }
-      else if (type === "ndc") {
-        errorMessage = "Please enter a valid 11-digit NDC.";
-      }
-      alert(errorMessage);
-      return;
-    }
-
-    const finalURL = baseURL.replace(token, encodeURIComponent(value));
-
-    window.open(finalURL, "_blank", "noopener,noreferrer");
-    closePopup();
-  }
-  </script>
-  
-  
-  <script>
-  function closePopup() {
-    const existing = document.querySelector(".popup-overlay");
-    if (existing) existing.remove();
-  }
-
-  function openImageRetrievalAlert() {
-    closePopup();
-
-    const overlay = document.createElement("div");
-    overlay.className = "popup-overlay";
-
-    overlay.innerHTML = `
-      <div class="popup-box">
-        <h3>Image Retrieval Tool Alert</h3>
-
-        <p style="margin:15px 0;">
-        The Image Retrieval tool will load to an error page,
-        just refresh the page (press Control + R) to fix.
-        </p>
-
-        <button onclick="launchImageRetrieval()">
-          OK
-        </button>
-
-        <button onclick="closePopup()">
-          Cancel
-        </button>
-      </div>
-    `;
-
-    document.body.appendChild(overlay);
-    overlay.querySelector("button").focus();
-  }
-
-  function launchImageRetrieval() {
-    window.open(
-      "https://rxdw-rximageretrieval-v1.rxdw-cld-ap.cvshealthcloud.com/enterStore#no-back-button",
+      "https://retailspark.cvs.com/rbi/?options-base=on&storeNumber=",
       "_blank",
       "noopener,noreferrer"
     );
-    closePopup();
-  }
-  </script>
-  
-  <script>
-  /* ---------- CLOSE POPUP ---------- */
-  function closePopup() {
-    const existing = document.querySelector(".popup-overlay");
-    if (existing) existing.remove();
-  }
 
-  /* ---------- OPEN POPUP ---------- */
-  function openBarcodePopup() {
-    closePopup();
+  } else if (choice === "new") {
 
-    const overlay = document.createElement("div");
-    overlay.className = "popup-overlay";
-
-    overlay.innerHTML = `
-      <div class="popup-box">
-        <h3>Enter JNLP RxC Credentials</h3>
-
-        <input
-          type="text"
-          id="barcodeInput"
-          placeholder="ABC"
-          maxlength="3"
-          style="padding:8px; width:80%; font-size:1rem; text-transform:uppercase;"
-          oninput="this.value = this.value.toUpperCase();"
-          onkeydown="if (event.key === 'Enter') launchBarcode();"
-        />
-
-        <br><br>
-
-        <button onclick="launchBarcode()">Continue</button>
-        <button onclick="closePopup()">Cancel</button>
-      </div>
-    `;
-
-    document.body.appendChild(overlay);
-    document.getElementById("barcodeInput").focus();
+    window.open(
+      "https://edash-dev.corp.cvs.com/edash-dev-sd",
+      "_blank",
+      "noopener,noreferrer"
+    );
   }
 
-  /* ---------- LAUNCH URL ---------- */
-  function launchBarcode() {
-    const input = document.getElementById("barcodeInput")?.value.trim();
-
-    // Validate exactly 3 letters
-    if (!/^[A-Z]{3}$/.test(input)) {
-      alert("Please enter exactly 3 letters.");
-      return;
-    }
-
-    const url = "https://barcode.tec-it.com/en/Code128?data=" + input;
-
-    window.open(url, "_blank", "noopener,noreferrer");
-    closePopup();
-  }
-  </script>
-
-<script>
-/* ---------- CLOSE POPUP ---------- */
-function closePopup() {
-  const existing = document.querySelector(".popup-overlay");
-  if (existing) existing.remove();
+  closeDigestPopup();
 }
 
-/* ---------- OPEN DEA CHECKER ---------- */
-function openDEAChecker() {
+
+function closeDigestPopup() {
+  document.getElementById("digestPopup").style.display = "none";
+}
+
+
+/* =========================================================
+   LEARNINGHUB / RRT
+   ========================================================= */
+
+function chooseLearninghub() {
+  document.getElementById("learninghubPopup").style.display = "flex";
+}
+
+
+function openLearninghub(choice) {
+
+  if (choice === "learninghub") {
+
+    window.open(
+      "https://cvshealth.sabacloud.com/",
+      "_blank",
+      "noopener,noreferrer"
+    );
+
+  } else if (choice === "rrt") {
+
+    window.open(
+      "https://app-corp-rewrite-prod-use2-web.azurewebsites.net/rrtAccessManagement",
+      "_blank",
+      "noopener,noreferrer"
+    );
+  }
+
+  closeLearninghubPopup();
+}
+
+
+function closeLearninghubPopup() {
+  document.getElementById("learninghubPopup").style.display = "none";
+}
+
+
+/* =========================================================
+   SMARTSENSE
+   ========================================================= */
+
+function launchSmartSenseStandard() {
+
+  window.open(
+    "https://app.smartsense.co",
+    "_blank",
+    "noopener"
+  );
+
+  closePopup();
+}
+
+
+function openSmartSensePopup() {
+
   closePopup();
 
   const overlay = document.createElement("div");
-  overlay.className = "popup-overlay";
+
+  overlay.className = "popup-overlay dynamic-popup";
 
   overlay.innerHTML = `
     <div class="popup-box">
+
+      <h3>SmartSense Login</h3>
+
+      <button onclick="launchSmartSenseStandard()">
+        Standard Login
+      </button>
+
+      <button onclick="openSmartSenseStore()">
+        Store SSO
+      </button>
+
+      <button onclick="closePopup()">
+        Cancel
+      </button>
+
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+
+  overlay.querySelector("button").focus();
+}
+
+
+function openSmartSenseStore() {
+
+  closePopup();
+
+  const overlay = document.createElement("div");
+
+  overlay.className = "popup-overlay dynamic-popup";
+
+  overlay.innerHTML = `
+    <div class="popup-box">
+
+      <h3>Enter Store Number</h3>
+
+      <input
+        type="text"
+        id="smartsenseStore"
+        placeholder="5-digit store #"
+        style="padding:8px; width:80%; font-size:1rem;"
+        onkeydown="if(event.key==='Enter') launchSmartSenseSSO();"
+      />
+
+      <br><br>
+
+      <button onclick="launchSmartSenseSSO()">
+        Continue
+      </button>
+
+      <button onclick="closePopup()">
+        Cancel
+      </button>
+
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+
+  document.getElementById("smartsenseStore").focus();
+}
+
+
+function launchSmartSenseSSO() {
+
+  const store =
+    document.getElementById("smartsenseStore")?.value.trim();
+
+  if (!/^\d{5}$/.test(store)) {
+
+    alert("Please enter a valid 5-digit store number.");
+
+    return;
+  }
+
+  const url =
+    "https://app.smartsense.co/api/Saml/InitiateSingleSignOn/CVS" +
+    "?returnUrl=https://app.smartsense.co/start/" +
+    store;
+
+  window.open(
+    url,
+    "_blank",
+    "noopener"
+  );
+
+  closePopup();
+}
+
+
+/* =========================================================
+   MYREPORTS / SPARK
+   ========================================================= */
+
+function launchSparkStandard() {
+
+  window.open(
+    "https://retailspark.cvs.com/spark?view=storeView",
+    "_blank",
+    "noopener"
+  );
+
+  closePopup();
+}
+
+
+function openSparkPopup() {
+
+  closePopup();
+
+  const overlay = document.createElement("div");
+
+  overlay.className = "popup-overlay dynamic-popup";
+
+  overlay.innerHTML = `
+    <div class="popup-box">
+
+      <h3>myReports (Spark) Login</h3>
+
+      <button onclick="launchSparkStandard()">
+        Local Store
+      </button>
+
+      <button onclick="openSparkStore()">
+        Field/Floater
+      </button>
+
+      <button onclick="closePopup()">
+        Cancel
+      </button>
+
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+
+  overlay.querySelector("button").focus();
+}
+
+
+function openSparkStore() {
+
+  closePopup();
+
+  const overlay = document.createElement("div");
+
+  overlay.className = "popup-overlay dynamic-popup";
+
+  overlay.innerHTML = `
+    <div class="popup-box">
+
+      <h3>Enter Store Number</h3>
+
+      <input
+        type="text"
+        id="sparkStore"
+        placeholder="5-digit store #"
+        style="padding:8px; width:80%; font-size:1rem;"
+        onkeydown="if(event.key==='Enter') launchSparkField();"
+      />
+
+      <br><br>
+
+      <button onclick="launchSparkField()">
+        Continue
+      </button>
+
+      <button onclick="closePopup()">
+        Cancel
+      </button>
+
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+
+  document.getElementById("sparkStore").focus();
+}
+
+
+function launchSparkField() {
+
+  const store =
+    document.getElementById("sparkStore")?.value.trim();
+
+  if (!/^\d{5}$/.test(store)) {
+
+    alert("Please enter a valid 5-digit store number.");
+
+    return;
+  }
+
+  const url =
+    "https://retailspark.cvs.com/spark?view=storeView&storeName=s" +
+    store +
+    "rxs";
+
+  window.open(
+    url,
+    "_blank",
+    "noopener"
+  );
+
+  closePopup();
+}
+
+
+/* =========================================================
+   ZIPLINE
+   ========================================================= */
+
+function launchZiplineStandard() {
+
+  window.open(
+    "https://cvs.retailzipline.com/field/dashboard",
+    "_blank",
+    "noopener"
+  );
+
+  closePopup();
+}
+
+
+function openZiplinePopup() {
+
+  closePopup();
+
+  const overlay = document.createElement("div");
+
+  overlay.className = "popup-overlay dynamic-popup";
+
+  overlay.innerHTML = `
+    <div class="popup-box">
+
+      <h3>Zipline Login</h3>
+
+      <button onclick="launchZiplineStandard()">
+        Default Login
+      </button>
+
+      <button onclick="openZiplineStore()">
+        Floater Login
+      </button>
+
+      <button onclick="closePopup()">
+        Cancel
+      </button>
+
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+
+  overlay.querySelector("button").focus();
+}
+
+
+function openZiplineStore() {
+
+  closePopup();
+
+  const overlay = document.createElement("div");
+
+  overlay.className = "popup-overlay dynamic-popup";
+
+  overlay.innerHTML = `
+    <div class="popup-box">
+
+      <h3>Enter Store Number</h3>
+
+      <input
+        type="text"
+        id="ziplineStore"
+        placeholder="5-digit store #"
+        style="padding:8px; width:80%; font-size:1rem;"
+        onkeydown="if(event.key==='Enter') launchZiplineField();"
+      />
+
+      <br><br>
+
+      <button onclick="launchZiplineField()">
+        Continue
+      </button>
+
+      <button onclick="closePopup()">
+        Cancel
+      </button>
+
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+
+  document.getElementById("ziplineStore").focus();
+}
+
+
+function launchZiplineField() {
+
+  const store =
+    document.getElementById("ziplineStore")?.value.trim();
+
+  if (!/^\d{5}$/.test(store)) {
+
+    alert("Please enter a valid 5-digit store number.");
+
+    return;
+  }
+
+  const url =
+    "https://federatione.cvs.com/affwebservices/public/saml2sso" +
+    "?SPID=cvshealthsp_png_cvscom" +
+    "&RelayState=https://authsvc.cvshealth.com/idp/startSSO.ping" +
+    "?PartnerSpId=https://cvs.retailzipline.com/sso/saml/metadata/" +
+    "?SUBSTITUTE_STORE_NUMBER=" +
+    store;
+
+  window.open(
+    url,
+    "_blank",
+    "noopener"
+  );
+
+  closePopup();
+}
+
+
+/* =========================================================
+   CASPIO
+   ========================================================= */
+
+function launchCaspioGroupOne() {
+
+  window.open(
+    "https://c0axa109.caspio.com/dp/731b1000a87a77ff9fd24b08b4ac",
+    "_blank",
+    "noopener"
+  );
+
+  closePopup();
+}
+
+
+function launchCaspioGroupTwo() {
+
+  window.open(
+    "https://c0axa109.caspio.com/dp/731b10004bfbccf50890404a9346",
+    "_blank",
+    "noopener"
+  );
+
+  closePopup();
+}
+
+
+function openCaspioPopup() {
+
+  closePopup();
+
+  const overlay = document.createElement("div");
+
+  overlay.className = "popup-overlay dynamic-popup";
+
+  overlay.innerHTML = `
+    <div class="popup-box">
+
+      <h3>Select Your Role</h3>
+
+      <button onclick="launchCaspioGroupOne()">
+        Pharmacists, Interns & Techs
+        (CA, DE, IA, LA, MD, MO, NM, OH, OR, UT, WA, WV)
+      </button>
+
+      <button onclick="launchCaspioGroupTwo()">
+        All Other Technicians
+      </button>
+
+      <button onclick="closePopup()">
+        Cancel
+      </button>
+
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+
+  overlay.querySelector("button").focus();
+}
+
+
+/* =========================================================
+   DYNAMIC STORE / NPI / NDC URL ROUTER
+   ========================================================= */
+
+function openDynamicURL(baseURL) {
+
+  /* No variable */
+  if (
+    !baseURL.includes("XXXXX") &&
+    !baseURL.includes("YYYYYYYYYY") &&
+    !baseURL.includes("ZZZZZZZZZZZ")
+  ) {
+
+    window.open(
+      baseURL,
+      "_blank",
+      "noopener,noreferrer"
+    );
+
+    return;
+  }
+
+  closePopup();
+
+  let label = "";
+  let placeholder = "";
+  let token = "";
+  let type = "";
+
+  if (baseURL.includes("XXXXX")) {
+
+    label = "Enter Store Number";
+    placeholder = "5-digit store #";
+    token = "XXXXX";
+    type = "store";
+
+  } else if (baseURL.includes("YYYYYYYYYY")) {
+
+    label = "Enter NPI Number";
+    placeholder = "10-digit NPI #";
+    token = "YYYYYYYYYY";
+    type = "npi";
+
+  } else if (baseURL.includes("ZZZZZZZZZZZ")) {
+
+    label = "Enter 11-digit NDC";
+    placeholder = "11-digit NDC";
+    token = "ZZZZZZZZZZZ";
+    type = "ndc";
+  }
+
+  const overlay = document.createElement("div");
+
+  overlay.className = "popup-overlay dynamic-popup";
+
+  overlay.innerHTML = `
+    <div class="popup-box">
+
+      <h3>${label}</h3>
+
+      <input
+        type="text"
+        id="dynamicInput"
+        placeholder="${placeholder}"
+        style="padding:8px; width:80%; font-size:1rem;"
+        onkeydown="if(event.key==='Enter') launchDynamicURL('${baseURL}', '${token}', '${type}');"
+      />
+
+      <br><br>
+
+      <button onclick="launchDynamicURL('${baseURL}', '${token}', '${type}')">
+        Continue
+      </button>
+
+      <button onclick="closePopup()">
+        Cancel
+      </button>
+
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+
+  document.getElementById("dynamicInput").focus();
+}
+
+
+/* ---------- LAUNCH DYNAMIC URL ---------- */
+
+function launchDynamicURL(baseURL, token, type) {
+
+  let value =
+    document.getElementById("dynamicInput")?.value.trim();
+
+  /* Remove non-digits */
+  if (
+    type === "store" ||
+    type === "npi" ||
+    type === "ndc"
+  ) {
+    value = value.replace(/\D/g, "");
+  }
+
+  let isValid = false;
+
+  if (type === "store") {
+
+    isValid = /^\d{5}$/.test(value);
+
+  } else if (type === "npi") {
+
+    isValid = /^\d{10}$/.test(value);
+
+  } else if (type === "ndc") {
+
+    isValid = /^\d{11}$/.test(value);
+  }
+
+  if (!isValid) {
+
+    let errorMessage = "Please enter a valid value.";
+
+    if (type === "store") {
+      errorMessage =
+        "Please enter a valid 5-digit store number.";
+    }
+
+    else if (type === "npi") {
+      errorMessage =
+        "Please enter a valid 10-digit NPI number.";
+    }
+
+    else if (type === "ndc") {
+      errorMessage =
+        "Please enter a valid 11-digit NDC.";
+    }
+
+    alert(errorMessage);
+
+    return;
+  }
+
+  const finalURL =
+    baseURL.replace(
+      token,
+      encodeURIComponent(value)
+    );
+
+  window.open(
+    finalURL,
+    "_blank",
+    "noopener,noreferrer"
+  );
+
+  closePopup();
+}
+
+
+/* =========================================================
+   IMAGE RETRIEVAL
+   ========================================================= */
+
+function openImageRetrievalAlert() {
+
+  closePopup();
+
+  const overlay = document.createElement("div");
+
+  overlay.className = "popup-overlay dynamic-popup";
+
+  overlay.innerHTML = `
+    <div class="popup-box">
+
+      <h3>Image Retrieval Tool Alert</h3>
+
+      <p style="margin:15px 0;">
+        The Image Retrieval tool will load to an error page,
+        just refresh the page (press Control + R) to fix.
+      </p>
+
+      <button onclick="launchImageRetrieval()">
+        OK
+      </button>
+
+      <button onclick="closePopup()">
+        Cancel
+      </button>
+
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+
+  /* Highlight OK so Enter activates it */
+  overlay.querySelector("button").focus();
+}
+
+
+function launchImageRetrieval() {
+
+  window.open(
+    "https://rxdw-rximageretrieval-v1.rxdw-cld-ap.cvshealthcloud.com/enterStore#no-back-button",
+    "_blank",
+    "noopener,noreferrer"
+  );
+
+  closePopup();
+}
+
+
+/* =========================================================
+   BARCODE / JNLP CREDENTIALS
+   ========================================================= */
+
+function openBarcodePopup() {
+
+  closePopup();
+
+  const overlay = document.createElement("div");
+
+  overlay.className = "popup-overlay dynamic-popup";
+
+  overlay.innerHTML = `
+    <div class="popup-box">
+
+      <h3>Enter JNLP RxC Credentials</h3>
+
+      <input
+        type="text"
+        id="barcodeInput"
+        placeholder="ABC"
+        maxlength="3"
+        style="padding:8px; width:80%; font-size:1rem; text-transform:uppercase;"
+        oninput="this.value=this.value.toUpperCase();"
+        onkeydown="if(event.key==='Enter') launchBarcode();"
+      />
+
+      <br><br>
+
+      <button onclick="launchBarcode()">
+        Continue
+      </button>
+
+      <button onclick="closePopup()">
+        Cancel
+      </button>
+
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+
+  document.getElementById("barcodeInput").focus();
+}
+
+
+function launchBarcode() {
+
+  const input =
+    document.getElementById("barcodeInput")?.value.trim();
+
+  if (!/^[A-Z]{3}$/.test(input)) {
+
+    alert("Please enter exactly 3 letters.");
+
+    return;
+  }
+
+  const url =
+    "https://barcode.tec-it.com/en/Code128?data=" +
+    input;
+
+  window.open(
+    url,
+    "_blank",
+    "noopener,noreferrer"
+  );
+
+  closePopup();
+}
+
+
+/* =========================================================
+   DEA NUMBER VALIDATOR
+   ========================================================= */
+
+function openDEAChecker() {
+
+  closePopup();
+
+  const overlay = document.createElement("div");
+
+  overlay.className = "popup-overlay dynamic-popup";
+
+  overlay.innerHTML = `
+    <div class="popup-box">
+
       <h3>DEA Number Validator</h3>
 
       <input
@@ -1512,12 +1792,15 @@ function openDEAChecker() {
         id="deaInput"
         placeholder="Enter DEA Number"
         style="padding:8px; width:80%; font-size:1rem; text-transform:uppercase;"
-        onkeydown="if (event.key === 'Enter') validateDEA();"
+        onkeydown="if(event.key==='Enter') validateDEA();"
       />
 
       <br><br>
 
-      <button id="deaValidateButton" onclick="validateDEA()">
+      <button
+        id="deaValidateButton"
+        onclick="validateDEA()"
+      >
         Validate
       </button>
 
@@ -1525,41 +1808,55 @@ function openDEAChecker() {
         Cancel
       </button>
 
-      <div id="deaResult" style="margin-top:15px; font-size:0.95rem;"></div>
+      <div
+        id="deaResult"
+        style="margin-top:15px; font-size:0.95rem;"
+      ></div>
+
     </div>
   `;
 
   document.body.appendChild(overlay);
 
-  const input = document.getElementById("deaInput");
-  input.focus();
+  document.getElementById("deaInput").focus();
 }
 
+
 /* ---------- DEA VALIDATION ---------- */
+
 function validateDEA() {
 
-  const dea = document
-    .getElementById("deaInput")
-    .value
-    .trim()
-    .toUpperCase();
+  const input = document.getElementById("deaInput");
 
   const resultDiv = document.getElementById("deaResult");
 
-  /* ----- BASIC FORMAT CHECK ----- */
+  if (!input || !resultDiv) {
+    return;
+  }
+
+  const dea =
+    input.value
+      .trim()
+      .toUpperCase();
+
+  /* BASIC FORMAT */
+
   if (!/^[A-Z]{2}\d{7}$/.test(dea)) {
+
     resultDiv.innerHTML = `
       <div style="color:red;">
         Invalid format.<br>
         DEA numbers should be 2 letters followed by 7 digits.
       </div>
     `;
+
     return;
   }
 
   const digits = dea.substring(2);
 
-  /* ----- DEA CHECKSUM ----- */
+  /* DEA CHECKSUM */
+
   const d1 = parseInt(digits[0]);
   const d2 = parseInt(digits[1]);
   const d3 = parseInt(digits[2]);
@@ -1568,16 +1865,22 @@ function validateDEA() {
   const d6 = parseInt(digits[5]);
   const checkDigit = parseInt(digits[6]);
 
-  const oddSum = d1 + d3 + d5;
-  const evenSum = (d2 + d4 + d6) * 2;
+  const oddSum =
+    d1 + d3 + d5;
 
-  const total = oddSum + evenSum;
+  const evenSum =
+    (d2 + d4 + d6) * 2;
 
-  const calculatedDigit = parseInt(
-    total.toString().slice(-1)
-  );
+  const total =
+    oddSum + evenSum;
 
-  /* ----- FINAL RESULT ----- */
+  const calculatedDigit =
+    parseInt(
+      total.toString().slice(-1)
+    );
+
+  /* RESULT */
+
   if (calculatedDigit === checkDigit) {
 
     resultDiv.innerHTML = `
@@ -1604,35 +1907,39 @@ function validateDEA() {
     `;
   }
 }
-</script>
 
 
-<script>
-/* ---------- CLOSE ANY OPEN POPUP ---------- */
-function closePopup() {
-  const existing = document.querySelector(".popup-overlay");
-  if (existing) existing.remove();
-}
+/* =========================================================
+   PCQ
+   ========================================================= */
 
-/* ---------- STANDARD LAPTOP LOGIN ---------- */
+/* ---------- LAPTOP ---------- */
+
 function launchPCQLaptop() {
+
   window.open(
     "https://storepcc.rxc.cvs.com:30491/pccui/v1/#/OpportunitiesList/",
     "_blank",
     "noopener,noreferrer"
   );
+
   closePopup();
 }
 
+
 /* ---------- FIRST POPUP ---------- */
+
 function openPCQPopup() {
+
   closePopup();
 
   const overlay = document.createElement("div");
-  overlay.className = "popup-overlay";
+
+  overlay.className = "popup-overlay dynamic-popup";
 
   overlay.innerHTML = `
     <div class="popup-box">
+
       <h3>PCQ</h3>
 
       <button onclick="launchPCQLaptop()">
@@ -1646,24 +1953,30 @@ function openPCQPopup() {
       <button onclick="closePopup()">
         Cancel
       </button>
+
     </div>
   `;
 
   document.body.appendChild(overlay);
 
-  // Make Laptop the default button so Enter launches it
+  /* Laptop is default */
   overlay.querySelector("button").focus();
 }
 
-/* ---------- STORE NUMBER POPUP ---------- */
+
+/* ---------- STORE NUMBER ---------- */
+
 function openPCQStore() {
+
   closePopup();
 
   const overlay = document.createElement("div");
-  overlay.className = "popup-overlay";
+
+  overlay.className = "popup-overlay dynamic-popup";
 
   overlay.innerHTML = `
     <div class="popup-box">
+
       <h3>Enter Store Number</h3>
 
       <input
@@ -1683,19 +1996,27 @@ function openPCQStore() {
       <button onclick="closePopup()">
         Cancel
       </button>
+
     </div>
   `;
 
   document.body.appendChild(overlay);
+
   document.getElementById("pcqStore").focus();
 }
 
-/* ---------- WORKSTATION LOGIN ---------- */
+
+/* ---------- WORKSTATION ---------- */
+
 function launchPCQWorkstation() {
-  const store = document.getElementById("pcqStore")?.value.trim();
+
+  const store =
+    document.getElementById("pcqStore")?.value.trim();
 
   if (!/^\d{5}$/.test(store)) {
+
     alert("Please enter a valid 5-digit store number.");
+
     return;
   }
 
@@ -1707,11 +2028,94 @@ function launchPCQWorkstation() {
     "&session=1" +
     "&wks=wks10";
 
-  window.open(url, "_blank", "noopener,noreferrer");
+  window.open(
+    url,
+    "_blank",
+    "noopener,noreferrer"
+  );
+
   closePopup();
 }
+
+
+/* =========================================================
+   GLOBAL SEARCH CLICK HANDLER
+   ========================================================= */
+
+document.addEventListener("click", function(event) {
+
+  const searchBox =
+    document.getElementById("searchBox");
+
+  const resultsDiv =
+    document.getElementById("searchResults");
+
+  if (
+    searchBox &&
+    resultsDiv &&
+    !searchBox.contains(event.target) &&
+    !resultsDiv.contains(event.target)
+  ) {
+
+    resultsDiv.style.display = "none";
+  }
+});
+
+
+/* =========================================================
+   PAGE LOAD
+   ========================================================= */
+
+window.onload = function() {
+
+  showCategory('home');
+
+  const homeBtn =
+    Array.from(
+      document.getElementsByClassName('dock-button')
+    ).find(
+      btn =>
+        btn.textContent
+          .trim()
+          .toLowerCase() === 'home'
+    );
+
+  if (homeBtn) {
+    homeBtn.classList.add('active');
+  }
+};
+
 </script>
 
+<div id="citrixPopup" class="popup-overlay" style="display:none;">
+  <div class="popup-box">
+    <h3>Select Citrix Domain</h3>
+     <button onclick="openCitrix('epic')">EPIC</button>
+    <button onclick="openCitrix('appsportal')">Apps Portal</button>
+      <button onclick="openCitrix('corp')">CORP (external)</button>
+    <button onclick="openCitrix('cvs')">CVS (external)</button>
+    <button onclick="closeCitrixPopup()">Cancel</button>
+  </div>
+</div>
+
+
+<div id="digestPopup" class="popup-overlay" style="display:none;">
+  <div class="popup-box">
+    <h3>Select Old or New Store Digest</h3>
+    <button onclick="openDigest('old')">Old Digest</button>
+    <button onclick="openDigest('new')">New Digest</button>
+    <button onclick="closeDigestPopup()">Cancel</button>
+  </div>
+</div>
+
+<div id="learninghubPopup" class="popup-overlay" style="display:none;">
+  <div class="popup-box">
+    <h3>Do you want to open LearningHub or Remote Training Approval (RRT)?</h3>
+    <button onclick="openLearninghub('learninghub')">LearningHub</button>
+    <button onclick="openLearninghub('rrt')">RRT</button>
+    <button onclick="closeLearninghubPopup()">Cancel</button>
+  </div>
+</div>
 
 </body>
 </html>
