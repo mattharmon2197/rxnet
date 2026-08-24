@@ -38,7 +38,7 @@ const searchItems = [
         { name: "Cardinal #Inventory", url: "https://vantus.cardinalhealth.com" },
         { name: "Rx Phone Order #Dispensing", url: "/rxnet/docs/rxtelephonev2.pdf" },
         { name: "Rx Transfer #Dispensing", url: "/rxnet/docs/rxtransferv2.pdf" },
-        { name: "Image Retrieval Tool **refresh the page if it loads with an error**   #Dispensing", url: "https://rxdw-rximageretrieval-v1.rxdw-cld-ap.cvshealthcloud.com/imageRequest#no-back-button" },
+        { name: "Image Retrieval Tool **refresh the page if it loads with an error**   #Dispensing", url: "https://rxdw-rximageretrieval.rxdw-cld-ap.cvshealthcloud.com/imageRequest#no-back-button" },
         { name: "OTC Formulary #Inventory", url: "/rxnet/formulary" },
         { name: "iPledge #Dispensing", url: "https://ipledgeprogram.com/?connection=cvs2" },
         { name: "Syringes/Needles #Inventory", url: "/rxnet/syringes" },
