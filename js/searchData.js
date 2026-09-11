@@ -42,7 +42,8 @@ const searchItems = [
         { name: "OTC Formulary #Inventory", url: "/rxnet/formulary" },
         { name: "iPledge #Dispensing", url: "https://ipledgeprogram.com/?connection=cvs2" },
         { name: "Syringes/Needles #Inventory", url: "/rxnet/syringes" },
-        { name: "SIG Code Sheet #Dispensing", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/RxConnect_SIG_Codes_Best_Practices.pdf" },
+        { name: "SIG Code Sheet (Corp) #Dispensing", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/RxConnect_SIG_Codes_Best_Practices.pdf" },
+        { name: "SIG Code Sheet (Reddit) #Dispensing", url: "/rxnet/docs/prqrcodes.pdf" },
         { name: "Nebulizers/Spacers (Legacy - alt) #Dispensing", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Nebulizer_and_Spacer_Support_RxNet_Page_KP_20210618153949167.pptx_2pdf.pdf" },
         { name: "Naloxone #Dispensing", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Naloxone_Program_Support_Page_20240102165341901.pdf" },
         { name: "McKesson #Inventory", url: "https://connect.mckesson.com/content" },
@@ -413,7 +414,7 @@ const searchItems = [
         { name: "Pharmacist's Letter Remote Setup (for completing CEs) #Miscellaneous", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Pharmacists_Letter_access_jobaid_20220415095427755.pdf" },
         { name: "Rx/iO IMZ Update  #Immunizations", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/RxIO_Playbook_IMZ_Job_Aids_20260507140640608.pdf" },
         { name: "Store Digest (NEW)  #Reports", url: "https://edash-dev.corp.cvs.com/edash-dev-sd" },
-        { name: "XXXXXXXXXXXXXXX  #XXXXXXXXXX", url: "XXXXXXXXXXXXXXX" },
+        { name: "CS (controlled substance) Check in  #Inventory", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/OV_Delivery_Check-In_for_Controls_Job_Aid_7-28_20260729104606719.pdf" },
         { name: "XXXXXXXXXXXXXXX  #XXXXXXXXXX", url: "XXXXXXXXXXXXXXX" },
         { name: "XXXXXXXXXXXXXXX  #XXXXXXXXXX", url: "XXXXXXXXXXXXXXX" },
         
