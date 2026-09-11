@@ -7,8 +7,8 @@ function isMobileDevice() {
 
 function goHome() {
   if (isMobileDevice()) {
-    window.location.href = "https://matthewstathis1.github.io/rxnet/mobile.html";
+    window.location.href = "https://mattharmon2197.github.io/rxnet/mobile.html";
   } else {
-    window.location.href = "https://matthewstathis1.github.io/rxnet/index.html";
+    window.location.href = "https://mattharmon2197.github.io/rxnet/index.html";
   }
 }

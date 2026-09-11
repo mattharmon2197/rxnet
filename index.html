@@ -264,7 +264,6 @@
         <a href="#" onclick="chooseLearninghub(); return false;">LearningHub/RRT</a>
           <a href="https://ldp.cvsapps.com/sso" target="_blank" rel="noopener noreferrer">AP SVT</a>
         <a href="/rxnet/mobile.html" target="_blank" rel="noopener noreferrer">Mobile Site</a>
-        <a href="/rxnet/docs/rxnet.pdf" target="_blank" rel="noopener noreferrer">Site QR Code</a>
         <a href="#" onclick="openSparkPopup(); return false;">myReports</a>
         <div class="section-description">
           Contact matthew.stathis@cvshealth.com from your store email with any suggestions/requests/problems.
@@ -359,7 +358,8 @@
         <a href="/rxnet/docs/rxtransferv2.pdf" target="_blank" rel="noopener noreferrer">Rx Transfer</a>
         <a href="#" onclick="openImageRetrievalAlert(); return false;">Image Retrieval</a>
         <a href="https://ipledgeprogram.com/?connection=cvs2" target="_blank" rel="noopener noreferrer">iPledge</a>
-        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/RxConnect_SIG_Codes_Best_Practices.pdf" target="_blank" rel="noopener noreferrer">SIG Code Sheet</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/RxConnect_SIG_Codes_Best_Practices.pdf" target="_blank" rel="noopener noreferrer">SIG Codes (Corp)</a>
+        <a href="/rxnet/docs/rxcsigcodes.pdf" target="_blank" rel="noopener noreferrer">SIG Codes (Reddit)</a>
         <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Naloxone_Program_Support_Page_20240102165341901.pdf" target="_blank" rel="noopener noreferrer">Naloxone</a>
         <a href="/rxnet/insurancetips.html" target="_blank" rel="noopener noreferrer">Insurance Tips</a>
         <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Medicare_Part_B_Landing_Page_20240729113534498.pptx_2pdf.pdf" target="_blank" rel="noopener noreferrer">Med B Billing</a>
@@ -739,11 +739,10 @@
 <div style="grid-column: 1 / -1; font-weight: bold; font-size: 18px; margin-bottom: 5px; border-bottom: 2px solid #ccc; padding-bottom: 5px;">
     Admin
   </div>
-        <a href="https://github.com/matthewstathis1/rxnet/blob/main/index.html" target="_blank" rel="noopener noreferrer">Modify Code</a>
-        <a href="https://github.com/matthewstathis1/rxnet/deployments" target="_blank" rel="noopener noreferrer">Deployments</a>
-        <a href="https://github.com/matthewstathis1/rxnet/tree/main" target="_blank" rel="noopener noreferrer">Github Main</a>
+        <a href="https://github.com/mattharmon2197/rxnet/blob/main/index.html" target="_blank" rel="noopener noreferrer">Modify Code</a>
+        <a href="https://github.com/mattharmon2197/rxnet/deployments" target="_blank" rel="noopener noreferrer">Deployments</a>
+        <a href="https://github.com/mattharmon2197/rxnet/tree/main" target="_blank" rel="noopener noreferrer">Github Main</a>
         <a href="https://federatione.cvs.com/siteminderagent/forms/enterpriselogin.fcc?TYPE=33554433&REALMOID=06-000b85c2-7455-17b6-bef3-f8a50a5ca09e&GUID=&SMAUTHREASON=0&METHOD=GET&SMAGENTNAME=-SM-4qv8ej3I%2bef50jOTXBfzddyxWLgCk4rIl4aQ5C1Iv8Cpj7PHBvrt2ao8JPl1Sd7S&TARGET=-SM-HTTPS%3a%2f%2ffederatione%2ecvs%2ecom%2fsiteminderagent%2fredirectjsp%2fredirect%2ejsp%3fSPID%3dcvshealthsp_png_cvscom%26RelayState%3dhttps%3a%2f%2fcvs%2ereflexisinc%2ecom%2fkernel%2fviews%2fauthenticate%2fweb%2fCVS%2eview%26SMPORTALURL%3dhttps-%3A-%2F-%2Ffederatione%2ecvs%2ecom-%2Faffwebservices-%2Fpublic-%2Fsaml2sso%26SAMLTRANSACTIONID%3d8f897c89--6a8931ff--f5e8b1b2--dd468af6--3b0c612e--6" target="_blank" rel="noopener noreferrer">mySchedule (SAML)</a>
-        <a href="/rxnet/docs/rxnet.pdf" target="_blank" rel="noopener noreferrer">Site QR Code</a>
         <a href="/rxnet/quicklinks" target="_blank" rel="noopener noreferrer">Quick Links</a>
         <a href="https://retailspark-aetnao365.msappproxy.net" target="_blank" rel="noopener noreferrer">Spark (external)</a>
         <a href="#" onclick="openDynamicURL('https://retailspark-aetnao365.msappproxy.net/spark?view=storeView&storeName=sXXXXXrxs'); return false;">Spark (ext-store)</a>
@@ -1067,6 +1066,46 @@ function closeLearninghubPopup() {
 }
 
 
+    
+/* =========================================================
+   mySchedule / SAML
+   ========================================================= */
+
+function choosemySchedule() {
+  document.getElementById("mySchedulePopup").style.display = "flex";
+}
+
+
+function openmySchedule(choice) {
+
+  if (choice === "mySchedule") {
+
+    window.open(
+      "https://cvs.reflexisinc.com/kernel/views/authenticate/web/CVS.view",
+      "_blank",
+      "noopener,noreferrer"
+    );
+
+  } else if (choice === "rrt") {
+
+    window.open(
+      "https://federatione.cvs.com/siteminderagent/forms/enterpriselogin.fcc?TYPE=33554433&REALMOID=06-000b85c2-7455-17b6-bef3-f8a50a5ca09e&GUID=&SMAUTHREASON=0&METHOD=GET&SMAGENTNAME=-SM-4qv8ej3I%2bef50jOTXBfzddyxWLgCk4rIl4aQ5C1Iv8Cpj7PHBvrt2ao8JPl1Sd7S&TARGET=-SM-HTTPS%3a%2f%2ffederatione%2ecvs%2ecom%2fsiteminderagent%2fredirectjsp%2fredirect%2ejsp%3fSPID%3dcvshealthsp_png_cvscom%26RelayState%3dhttps%3a%2f%2fcvs%2ereflexisinc%2ecom%2fkernel%2fviews%2fauthenticate%2fweb%2fCVS%2eview%26SMPORTALURL%3dhttps-%3A-%2F-%2Ffederatione%2ecvs%2ecom-%2Faffwebservices-%2Fpublic-%2Fsaml2sso%26SAMLTRANSACTIONID%3d8f897c89--6a8931ff--f5e8b1b2--dd468af6--3b0c612e--6",
+      "_blank",
+      "noopener,noreferrer"
+    );
+  }
+
+  closemySchedulePopup();
+}
+
+
+function closemySchedulePopup() {
+  document.getElementById("mySchedulePopup").style.display = "none";
+}
+
+    
+
+    
 /* =========================================================
    SMARTSENSE
    ========================================================= */
@@ -1199,6 +1238,16 @@ function launchSparkStandard() {
   closePopup();
 }
 
+    function openSparkExt() {
+
+      window.open(
+        "https://retailspark-aetnao365.msappproxy.net",
+        "_blank",
+        "noopener"
+      );
+
+      closePopup();
+    }
 
 function openSparkPopup() {
 
@@ -1214,11 +1263,19 @@ function openSparkPopup() {
       <h3>myReports (Spark) Login</h3>
 
       <button onclick="launchSparkStandard()">
-        Local Store
+        Local
       </button>
 
       <button onclick="openSparkStore()">
-        Field/Floater
+        Local Field
+      </button>
+  
+      <button onclick="openSparkExt()">
+        External
+      </button>
+
+      <button onclick="openSparkExtStore()">
+        External Field
       </button>
 
       <button onclick="closePopup()">
@@ -1300,6 +1357,74 @@ function launchSparkField() {
   closePopup();
 }
 
+    
+    
+    
+    function openSparkExtStore() {
+
+      closePopup();
+
+      const overlay = document.createElement("div");
+
+      overlay.className = "popup-overlay dynamic-popup";
+
+      overlay.innerHTML = `
+        <div class="popup-box">
+
+          <h3>Enter Store Number</h3>
+
+          <input
+            type="text"
+            id="sparkStore"
+            placeholder="5-digit store #"
+            style="padding:8px; width:80%; font-size:1rem;"
+            onkeydown="if(event.key==='Enter') launchSparkExtField();"
+          />
+
+          <br><br>
+
+          <button onclick="launchSparkExtField()">
+            Continue
+          </button>
+
+          <button onclick="closePopup()">
+            Cancel
+          </button>
+
+        </div>
+      `;
+
+      document.body.appendChild(overlay);
+
+      document.getElementById("sparkStore").focus();
+    }
+
+
+    function launchSparkExtField() {
+
+      const store =
+        document.getElementById("sparkStore")?.value.trim();
+
+      if (!/^\d{5}$/.test(store)) {
+
+        alert("Please enter a valid 5-digit store number.");
+
+        return;
+      }
+
+      const url =
+        "https://retailspark-aetnao365.msappproxy.net/spark?view=storeView&storeName=s" +
+        store +
+        "rxs";
+
+      window.open(
+        url,
+        "_blank",
+        "noopener"
+      );
+
+      closePopup();
+    }
 
 /* =========================================================
    ZIPLINE
@@ -2110,6 +2235,18 @@ window.onload = function() {
     <button onclick="openLearninghub('learninghub')">LearningHub</button>
     <button onclick="openLearninghub('rrt')">RRT</button>
     <button onclick="closeLearninghubPopup()">Cancel</button>
+  </div>
+</div>
+
+
+
+
+<div id="mySchedulePopup" class="popup-overlay" style="display:none;">
+  <div class="popup-box">
+    <h3>Do you want to login with Ping or SAML?</h3>
+    <button onclick="openmySchedule('mySchedule')">Ping</button>
+    <button onclick="openmySchedule('rrt')">SAML</button>
+    <button onclick="closemySchedulePopup()">Cancel</button>
   </div>
 </div>
 
