@@ -370,7 +370,7 @@ const searchItems = [
 
         { name: "RxConnect Compliance Reactivation  #Miscellaneous  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/RxConnect_Access_Validation_Overview_2024090415191751.pdf" },
 
-        { name: "IAM Portal #Human Resources  ", url: "https://idmgmt.cvshealth.com/iam-selfserviceportal-oci/home" },
+        { name: "IAM Portal #IT Resources  ", url: "https://idmgmt.cvshealth.com/iam-selfserviceportal-oci/home" },
         { name: "IMZ Status Report #Immunizations  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Curriculum_for_IMZ_Immunizer_Status_Report_Job_Aid__2024041813265361.pdf" },
         { name: "Engagement Survey (Colleague Voices) #Human Resources ", url: "https://voices.cvshealth.com/" },
         { name: "BSwift Benefits Portal Manual Login (FYI password does not sync, you'll likely need to use forgot password)  ", url: "https://cvshealthbenefits.bswift.com/" },
