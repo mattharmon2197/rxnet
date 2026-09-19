@@ -188,6 +188,32 @@
     text-align: center;
   }
 
+
+      /* ---- always four buttons across; everything scales with the viewport ---- */
+      :root { --ui: clamp(13px, 1.15vw, 26px); }
+
+      .grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: clamp(10px, 1.4vw, 32px);
+      }
+      .grid a {
+        font-size: var(--ui);
+        padding: calc(var(--ui) * 0.85) calc(var(--ui) * 0.6);
+        border-radius: calc(var(--ui) * 0.55);
+        overflow-wrap: anywhere;
+      }
+      .grid > div[style*="grid-column"] { font-size: calc(var(--ui) * 1.25) !important; }
+
+      .dock { width: clamp(170px, 13vw, 300px); }
+      .dock-button { font-size: var(--ui); padding: calc(var(--ui) * 0.75) calc(var(--ui) * 1); }
+      .site-title { font-size: calc(var(--ui) * 1.15) !important; }
+      .site-title img { height: calc(var(--ui) * 1.5) !important; }
+      .content { padding: clamp(16px, 2vw, 48px); padding-bottom: 80px; }
+      #searchBox { font-size: var(--ui); padding: calc(var(--ui) * 0.6); }
+
+      @media (max-width: 700px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+      
+      
 	  
   </style>
 </head>
@@ -507,11 +533,13 @@
         <a href="https://cvshealth.sabacloud.com/Saba/Web_spf/NA10P1PRD006/app/me/myfiles;spf-url=common%2Fprofile%2Fmyfiles%2Femplo000000000082945" target="_blank" rel="noopener noreferrer">SabaCloud</a>
         <a href="https://www.rephrase.info/online-text-editor" target="_blank" rel="noopener noreferrer">Text Editor Online</a>
         <a href="/rxnet/usefulapps">Apps/Websites</a>
+        <a href="https://viptfaeast.cvs.com/" target="_blank" rel="noopener noreferrer">Symantec VIP</a>
         <a href="https://cvsthinklp.lightning.force.com/lightning/o/ContentDocument/home" target="_blank" rel="noopener noreferrer">ThinkLP Cloud</a>
         <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/RxOS_Homepage_20250610161035278.pdf" target="_blank" rel="noopener noreferrer">Rx/iO Home</a>
         <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Virtual_Verification_RxNet_Landing_Page.pdf" target="_blank" rel="noopener noreferrer">Virtual Verify</a>
         <a href="https://cvshealth.service-now.com/cz?id=sc_cat_item&sys_id=e3625b74fb221610b562f42bbeefdc58" target="_blank" rel="noopener noreferrer">IT Self Service</a>
         <a href="https://idmgmt.cvshealth.com/iam-selfserviceportal-oci/home" target="_blank" rel="noopener noreferrer">IAM Portal</a>
+
 </div>
     
     
