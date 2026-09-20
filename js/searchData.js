@@ -31,7 +31,6 @@ const searchItems = [
         { name: "Micromedex #Clinical", url: "https://www.micromedexsolutions.com/micromedex2/librarian/" },
         { name: "DailyMed #Clinical", url: "https://dailymed.nlm.nih.gov/dailymed/" },
         { name: "DynaMed #Clinical", url: "https://www.dynamed.com" },
-        { name: "Pharmacist's Letter Access Job Aid #Miscellaneous", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Pharmacists_Letter_access_jobaid_20220415095427755.pdf" },
         { name: "Contraceptive Sub #Clinical", url: "https://pharmacist.therapeuticresearch.com/Content/Segments/PRL/2015/Jul/Comparison-of-Oral-Contraceptives-and-Non-Oral-Alternatives-United-States-8631" },
         { name: "Do Not Crush List #Clinical", url: "https://pharmacist.therapeuticresearch.com/Content/Segments/PRL/2014/Aug/Meds-That-Should-Not-Be-Crushed-7309" },
         { name: "All Clinical References #Clinical", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/ClinicalResourceGuide_20230207125446867.pdf" },
@@ -74,7 +73,7 @@ const searchItems = [
         { name: "PALS Portal  #Regulatory ", url: "https://pals.pa.gov" },
         { name: "Store Licenses #Regulatory", url: "https://wa-licensesrep-ui-prod1.ase-usc-otia-licenserep-prod-v3.appserviceenvironment.net" },
         { name: "Pennsylvania Code #Regulatory", url: "https://www.pacodeandbulletin.gov/Display/pacode?file=/secure/pacode/data/049/chapter27/chap27toc.html&d=reduce" },
-        { name: "Print TempAlert Log #Regulatory", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Printing_Twice_Daily_Temperature_Logs.pdf" },
+        { name: "Print TempAlert Log #Regulatory", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_gstore/temp/store/Printing_Twice_Daily_Temperature_Logs.pdf" },
         { name: "StrongPak Label (Front Store) #Regulatory", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Hazardous_Waste_Label_Single_Tote_STORE.pdf" },
         { name: "StrongPak Label (Pharmacy) #Regulatory", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Hazardous_Waste_Label_Single_Tote_PHARMACY.pdf" },
         { name: "MethCheck #Regulatory", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/MethCheck_20230103130702122.pdf" },
@@ -413,9 +412,13 @@ const searchItems = [
         { name: "Rx/iO IMZ Update  #Immunizations", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/RxIO_Playbook_IMZ_Job_Aids_20260507140640608.pdf" },
         { name: "Store Digest (NEW)  #Reports", url: "https://edash-dev.corp.cvs.com/edash-dev-sd" },
         { name: "CS (controlled substance) Check in  #Inventory", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/OV_Delivery_Check-In_for_Controls_Job_Aid_7-28_20260729104606719.pdf" },
+        { name: "AP SVT (store visit tool)  #Asset Protection", url: "https://ldp.cvsapps.com/sso" },
+        { name: "Scan Rx Docs into CFRx  #Regulatory", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Scan_Pharmacy_Documents_Master_Guide_AT.pdf" },
         { name: "XXXXXXXXXXXXXXX  #XXXXXXXXXX", url: "XXXXXXXXXXXXXXX" },
         { name: "XXXXXXXXXXXXXXX  #XXXXXXXXXX", url: "XXXXXXXXXXXXXXX" },
-        
+        { name: "XXXXXXXXXXXXXXX  #XXXXXXXXXX", url: "XXXXXXXXXXXXXXX" },
+        { name: "XXXXXXXXXXXXXXX  #XXXXXXXXXX", url: "XXXXXXXXXXXXXXX" },
+
         
         
         { name: "CVS\Domain Apps Portal (Citrix) ", url: "https://remote.cvshealth.com/Citrix/remotecvsWeb/" }
