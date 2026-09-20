@@ -206,8 +206,14 @@
 
       .dock { width: clamp(190px, 18vw, 400px); }
       .dock-button { font-size: var(--ui); padding: calc(var(--ui) * 0.75) calc(var(--ui) * 1); }
-      .site-title { font-size: calc(var(--ui) * 1.15) !important; }
-      .site-title img { height: calc(var(--ui) * 1.5) !important; }
+      .dock-header { padding-top: calc(var(--dock-ui) * 0.6); padding-bottom: calc(var(--dock-ui) * 0.4); }
+      .site-title {
+        font-size: calc(var(--dock-ui) * 1.15) !important;
+        margin: 0 0 calc(var(--dock-ui) * 0.5) calc(var(--dock-ui) * 1) !important;
+      }
+      .site-title img { height: calc(var(--dock-ui) * 1.5) !important; }
+      .site-title img:first-child { margin-right: calc(var(--dock-ui) * 0.6) !important; }
+      .site-title img:last-child  { margin-left:  calc(var(--dock-ui) * 0.6) !important; }
       .content { padding: clamp(16px, 2vw, 48px); padding-bottom: 80px; }
       #searchBox { font-size: var(--ui); padding: calc(var(--ui) * 0.6); }
 
