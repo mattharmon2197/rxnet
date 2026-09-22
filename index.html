@@ -189,6 +189,15 @@
   }
 
 
+      
+      
+      
+      
+      
+      
+      
+      
+      
       /* ---- always four buttons across; everything scales with the viewport ---- */
       :root { --ui: clamp(13px, 1.15vw, 26px); }
 
@@ -212,6 +221,49 @@
       #searchBox { font-size: var(--ui); padding: calc(var(--ui) * 0.6); }
 
       @media (max-width: 700px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+      
+      
+      
+      
+      
+      
+      /* ---- popups scale with the grid ---- */
+      .popup-box {
+        padding: calc(var(--ui) * 1.4);
+        border-radius: calc(var(--ui) * 0.7);
+        font-size: var(--ui);
+        min-width: clamp(280px, 28vw, 720px);
+        max-width: 90vw;
+      }
+      .popup-box h3 { font-size: calc(var(--ui) * 1.35); margin-bottom: var(--ui); }
+      .popup-box p  { font-size: var(--ui); line-height: 1.4; }
+      .popup-box button {
+        font-size: var(--ui);
+        padding: calc(var(--ui) * 0.7) calc(var(--ui) * 1.4);
+        margin: calc(var(--ui) * 0.35);
+        border-radius: calc(var(--ui) * 0.35);
+      }
+      .popup-box input, .popup-box select {
+        font-size: var(--ui) !important;
+        padding: calc(var(--ui) * 0.55) !important;
+        border-radius: calc(var(--ui) * 0.3);
+      }
+
+      /* ---- search results dropdown ---- */
+      .search-results {
+        max-width: clamp(400px, 45vw, 1100px);
+        max-height: clamp(260px, 40vh, 800px);
+        border-radius: calc(var(--ui) * 0.35);
+      }
+      .search-result { font-size: var(--ui); padding: calc(var(--ui) * 0.7); }
+      
+      
+      
+      
+      
+      
+      
+      
       
       
 	  
@@ -533,7 +585,6 @@
         <a href="https://cvshealth.sabacloud.com/Saba/Web_spf/NA10P1PRD006/app/me/myfiles;spf-url=common%2Fprofile%2Fmyfiles%2Femplo000000000082945" target="_blank" rel="noopener noreferrer">SabaCloud</a>
         <a href="https://www.rephrase.info/online-text-editor" target="_blank" rel="noopener noreferrer">Text Editor Online</a>
         <a href="/rxnet/usefulapps">Apps/Websites</a>
-        <a href="https://viptfaeast.cvs.com/" target="_blank" rel="noopener noreferrer">Symantec VIP</a>
         <a href="https://cvsthinklp.lightning.force.com/lightning/o/ContentDocument/home" target="_blank" rel="noopener noreferrer">ThinkLP Cloud</a>
         <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/RxOS_Homepage_20250610161035278.pdf" target="_blank" rel="noopener noreferrer">Rx/iO Home</a>
         <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Virtual_Verification_RxNet_Landing_Page.pdf" target="_blank" rel="noopener noreferrer">Virtual Verify</a>
