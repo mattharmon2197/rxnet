@@ -98,7 +98,7 @@ const searchItems = [
         { name: "Immunization Inventory Tool Job Aid  #Immunizations ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Immunization_Inventory_Tool_Job_Aid_20240614123353339.pdf" },
         { name: "Immunization Pharmacist Curriculum  #Immunizations ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Pharmacist_and_Intern_Immunization_Curriculum_20220720144842710.pdf" },
         { name: "Immunization Technician Curriculum  #Immunizations ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Pharmacy_Technician_Immunization_Curriculum_2022062814253156.pdf" },
-        { name: "Uploading Certifications  #Immunizations ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Colleague_Self_Entry_of_Required_Immunization_Certificates_and_CPR_2023072713230237.pdf" },
+        { name: "Uploading Certifications  #Immunizations ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Colleague_Self_Entry_of_External_CPR_and_Manager_Evaluation_Steps_03202024_20240411161856772.pptx_2pdf.pdf" },
         { name: "NABP CE ID #Regulatory", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/NABP_e-Profile_ID__20251031144708533.pdf" },
         { name: "CPR Scheduling Job Aid #Immunizations  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/CPR_Job_Aid_for_Store_Colleagues_20240223155128952.pptx_2pdf.pdf" },
         { name: "Travel Immunization NDCs #Immunizations  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/TravelVaccineDetails_20241106120156848.pdf" },
