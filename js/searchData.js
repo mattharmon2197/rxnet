@@ -414,6 +414,7 @@ const searchItems = [
         { name: "CS (controlled substance) Check in  #Inventory", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/OV_Delivery_Check-In_for_Controls_Job_Aid_7-28_20260729104606719.pdf" },
         { name: "AP SVT (store visit tool)  #Asset Protection", url: "https://ldp.cvsapps.com/sso" },
         { name: "Scan Rx Docs into CFRx  #Regulatory", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Scan_Pharmacy_Documents_Master_Guide_AT.pdf" },
+        { name: "IMZ Mini Game #Immunixations", url: "/rxnet/imzgame" },
         { name: "XXXXXXXXXXXXXXX  #XXXXXXXXXX", url: "XXXXXXXXXXXXXXX" },
         { name: "XXXXXXXXXXXXXXX  #XXXXXXXXXX", url: "XXXXXXXXXXXXXXX" },
         { name: "XXXXXXXXXXXXXXX  #XXXXXXXXXX", url: "XXXXXXXXXXXXXXX" },
