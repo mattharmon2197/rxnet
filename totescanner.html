@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tote Receiving Scanner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsbarcode/3.11.6/JsBarcode.all.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<style>
+:root{
+  --bg:#EEF1F3; --surface:#FFFFFF; --ink:#18212B; --muted:#5B6773; --line:#D3DAE0;
+  --tape:#F2C230; --tape-ink:#1A1400; --ok:#1F8A5B; --warn:#C23B2E;
+  --display:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;
+  --body:"Barlow",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){--bg:#12181E;--surface:#1B232B;--ink:#E8EDF1;--muted:#98A4AF;--line:#2C3741;}
+}
+:root[data-theme="dark"]{--bg:#12181E;--surface:#1B232B;--ink:#E8EDF1;--muted:#98A4AF;--line:#2C3741;}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 var(--body);-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible,label:focus-within{outline:3px solid var(--tape);outline-offset:2px}
+.wrap{max-width:640px;margin:0 auto;padding:12px 14px 40px}
+
+/* Scanner block: the memorable piece — viewfinder framed in receiving tape */
+.dock{position:relative;border-radius:14px;overflow:hidden;background:#0A0E12;
+  border:6px solid transparent;
+  background-image:linear-gradient(#0A0E12,#0A0E12),repeating-linear-gradient(-45deg,var(--tape) 0 14px,#1A1400 14px 28px);
+  background-origin:border-box;background-clip:padding-box,border-box}
+#reader{width:100%;aspect-ratio:4/3;background:#0A0E12}
+#reader video{width:100%!important;height:100%!important;object-fit:cover}
+#reader img{display:none}
+.idle{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:#C9D2DA;text-align:center;padding:20px}
+.idle p{margin:0;max-width:30ch}
+.count{position:absolute;left:12px;bottom:10px;display:flex;align-items:baseline;gap:6px;color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.6);pointer-events:none}
+.count b{font:700 56px/0.9 var(--display)}
+.count span{font:600 18px/1 var(--display);opacity:.85}
+.flash{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .35s}
+.flash.ok{background:rgba(31,138,91,.45);opacity:1;transition:none}
+.flash.dup{background:rgba(242,194,48,.45);opacity:1;transition:none}
+.toast{position:absolute;top:10px;left:50%;transform:translateX(-50%);background:rgba(10,14,18,.85);color:#fff;
+  padding:6px 12px;border-radius:999px;font-weight:600;font-size:14px;opacity:0;transition:opacity .25s;white-space:nowrap;max-width:92%;overflow:hidden;text-overflow:ellipsis}
+.toast.show{opacity:1}
+
+.controls{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:10px}
+.primary{background:var(--tape);color:var(--tape-ink);border:0;border-radius:10px;padding:14px 16px;font:700 20px/1 var(--display);letter-spacing:.02em}
+.primary.stop{background:var(--ink);color:var(--bg)}
+.ghost{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 14px;font-weight:600}
+.row{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.row .ghost{flex:1 1 auto}
+.manual{display:flex;gap:8px;margin-top:8px}
+.manual input{flex:1;min-width:0;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font:inherit}
+.opt{display:flex;align-items:center;gap:8px;margin-top:10px;color:var(--muted);font-size:15px}
+.opt input{width:20px;height:20px;accent-color:var(--ok)}
+.err{margin-top:10px;padding:10px 12px;border-left:4px solid var(--warn);background:var(--surface);border-radius:6px;font-size:15px;display:none}
+.err.show{display:block}
+
+h2{font:700 26px/1.1 var(--display);margin:26px 0 4px;display:flex;justify-content:space-between;align-items:baseline}
+h2 small{font:500 15px var(--body);color:var(--muted)}
+.empty{color:var(--muted);padding:18px 0}
+ol.list{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-direction:column;gap:10px}
+.item{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px;display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:center}
+.item.done{opacity:.55}
+.item.new{animation:pop .6s ease-out}
+@keyframes pop{from{box-shadow:0 0 0 4px var(--ok)}to{box-shadow:0 0 0 0 transparent}}
+.code{background:#fff;border-radius:8px;padding:6px;display:flex;align-items:center;justify-content:center;width:132px;min-height:84px}
+.code svg,.code img{max-width:100%;height:auto;display:block}
+.meta{min-width:0}
+.val{font-weight:600;word-break:break-all;line-height:1.25}
+.sub{color:var(--muted);font-size:14px;margin-top:2px}
+.acts{display:flex;gap:6px;margin-top:8px}
+.acts button{background:transparent;border:1px solid var(--line);border-radius:8px;padding:5px 10px;font-size:14px;font-weight:600}
+.acts .on{background:var(--ok);border-color:var(--ok);color:#fff}
+
+/* Step-through: always white for handheld scanners */
+.step{position:fixed;inset:0;z-index:10;background:#fff;color:#111;display:none;flex-direction:column;
+  padding:calc(env(safe-area-inset-top,0px) + 14px) 16px calc(env(safe-area-inset-bottom,0px) + 16px)}
+.step.show{display:flex}
+.step header{display:flex;justify-content:space-between;align-items:center}
+.step header b{font:700 28px var(--display)}
+.step .big{flex:1;display:flex;align-items:center;justify-content:center;padding:10px 0}
+.step .big svg,.step .big img{width:100%;max-width:520px;height:auto;max-height:60vh}
+.step .val{text-align:center;font-size:18px;margin-bottom:12px}
+.step .nav{display:grid;grid-template-columns:1fr 2fr;gap:10px}
+.step button{border-radius:12px;padding:16px;font:700 20px var(--display);border:2px solid #111;background:#fff;color:#111}
+.step .go{background:#111;color:#fff}
+.step .x{border:0;padding:8px 12px;font:600 16px var(--body)}
+@media (prefers-reduced-motion:reduce){.item.new{animation:none}.flash{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="dock">
+    <div id="reader"></div>
+    <div class="idle" id="idle"><p>Point the back camera at a tote label. Each new code is added to the list below.</p></div>
+    <div class="flash" id="flash"></div>
+    <div class="toast" id="toast"></div>
+    <div class="count"><b id="count">0</b><span>scanned</span></div>
+  </div>
+
+  <div class="controls">
+    <button class="primary" id="startBtn">Start scanning</button>
+    <label class="ghost" style="display:flex;align-items:center">Photo<input type="file" id="photo" accept="image/*" capture="environment" hidden></label>
+  </div>
+  <form class="manual" id="manual" onsubmit="return false">
+    <input id="manualInput" placeholder="Type a code if the label won't scan" autocomplete="off" enterkeyhint="done">
+    <button class="ghost" id="addBtn" type="button">Add</button>
+  </form>
+  <label class="opt"><input type="checkbox" id="dupes"> Allow the same code more than once</label>
+  <div class="err" id="err"></div>
+
+  <h2>Received <small id="summary"></small></h2>
+  <div class="row">
+    <button class="ghost" id="stepBtn">Step through codes</button>
+    <button class="ghost" id="csvBtn">Save CSV</button>
+    <button class="ghost" id="clearBtn">Clear list</button>
+  </div>
+  <p class="empty" id="empty">No totes scanned yet. Start scanning or add a code by hand.</p>
+  <ol class="list" id="list"></ol>
+</div>
+
+<div class="step" id="step" role="dialog" aria-modal="true" aria-label="Step through codes">
+  <header><b id="stepPos">1 of 1</b><button class="x" id="stepClose">Close</button></header>
+  <div class="big" id="stepCode"></div>
+  <div class="val" id="stepVal"></div>
+  <div class="nav"><button id="stepPrev">Back</button><button class="go" id="stepNext">Done, next</button></div>
+</div>
+
+<script>
+const KEY='tote-scans-v1';
+const $=id=>document.getElementById(id);
+let items=load(), scanner=null, running=false, lastText='', lastAt=0, stepIdx=0, wakeLock=null, audio=null;
+const svgCache=new Map();
+
+function load(){try{const v=JSON.parse(localStorage.getItem(KEY)||'[]');return Array.isArray(v)?v:[]}catch(e){return[]}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(items))}catch(e){showErr('Couldn\u2019t save to this browser. The list will be lost if you close the page.')}}
+function showErr(m){const e=$('err');e.textContent=m;e.classList.add('show')}
+function clearErr(){$('err').classList.remove('show')}
+
+// Map scanner format names to JsBarcode formats; 2D formats get redrawn as QR.
+const FMT={CODE_128:'CODE128',CODE_39:'CODE39',EAN_13:'EAN13',EAN_8:'EAN8',UPC_A:'UPC',UPC_E:'UPCE',ITF:'ITF',CODABAR:'codabar',CODE_93:'CODE128'};
+const TWO_D=['QR_CODE','DATA_MATRIX','AZTEC','PDF_417','MAXICODE'];
+function prettyFmt(f){return (f||'Manual').replace(/_/g,' ').replace(/\bCODE\b/,'Code').replace(/\bQR Code\b/i,'QR')}
+
+function renderCode(it,big){
+  const k=it.id+(big?'b':'');
+  if(svgCache.has(k))return svgCache.get(k);
+  let html='';
+  const asQR=TWO_D.includes(it.format);
+  if(asQR){
+    try{const q=qrcode(0,'M');q.addData(it.text);q.make();html=q.createSvgTag({cellSize:big?8:4,margin:big?4:2,scalable:true})}catch(e){}
+  }
+  if(!html){
+    const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+    const opts={displayValue:false,margin:big?16:4,height:big?160:70,width:big?3:1.4,background:'#ffffff',lineColor:'#000000'};
+    try{JsBarcode(svg,it.text,{...opts,format:FMT[it.format]||'CODE128'})}
+    catch(e){try{JsBarcode(svg,it.text,{...opts,format:'CODE128'})}catch(e2){}}
+    if(svg.childNodes.length){svg.setAttribute('preserveAspectRatio','xMidYMid meet');html=svg.outerHTML}
+  }
+  if(!html)html='<span style="color:#111;font-size:13px;padding:6px">Can\u2019t redraw</span>';
+  svgCache.set(k,html);return html;
+}
+
+function fmtTime(t){return new Date(t).toLocaleTimeString([], {hour:'numeric',minute:'2-digit',second:'2-digit'})}
+function render(newId){
+  const list=$('list');list.innerHTML='';
+  $('count').textContent=items.length;
+  $('empty').style.display=items.length?'none':'block';
+  const done=items.filter(i=>i.done).length;
+  $('summary').textContent=items.length?`${items.length} total, ${done} checked off`:'';
+  for(const it of items){
+    const li=document.createElement('li');
+    li.className='item'+(it.done?' done':'')+(it.id===newId?' new':'');
+    li.innerHTML=`<div class="code">${renderCode(it)}</div>
+      <div class="meta"><div class="val"></div>
+      <div class="sub">${prettyFmt(it.format)}, ${fmtTime(it.at)}</div>
+      <div class="acts"><button data-a="done" class="${it.done?'on':''}">${it.done?'Checked':'Check off'}</button>
+      <button data-a="show">Show</button><button data-a="del">Remove</button></div></div>`;
+    li.querySelector('.val').textContent=it.text;
+    li.querySelector('.acts').addEventListener('click',e=>{
+      const a=e.target.dataset.a;if(!a)return;
+      if(a==='done'){it.done=!it.done;save();render()}
+      if(a==='del'){items=items.filter(x=>x!==it);save();render()}
+      if(a==='show'){openStep(items.indexOf(it))}
+    });
+    list.appendChild(li);
+  }
+}
+
+function feedback(kind,msg){
+  const f=$('flash');f.className='flash '+kind;requestAnimationFrame(()=>requestAnimationFrame(()=>f.className='flash'));
+  const t=$('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('show'),1400);
+  try{navigator.vibrate&&navigator.vibrate(kind==='ok'?60:[40,60,40])}catch(e){}
+  try{
+    if(!audio)audio=new (window.AudioContext||window.webkitAudioContext)();
+    const o=audio.createOscillator(),g=audio.createGain();
+    o.frequency.value=kind==='ok'?1320:440;g.gain.value=.08;o.connect(g);g.connect(audio.destination);
+    o.start();o.stop(audio.currentTime+(kind==='ok'?.08:.18));
+  }catch(e){}
+}
+
+function addCode(text,format){
+  text=(text||'').trim();if(!text)return;
+  const now=Date.now();
+  if(text===lastText&&now-lastAt<2500)return; // same label still in frame
+  lastText=text;lastAt=now;
+  if(!$('dupes').checked&&items.some(i=>i.text===text)){feedback('dup','Already scanned: '+text);return}
+  const it={id:now.toString(36)+Math.random().toString(36).slice(2,6),text,format:format||'',at:now,done:false};
+  items.unshift(it);save();render(it.id);feedback('ok','Added '+text);
+}
+
+async function start(){
+  clearErr();
+  if(typeof Html5Qrcode==='undefined'){showErr('The scanner library didn\u2019t load. Check the connection and reload the page.');return}
+  if(!scanner)scanner=new Html5Qrcode('reader',{verbose:false,experimentalFeatures:{useBarCodeDetectorIfSupported:true}});
+  try{
+    await scanner.start({facingMode:'environment'},
+      {fps:12,qrbox:(w,h)=>({width:Math.floor(w*.85),height:Math.floor(h*.6)})},
+      (text,res)=>addCode(text,res?.result?.format?.formatName),()=>{});
+    running=true;$('idle').style.display='none';
+    $('startBtn').textContent='Stop scanning';$('startBtn').classList.add('stop');
+    try{wakeLock=await navigator.wakeLock?.request('screen')}catch(e){}
+  }catch(e){
+    const m=String(e&&(e.message||e));
+    showErr(/NotAllowed|Permission/i.test(m)
+      ?'Camera access was blocked. Allow the camera for this page in your browser settings, or use Photo to scan from a picture.'
+      :'The camera couldn\u2019t start here. Use Photo to scan from a picture, or type the code. ('+m+')');
+  }
+}
+async function stop(){
+  if(scanner&&running){try{await scanner.stop()}catch(e){}}
+  running=false;$('idle').style.display='flex';
+  $('startBtn').textContent='Start scanning';$('startBtn').classList.remove('stop');
+  try{wakeLock&&wakeLock.release();wakeLock=null}catch(e){}
+}
+$('startBtn').onclick=()=>running?stop():start();
+
+$('photo').onchange=async e=>{
+  const file=e.target.files[0];e.target.value='';if(!file)return;
+  clearErr();
+  if(running)await stop();
+  try{
+    if(!scanner)scanner=new Html5Qrcode('reader',{verbose:false});
+    const r=await scanner.scanFileV2(file,false);
+    lastText='';addCode(r.decodedText,r?.result?.format?.formatName);
+  }catch(err){showErr('No barcode found in that photo. Try again closer, with the label flat and in focus.')}
+};
+
+function manualAdd(){const i=$('manualInput');lastText='';addCode(i.value,'CODE_128');i.value=''}
+$('addBtn').onclick=manualAdd;
+$('manualInput').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();manualAdd()}});
+
+$('clearBtn').onclick=()=>{
+  if(!items.length)return;
+  if(confirm(`Clear all ${items.length} scanned codes from this browser?`)){items=[];svgCache.clear();save();render()}
+};
+
+// Step-through: one big code at a time, oldest first, for re-scanning with a handheld.
+function ordered(){return items.slice().reverse()}
+function openStep(listIdx){
+  if(!items.length)return;
+  if(running)stop();
+  const o=ordered();
+  stepIdx=listIdx==null?Math.max(0,o.findIndex(i=>!i.done)):o.indexOf(items[listIdx]);
+  if(stepIdx<0)stepIdx=0;
+  $('step').classList.add('show');drawStep();
+}
+function drawStep(){
+  const o=ordered(),it=o[stepIdx];
+  $('stepPos').textContent=`${stepIdx+1} of ${o.length}`;
+  $('stepCode').innerHTML=renderCode(it,true);
+  $('stepVal').textContent=it.text+(it.done?' (checked)':'');
+  $('stepPrev').disabled=stepIdx===0;
+  $('stepNext').textContent=stepIdx===o.length-1?'Done, finish':'Done, next';
+}
+$('stepBtn').onclick=()=>openStep(null);
+$('stepClose').onclick=()=>{$('step').classList.remove('show');render()};
+$('stepPrev').onclick=()=>{if(stepIdx>0){stepIdx--;drawStep()}};
+$('stepNext').onclick=()=>{
+  const o=ordered();o[stepIdx].done=true;save();
+  if(stepIdx<o.length-1){stepIdx++;drawStep()}else{$('step').classList.remove('show');render()}
+};
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('step').classList.contains('show'))$('stepClose').click()});
+
+// CSV export as a normal browser download.
+$('csvBtn').onclick=()=>{
+  if(!items.length)return;
+  const esc=s=>'"'+String(s).replace(/"/g,'""')+'"';
+  const rows=[['code','format','scanned_at','checked_off']].concat(ordered().map(i=>[i.text,i.format||'MANUAL',new Date(i.at).toISOString(),i.done?'yes':'no']));
+  const d=new Date(),stamp=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  const url=URL.createObjectURL(new Blob([rows.map(r=>r.map(esc).join(',')).join('\n')],{type:'text/csv'}));
+  const a=document.createElement('a');a.href=url;a.download=`totes-${stamp}.csv`;document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+};
+
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&running)stop()});
+render();
+</script>
+</body>
+</html>
