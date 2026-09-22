@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+  :root { color-scheme: light dark; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+  body { margin: 0; font: 14px system-ui, -apple-system, sans-serif; }
+  img { max-width: 100%; }
+  [hidden] { display: none !important; }
+</style>
+<title>Knights of the Copay</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;600&display=swap">
+<style>
+  :root {
+    --ink:        #101d26;
+    --floor:      #1a2d3a;
+    --wall:       #16404a;
+    --laminate:   #f0e5cf;
+    --paper:      #fdf8ec;
+    --scrub:      #2fbfa6;
+    --amber:      #f2b134;
+    --rx:         #d6453d;
+    --dim:        #8aa3ad;
+    --rule:       rgba(240,229,207,0.18);
+    --display: "Bowlby One", "Arial Black", system-ui, sans-serif;
+    --label: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+    --body: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
+  }
+
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    background:
+      radial-gradient(120% 80% at 50% 0%, #1d3a44 0%, #101d26 60%, #0a141b 100%);
+    color: var(--paper);
+    font-family: var(--body);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .shell {
+    min-height: 100%;
+    box-sizing: border-box;
+    padding-inline: 16px;
+    padding-block: 18px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .marquee { width: 100%; max-width: 520px; text-align: center; }
+  .marquee h1 {
+    font-family: var(--display);
+    font-size: clamp(26px, 8vw, 42px);
+    line-height: 0.95;
+    margin: 0;
+    color: var(--laminate);
+    text-wrap: balance;
+    text-shadow: 0 3px 0 var(--rx), 0 4px 0 rgba(0,0,0,0.45);
+    letter-spacing: 0.01em;
+  }
+  .marquee p {
+    font-family: var(--label);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--dim);
+    margin: 8px 0 0;
+  }
+
+  .hud {
+    width: 100%;
+    max-width: 520px;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    overflow: hidden;
+    font-family: var(--label);
+  }
+  .hud div { background: #12242e; padding: 7px 8px; }
+  .hud dt {
+    margin: 0;
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--dim);
+  }
+  .hud dd {
+    margin: 2px 0 0;
+    font-size: 17px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: var(--laminate);
+  }
+  #combo[data-hot="1"] { color: var(--amber); }
+  .caps { letter-spacing: 2px; font-size: 15px; }
+  .caps .spent { opacity: 0.22; }
+
+  .stage {
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+    aspect-ratio: 480 / 660;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    overflow: hidden;
+    background: var(--floor);
+    box-shadow: 0 18px 40px rgba(0,0,0,0.45);
+  }
+  canvas { display: block; width: 100%; height: 100%; touch-action: manipulation; }
+  canvas:focus-visible { outline: 3px solid var(--amber); outline-offset: -3px; }
+
+  .scanlines {
+    position: absolute; inset: 0; pointer-events: none;
+    background: repeating-linear-gradient(to bottom, rgba(0,0,0,0.16) 0 1px, transparent 1px 3px);
+    mix-blend-mode: multiply;
+  }
+  .vignette {
+    position: absolute; inset: 0; pointer-events: none;
+    background: radial-gradient(110% 75% at 50% 45%, transparent 55%, rgba(0,0,0,0.55) 100%);
+  }
+
+  .card {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 14px;
+    padding: 24px 20px;
+    box-sizing: border-box;
+    text-align: center;
+    background: rgba(9,19,26,0.88);
+    backdrop-filter: blur(2px);
+  }
+  .card h2 {
+    font-family: var(--display);
+    font-size: clamp(22px, 6.5vw, 32px);
+    margin: 0;
+    color: var(--amber);
+    text-wrap: balance;
+  }
+  .card .rx {
+    font-family: var(--label);
+    font-size: 11px;
+    line-height: 1.75;
+    color: var(--paper);
+    border: 1px dashed var(--rule);
+    border-radius: 3px;
+    padding: 12px 14px;
+    max-width: 320px;
+    text-align: left;
+    background: rgba(240,229,207,0.05);
+  }
+  .card .rx b { color: var(--scrub); font-weight: 600; }
+  .card .rx span { color: var(--dim); }
+  .card p { margin: 0; font-size: 13px; color: var(--dim); max-width: 330px; }
+
+  button.go {
+    font-family: var(--display);
+    font-size: 16px;
+    letter-spacing: 0.02em;
+    color: #10202a;
+    background: var(--amber);
+    border: none;
+    border-bottom: 4px solid #b9821d;
+    border-radius: 4px;
+    padding: 12px 26px;
+    cursor: pointer;
+  }
+  button.go:active { transform: translateY(2px); border-bottom-width: 2px; }
+  button.go:focus-visible { outline: 3px solid var(--scrub); outline-offset: 3px; }
+
+  .final { font-family: var(--label); font-size: 13px; color: var(--laminate); }
+  .final b { color: var(--amber); font-size: 22px; font-variant-numeric: tabular-nums; }
+
+  .legend {
+    width: 100%; max-width: 520px;
+    display: flex; flex-wrap: wrap; gap: 6px 18px;
+    justify-content: center;
+    font-family: var(--label);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--dim);
+  }
+  .legend kbd {
+    font-family: var(--label);
+    background: #12242e;
+    border: 1px solid var(--rule);
+    border-bottom-width: 2px;
+    border-radius: 3px;
+    padding: 1px 5px;
+    color: var(--laminate);
+  }
+  .legend button {
+    font: inherit; text-transform: uppercase; letter-spacing: 0.1em;
+    background: none; border: none; color: var(--dim);
+    border-bottom: 1px dotted var(--dim);
+    padding: 0; cursor: pointer;
+  }
+  .legend button:hover { color: var(--amber); border-color: var(--amber); }
+
+  @media (prefers-reduced-motion: reduce) {
+    button.go:active { transform: none; }
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+  <header class="marquee">
+    <h1>Knights of the Copay</h1>
+    <p>Immunization Station &middot; Window 2</p>
+  </header>
+
+  <dl class="hud">
+    <div><dt>Score</dt><dd id="score">0</dd></div>
+    <div><dt>Wave</dt><dd id="wave">1</dd></div>
+    <div><dt>Streak</dt><dd id="combo">&times;1</dd></div>
+    <div><dt>Composure</dt><dd class="caps" id="lives">&#9679;&#9679;&#9679;</dd></div>
+  </dl>
+
+  <div class="stage">
+    <canvas id="game" width="480" height="660" tabindex="0"
+            aria-label="Pharmacy lane game: move between windows and hand out doses before customers reach the counter."></canvas>
+    <div class="scanlines"></div>
+    <div class="vignette"></div>
+
+    <div class="card" id="title-card">
+      <h2>Clinic opens in 3&hellip;</h2>
+      <div class="rx">
+        <b>SIG:</b> Hand one dose to each approaching patient.<br>
+        <b>SIG:</b> Two-dose series wear a scarf. Hit twice.<br>
+        <b>SIG:</b> Let three reach the counter and the shift is over.<br>
+        <span>REFILLS: 0 &middot; TRAY RESTOCKS ON ITS OWN</span>
+      </div>
+      <button class="go" id="start-btn">Start the shift</button>
+      <p>Arrow keys or A/D to slide along the counter, Space to hand off. On a phone, tap the lane.</p>
+    </div>
+
+    <div class="card" id="over-card" hidden>
+      <h2 id="over-head">Shift over</h2>
+      <p class="final">Doses given: <b id="final-score">0</b><br><span id="best-line"></span></p>
+      <div class="rx" id="over-note"></div>
+      <button class="go" id="again-btn">Clock back in</button>
+    </div>
+
+    <div class="card" id="pause-card" hidden>
+      <h2>On break</h2>
+      <p>The line is not getting shorter.</p>
+      <button class="go" id="resume-btn">Back to the window</button>
+    </div>
+  </div>
+
+  <div class="legend">
+    <span><kbd>&larr;</kbd><kbd>&rarr;</kbd> move</span>
+    <span><kbd>Space</kbd> hand off</span>
+    <span><kbd>P</kbd> break</span>
+    <span><button id="mute-btn" type="button">Sound: on</button></span>
+  </div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var W = 480, H = 660;
+  var HORIZON = 150, COUNTER = 512;
+  var LANES = 4;
+  var LANE_W = W / LANES;
+  var CX = W / 2;
+  var FAR = 0.30;            // how far lanes converge at the back wall
+  var REDUCED = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  var canvas = document.getElementById("game");
+  var ctx = canvas.getContext("2d");
+
+  var el = {
+    score: document.getElementById("score"),
+    wave: document.getElementById("wave"),
+    combo: document.getElementById("combo"),
+    lives: document.getElementById("lives"),
+    title: document.getElementById("title-card"),
+    over: document.getElementById("over-card"),
+    overHead: document.getElementById("over-head"),
+    overNote: document.getElementById("over-note"),
+    pause: document.getElementById("pause-card"),
+    finalScore: document.getElementById("final-score"),
+    bestLine: document.getElementById("best-line"),
+    mute: document.getElementById("mute-btn")
+  };
+
+  /* ---------- crisp canvas ---------- */
+  function fitCanvas() {
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = W * dpr;
+    canvas.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.imageSmoothingEnabled = true;
+  }
+  fitCanvas();
+  window.addEventListener("resize", fitCanvas);
+
+  /* ---------- perspective helpers ---------- */
+  function depthY(d) { return HORIZON + (COUNTER - HORIZON) * d; }
+  function depthScale(d) { return 0.30 + 0.80 * d; }
+  function laneNear(i) { return LANE_W * (i + 0.5); }
+  function laneX(i, d) {
+    var near = laneNear(i);
+    return CX + (near - CX) * (FAR + (1 - FAR) * d);
+  }
+
+  /* ---------- sound ---------- */
+  var audio = { ctx: null, on: true };
+  function beep(freq, dur, type, vol) {
+    if (!audio.on) return;
+    try {
+      if (!audio.ctx) {
+        var AC = window.AudioContext || window.webkitAudioContext;
+        if (!AC) return;
+        audio.ctx = new AC();
+      }
+      var a = audio.ctx, t = a.currentTime;
+      var osc = a.createOscillator(), g = a.createGain();
+      osc.type = type || "square";
+      osc.frequency.setValueAtTime(freq, t);
+      g.gain.setValueAtTime(vol || 0.05, t);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      osc.connect(g); g.connect(a.destination);
+      osc.start(t); osc.stop(t + dur + 0.02);
+    } catch (e) { /* audio is a nicety */ }
+  }
+  function sfxThrow() { beep(660, 0.07, "square", 0.04); }
+  function sfxHit()   { beep(880, 0.06, "triangle", 0.06); setTimeout(function(){ beep(1320, 0.08, "triangle", 0.05); }, 55); }
+  function sfxDone()  { beep(523, 0.08, "sine", 0.07); setTimeout(function(){ beep(784, 0.14, "sine", 0.06); }, 80); }
+  function sfxBreach(){ beep(150, 0.26, "sawtooth", 0.07); }
+  function sfxEmpty() { beep(110, 0.05, "square", 0.03); }
+
+  el.mute.addEventListener("click", function () {
+    audio.on = !audio.on;
+    el.mute.textContent = "Sound: " + (audio.on ? "on" : "off");
+  });
+
+  /* ---------- patients ---------- */
+  var COATS = ["#c9615a", "#5b8ac9", "#7aa361", "#c99a45", "#9b6fae", "#4ea79a", "#c7776f", "#6d7fa3"];
+  var SKINS = ["#f0c9a4", "#d8a273", "#9c6b45", "#6f472c", "#f6d9bd", "#b5804f"];
+  var HAIRS = ["#2b2118", "#5b3a20", "#8c8c8c", "#d8c48a", "#3c2f4a", "#e8e4dd"];
+  var LINES = [
+    "Flu shot?", "Is this the line?", "Just a quick one!", "Both arms?",
+    "Do I need an appointment?", "Left arm, please.", "Can I get it today?",
+    "My card's in the car.", "Two minutes, right?", "Booster time!",
+    "Does it hurt?", "I'm on my lunch."
+  ];
+
+  var game = null;
+
+  function newGame() {
+    return {
+      mode: "title",          // title | playing | paused | over
+      t: 0,
+      score: 0,
+      wave: 1,
+      cleared: 0,
+      lives: 3,
+      combo: 1,
+      streak: 0,
+      lane: 1,
+      pharmX: laneNear(1),
+      doses: 6,
+      maxDoses: 6,
+      regen: 0,
+      spawnIn: 1.2,
+      patients: [],
+      shots: [],
+      bits: [],
+      pops: [],
+      shake: 0,
+      flash: 0,
+      bob: 0,
+      best: loadBest()
+    };
+  }
+
+  function loadBest() {
+    try { return parseInt(localStorage.getItem("copay.best") || "0", 10) || 0; }
+    catch (e) { return 0; }
+  }
+  function saveBest(v) {
+    try { localStorage.setItem("copay.best", String(v)); } catch (e) { /* fine */ }
+  }
+
+  function spawn() {
+    var g = game;
+    var lane = Math.floor(Math.random() * LANES);
+    var series = g.wave >= 3 && Math.random() < Math.min(0.12 + g.wave * 0.03, 0.34);
+    var speed = (0.052 + g.wave * 0.0042) * (0.85 + Math.random() * 0.35);
+    if (series) speed *= 0.86;
+    g.patients.push({
+      lane: lane,
+      d: -0.04 - Math.random() * 0.05,
+      speed: speed,
+      doses: series ? 2 : 1,
+      series: series,
+      coat: COATS[(Math.random() * COATS.length) | 0],
+      skin: SKINS[(Math.random() * SKINS.length) | 0],
+      hair: HAIRS[(Math.random() * HAIRS.length) | 0],
+      hat: Math.random() < 0.22,
+      phase: Math.random() * 6.28,
+      line: Math.random() < 0.55 ? LINES[(Math.random() * LINES.length) | 0] : null,
+      bubble: 2.6,
+      state: "walk",          // walk | done
+      flinch: 0
+    });
+  }
+
+  function throwDose() {
+    var g = game;
+    if (g.mode !== "playing") return;
+    if (g.doses <= 0) { sfxEmpty(); g.shake = Math.max(g.shake, 3); return; }
+    g.doses--;
+    g.shots.push({ lane: g.lane, d: 0.97, spin: 0 });
+    sfxThrow();
+  }
+
+  function moveLane(dir) {
+    var g = game;
+    if (g.mode !== "playing") return;
+    g.lane = Math.max(0, Math.min(LANES - 1, g.lane + dir));
+  }
+
+  function breach(p) {
+    var g = game;
+    g.lives--;
+    g.combo = 1; g.streak = 0;
+    g.shake = 16; g.flash = 0.45;
+    sfxBreach();
+    g.pops.push({ x: laneX(p.lane, 1), y: depthY(1) - 70, txt: "GAH!", life: 1.1, tone: "#d6453d" });
+    if (g.lives <= 0) endGame();
+    syncHud();
+  }
+
+  function vaccinated(p) {
+    var g = game;
+    g.streak++;
+    g.combo = 1 + Math.floor(g.streak / 4);
+    var gain = 100 * g.combo;
+    g.score += gain;
+    g.cleared++;
+    var x = laneX(p.lane, p.d), y = depthY(p.d);
+    g.pops.push({ x: x, y: y - 74 * depthScale(p.d), txt: "+" + gain, life: 1.0, tone: "#f2b134" });
+    for (var i = 0; i < 9; i++) {
+      g.bits.push({
+        x: x, y: y - 60 * depthScale(p.d),
+        vx: (Math.random() - 0.5) * 120,
+        vy: -40 - Math.random() * 110,
+        life: 0.7 + Math.random() * 0.4,
+        tone: Math.random() < 0.5 ? "#2fbfa6" : "#f2b134"
+      });
+    }
+    sfxDone();
+    if (g.cleared % 8 === 0) {
+      g.wave++;
+      g.maxDoses = Math.min(9, 6 + Math.floor(g.wave / 3));
+      g.pops.push({ x: CX, y: HORIZON + 46, txt: "WAVE " + g.wave, life: 1.6, tone: "#2fbfa6" });
+    }
+    syncHud();
+  }
+
+  var CLOSERS = [
+    "<b>NOTE:</b> Line cleared, mostly.<br><span>Someone still asks for a flu shot at 8:58.</span>",
+    "<b>NOTE:</b> Tray empty, arms sore, vibes immaculate.<br><span>The waiting room chairs are all yours now.</span>",
+    "<b>NOTE:</b> Every dose accounted for.<br><span>Two people came back to ask a second question.</span>"
+  ];
+
+  function endGame() {
+    var g = game;
+    g.mode = "over";
+    el.finalScore.textContent = g.score.toLocaleString();
+    if (g.score > g.best) {
+      g.best = g.score; saveBest(g.score);
+      el.bestLine.textContent = "New personal best.";
+      el.overHead.textContent = "Shift over — record day";
+    } else {
+      el.bestLine.textContent = "Best shift: " + g.best.toLocaleString();
+      el.overHead.textContent = "Shift over";
+    }
+    el.overNote.innerHTML =
+      "<b>PATIENTS:</b> " + g.cleared + " immunized &middot; wave " + g.wave + "<br>" +
+      CLOSERS[(Math.random() * CLOSERS.length) | 0];
+    el.over.hidden = false;
+  }
+
+  function syncHud() {
+    var g = game;
+    el.score.textContent = g.score.toLocaleString();
+    el.wave.textContent = g.wave;
+    el.combo.textContent = "×" + g.combo;
+    el.combo.setAttribute("data-hot", g.combo > 1 ? "1" : "0");
+    var caps = "";
+    for (var i = 0; i < 3; i++) {
+      caps += i < g.lives ? "●" : '<span class="spent">●</span>';
+    }
+    el.lives.innerHTML = caps;
+  }
+
+  /* ---------- update ---------- */
+  function update(dt) {
+    var g = game;
+    g.t += dt;
+    g.bob += dt;
+    if (g.shake > 0) g.shake = Math.max(0, g.shake - dt * 42);
+    if (g.flash > 0) g.flash = Math.max(0, g.flash - dt * 1.4);
+
+    // pharmacist slides to lane
+    var target = laneNear(g.lane);
+    g.pharmX += (target - g.pharmX) * Math.min(1, dt * 13);
+
+    for (var pi = g.pops.length - 1; pi >= 0; pi--) {
+      var pop = g.pops[pi];
+      pop.life -= dt; pop.y -= dt * 26;
+      if (pop.life <= 0) g.pops.splice(pi, 1);
+    }
+    for (var bi = g.bits.length - 1; bi >= 0; bi--) {
+      var b = g.bits[bi];
+      b.life -= dt; b.x += b.vx * dt; b.y += b.vy * dt; b.vy += 320 * dt;
+      if (b.life <= 0) g.bits.splice(bi, 1);
+    }
+
+    if (g.mode !== "playing") return;
+
+    // restock the tray
+    g.regen += dt;
+    var rate = 0.82;
+    while (g.regen >= rate) {
+      g.regen -= rate;
+      if (g.doses < g.maxDoses) g.doses++;
+    }
+
+    // spawn
+    g.spawnIn -= dt;
+    if (g.spawnIn <= 0) {
+      spawn();
+      g.spawnIn = Math.max(0.78, 2.5 - g.wave * 0.11) * (0.75 + Math.random() * 0.6);
+    }
+
+    // shots travel toward the back of the store
+    for (var si = g.shots.length - 1; si >= 0; si--) {
+      var s = g.shots[si];
+      s.d -= dt * 1.55;
+      s.spin += dt * 9;
+      if (s.d < -0.06) { g.shots.splice(si, 1); g.streak = 0; g.combo = 1; syncHud(); continue; }
+
+      for (var ci = 0; ci < g.patients.length; ci++) {
+        var c = g.patients[ci];
+        if (c.lane !== s.lane || c.state !== "walk") continue;
+        if (Math.abs(c.d - s.d) < 0.055) {
+          g.shots.splice(si, 1);
+          c.doses--;
+          c.flinch = 0.28;
+          if (c.doses <= 0) { c.state = "done"; c.bubble = 0; vaccinated(c); }
+          else {
+            c.d = Math.max(-0.1, c.d - 0.14);
+            c.line = "One more!"; c.bubble = 1.4;
+            sfxHit();
+            g.pops.push({ x: laneX(c.lane, c.d), y: depthY(c.d) - 70 * depthScale(c.d), txt: "DOSE 1", life: 0.9, tone: "#2fbfa6" });
+          }
+          break;
+        }
+      }
+    }
+
+    // patients
+    for (var i = g.patients.length - 1; i >= 0; i--) {
+      var p = g.patients[i];
+      if (p.flinch > 0) p.flinch -= dt;
+      if (p.bubble > 0) p.bubble -= dt;
+
+      if (p.state === "walk") {
+        p.d += p.speed * dt;
+        if (p.d >= 1) { breach(p); g.patients.splice(i, 1); continue; }
+      } else {
+        p.d -= dt * 0.52;
+        if (p.d < -0.2) { g.patients.splice(i, 1); continue; }
+      }
+    }
+  }
+
+  /* ---------- drawing ---------- */
+  function roundRect(x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y, x + w, y + h, r);
+    ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r);
+    ctx.arcTo(x, y, x + w, y, r);
+    ctx.closePath();
+  }
+
+  function drawBackdrop() {
+    // back wall
+    var wall = ctx.createLinearGradient(0, 0, 0, HORIZON);
+    wall.addColorStop(0, "#0e2b33");
+    wall.addColorStop(1, "#1a4a53");
+    ctx.fillStyle = wall;
+    ctx.fillRect(0, 0, W, HORIZON);
+
+    // floor
+    var fl = ctx.createLinearGradient(0, HORIZON, 0, H);
+    fl.addColorStop(0, "#1c333f");
+    fl.addColorStop(1, "#0f1f28");
+    ctx.fillStyle = fl;
+    ctx.fillRect(0, HORIZON, W, H - HORIZON);
+
+    // converging aisle lines
+    ctx.strokeStyle = "rgba(240,229,207,0.09)";
+    ctx.lineWidth = 1;
+    for (var i = 0; i <= LANES; i++) {
+      var nx = LANE_W * i;
+      var fx = CX + (nx - CX) * FAR;
+      ctx.beginPath();
+      ctx.moveTo(fx, HORIZON);
+      ctx.lineTo(nx, COUNTER + 28);
+      ctx.stroke();
+    }
+    // floor tile bands
+    for (var k = 1; k <= 7; k++) {
+      var d = k / 7;
+      var y = depthY(d * 0.98);
+      ctx.globalAlpha = 0.05 + d * 0.06;
+      ctx.fillStyle = "#f0e5cf";
+      ctx.fillRect(0, y, W, 1.5);
+      ctx.globalAlpha = 1;
+    }
+
+    // side shelving, receding
+    drawShelf(-1);
+    drawShelf(1);
+
+    // back wall signage
+    ctx.save();
+    ctx.textAlign = "center";
+    ctx.fillStyle = "#2fbfa6";
+    ctx.font = '600 13px "IBM Plex Mono", monospace';
+    ctx.fillText("I M M U N I Z A T I O N S", CX, 56);
+    ctx.fillStyle = "rgba(240,229,207,0.45)";
+    ctx.font = '10px "IBM Plex Mono", monospace';
+    ctx.fillText("NO APPOINTMENT NEEDED  ·  WALK-INS WELCOME", CX, 76);
+    ctx.strokeStyle = "rgba(47,191,166,0.4)";
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(CX - 118, 88); ctx.lineTo(CX + 118, 88); ctx.stroke();
+    // doorway glow at the vanishing point
+    var glow = ctx.createRadialGradient(CX, HORIZON, 4, CX, HORIZON, 110);
+    glow.addColorStop(0, "rgba(242,177,52,0.22)");
+    glow.addColorStop(1, "rgba(242,177,52,0)");
+    ctx.fillStyle = glow;
+    ctx.fillRect(CX - 120, HORIZON - 90, 240, 120);
+    ctx.restore();
+  }
+
+  function drawShelf(side) {
+    // side is -1 (left) or 1 (right)
+    var nearX = side < 0 ? -10 : W + 10;
+    var farX = CX + (nearX - CX) * FAR;
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(farX, HORIZON);
+    ctx.lineTo(nearX, COUNTER + 40);
+    ctx.lineTo(nearX, HORIZON - 120);
+    ctx.lineTo(farX, HORIZON - 30);
+    ctx.closePath();
+    ctx.fillStyle = side < 0 ? "#173b44" : "#14343d";
+    ctx.fill();
+
+    ctx.clip();
+    // shelf boards + product blocks
+    for (var s = 0; s < 6; s++) {
+      var d = 0.08 + s * 0.16;
+      var x = CX + (nearX - CX) * (FAR + (1 - FAR) * d);
+      var y = depthY(d);
+      var sc = depthScale(d);
+      ctx.fillStyle = "rgba(240,229,207,0.12)";
+      ctx.fillRect(Math.min(x, CX), y - 96 * sc, Math.abs(x - CX) * 0.42, 3);
+      for (var b = 0; b < 4; b++) {
+        var bx = x + (side < 0 ? 6 + b * 14 * sc : -20 - b * 14 * sc);
+        ctx.fillStyle = b % 2 ? "rgba(242,177,52,0.30)" : "rgba(47,191,166,0.26)";
+        ctx.fillRect(bx, y - 96 * sc - 16 * sc, 10 * sc, 16 * sc);
+        ctx.fillStyle = "rgba(240,229,207,0.16)";
+        ctx.fillRect(bx, y - 56 * sc - 14 * sc, 10 * sc, 14 * sc);
+      }
+    }
+    ctx.restore();
+  }
+
+  function drawPatient(p) {
+    var d = Math.max(-0.2, p.d);
+    var x = laneX(p.lane, d);
+    var y = depthY(d);
+    var s = depthScale(d);
+    var walkT = game.t * (p.state === "walk" ? 6 : 8) + p.phase;
+    var step = Math.sin(walkT);
+    var bodyH = 54 * s, bodyW = 30 * s, headR = 12 * s;
+    var lift = p.state === "done" ? Math.abs(Math.sin(game.t * 9 + p.phase)) * 4 * s : 0;
+
+    ctx.save();
+    ctx.translate(x, y - lift);
+    if (p.flinch > 0) ctx.translate(Math.sin(p.flinch * 70) * 2.5 * s, 0);
+
+    // shadow
+    ctx.fillStyle = "rgba(0,0,0,0.30)";
+    ctx.beginPath();
+    ctx.ellipse(0, lift, bodyW * 0.62, 5.5 * s, 0, 0, 6.2832);
+    ctx.fill();
+
+    // legs
+    ctx.fillStyle = "#26323c";
+    ctx.fillRect(-bodyW * 0.30, -18 * s, 7 * s, 18 * s + step * 3 * s);
+    ctx.fillRect(bodyW * 0.30 - 7 * s, -18 * s, 7 * s, 18 * s - step * 3 * s);
+
+    // torso
+    ctx.fillStyle = p.coat;
+    roundRect(-bodyW / 2, -18 * s - bodyH, bodyW, bodyH, 7 * s);
+    ctx.fill();
+    // zip / placket
+    ctx.fillStyle = "rgba(0,0,0,0.16)";
+    ctx.fillRect(-1 * s, -18 * s - bodyH + 6 * s, 2 * s, bodyH - 12 * s);
+
+    // two-dose series wears a scarf
+    if (p.series) {
+      ctx.fillStyle = "#d6453d";
+      roundRect(-bodyW * 0.55, -18 * s - bodyH - 3 * s, bodyW * 1.1, 8 * s, 3 * s);
+      ctx.fill();
+      ctx.fillRect(bodyW * 0.18, -18 * s - bodyH + 4 * s, 6 * s, 16 * s);
+    }
+
+    // arms — one raised in greeting, one swinging
+    ctx.strokeStyle = p.coat;
+    ctx.lineWidth = 6 * s;
+    ctx.lineCap = "round";
+    ctx.beginPath();
+    ctx.moveTo(-bodyW / 2 + 2 * s, -18 * s - bodyH + 12 * s);
+    ctx.lineTo(-bodyW / 2 - 6 * s, -18 * s - bodyH + 30 * s + step * 4 * s);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(bodyW / 2 - 2 * s, -18 * s - bodyH + 12 * s);
+    if (p.state === "done") ctx.lineTo(bodyW / 2 + 8 * s, -18 * s - bodyH - 6 * s);
+    else ctx.lineTo(bodyW / 2 + 6 * s, -18 * s - bodyH + 30 * s - step * 4 * s);
+    ctx.stroke();
+
+    // bandage on the shoulder once dosed
+    if (p.state === "done") {
+      ctx.fillStyle = "#fdf8ec";
+      ctx.save();
+      ctx.translate(-bodyW / 2 + 4 * s, -18 * s - bodyH + 14 * s);
+      ctx.rotate(-0.5);
+      ctx.fillRect(-5 * s, -2.5 * s, 10 * s, 5 * s);
+      ctx.restore();
+    }
+
+    // head
+    var hy = -18 * s - bodyH - headR + 1 * s;
+    ctx.fillStyle = p.skin;
+    ctx.beginPath(); ctx.arc(0, hy, headR, 0, 6.2832); ctx.fill();
+    // hair
+    ctx.fillStyle = p.hair;
+    ctx.beginPath();
+    ctx.arc(0, hy - 1.5 * s, headR, Math.PI * 1.08, Math.PI * 1.92);
+    ctx.fill();
+    if (p.hat) {
+      ctx.fillStyle = "#2b6b7a";
+      roundRect(-headR - 2 * s, hy - headR - 4 * s, headR * 2 + 4 * s, 6 * s, 2 * s);
+      ctx.fill();
+    }
+    // face
+    ctx.fillStyle = "#1b2730";
+    var eo = headR * 0.38, ey = hy - headR * 0.08;
+    ctx.beginPath(); ctx.arc(-eo, ey, 1.6 * s, 0, 6.2832); ctx.fill();
+    ctx.beginPath(); ctx.arc(eo, ey, 1.6 * s, 0, 6.2832); ctx.fill();
+    ctx.strokeStyle = "#1b2730";
+    ctx.lineWidth = 1.4 * s;
+    ctx.beginPath();
+    ctx.arc(0, hy + headR * 0.18, headR * 0.42, 0.25, Math.PI - 0.25);
+    ctx.stroke();
+
+    ctx.restore();
+
+    // speech bubble
+    if (p.bubble > 0 && p.line && d > 0.02 && d < 0.94) {
+      drawBubble(x, y - (18 * s + bodyH + headR * 2.4), p.line, Math.min(1, p.bubble));
+    }
+  }
+
+  function drawBubble(x, y, text, alpha) {
+    ctx.save();
+    ctx.globalAlpha = Math.max(0, Math.min(1, alpha));
+    ctx.font = '600 11px "IBM Plex Mono", monospace';
+    var w = ctx.measureText(text).width + 16;
+    var h = 20;
+    var bx = Math.max(6, Math.min(W - w - 6, x - w / 2));
+    ctx.fillStyle = "#fdf8ec";
+    roundRect(bx, y - h, w, h, 5);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.moveTo(x - 4, y); ctx.lineTo(x + 4, y); ctx.lineTo(x, y + 6);
+    ctx.closePath(); ctx.fill();
+    ctx.fillStyle = "#16303a";
+    ctx.textAlign = "center";
+    ctx.fillText(text, bx + w / 2, y - 6);
+    ctx.restore();
+  }
+
+  function drawSyringe(x, y, s, angle) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(angle || 0);
+    ctx.scale(s, s);
+    // needle
+    ctx.strokeStyle = "#dfe7ea";
+    ctx.lineWidth = 1.6;
+    ctx.beginPath(); ctx.moveTo(0, -18); ctx.lineTo(0, -10); ctx.stroke();
+    // hub
+    ctx.fillStyle = "#b9c6cb";
+    ctx.fillRect(-2.5, -11, 5, 4);
+    // barrel
+    ctx.fillStyle = "#fdf8ec";
+    roundRect(-4.5, -7, 9, 18, 2);
+    ctx.fill();
+    // dose
+    ctx.fillStyle = "#2fbfa6";
+    ctx.fillRect(-3, 0, 6, 9);
+    // plunger
+    ctx.fillStyle = "#f2b134";
+    ctx.fillRect(-2, 11, 4, 5);
+    ctx.fillRect(-5.5, 15, 11, 2.5);
+    ctx.strokeStyle = "rgba(22,48,58,0.45)";
+    ctx.lineWidth = 0.8;
+    roundRect(-4.5, -7, 9, 18, 2);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  function drawCounter() {
+    var g = game;
+    // counter face
+    var grad = ctx.createLinearGradient(0, COUNTER, 0, H);
+    grad.addColorStop(0, "#f0e5cf");
+    grad.addColorStop(0.16, "#dccfb3");
+    grad.addColorStop(0.17, "#26404c");
+    grad.addColorStop(1, "#16303a");
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, COUNTER, W, H - COUNTER);
+
+    // counter lip highlight
+    ctx.fillStyle = "rgba(255,255,255,0.35)";
+    ctx.fillRect(0, COUNTER, W, 2);
+
+    // window dividers
+    ctx.strokeStyle = "rgba(240,229,207,0.16)";
+    ctx.lineWidth = 1;
+    for (var i = 1; i < LANES; i++) {
+      ctx.beginPath();
+      ctx.moveTo(LANE_W * i, COUNTER + 26);
+      ctx.lineTo(LANE_W * i, H);
+      ctx.stroke();
+    }
+    // window numbers
+    ctx.font = '9px "IBM Plex Mono", monospace';
+    ctx.fillStyle = "rgba(240,229,207,0.42)";
+    ctx.textAlign = "center";
+    for (var j = 0; j < LANES; j++) {
+      ctx.fillText("WINDOW " + (j + 1), laneNear(j), COUNTER + 38);
+    }
+
+    // dose tray on the counter
+    var trayX = 14, trayY = COUNTER - 16;
+    ctx.fillStyle = "rgba(22,48,58,0.22)";
+    roundRect(trayX - 6, trayY - 10, 16 + g.maxDoses * 11, 20, 4);
+    ctx.fill();
+    for (var k = 0; k < g.maxDoses; k++) {
+      ctx.globalAlpha = k < g.doses ? 1 : 0.16;
+      drawSyringe(trayX + 5 + k * 11, trayY, 0.52, Math.PI / 2);
+      ctx.globalAlpha = 1;
+    }
+    ctx.font = '8px "IBM Plex Mono", monospace';
+    ctx.fillStyle = "rgba(22,48,58,0.6)";
+    ctx.textAlign = "left";
+    ctx.fillText("TRAY", trayX - 5, trayY - 14);
+  }
+
+  function drawPharmacist() {
+    var g = game;
+    var x = g.pharmX;
+    var y = COUNTER + 6;
+    var s = 1.05;
+    var bob = Math.sin(g.bob * 3) * 1.2;
+    var panic = g.flash > 0;
+
+    ctx.save();
+    ctx.translate(x, y + bob);
+
+    // body: white coat
+    ctx.fillStyle = "#fdf8ec";
+    roundRect(-21 * s, -4 * s, 42 * s, 62 * s, 9 * s);
+    ctx.fill();
+    // scrub collar
+    ctx.fillStyle = "#2fbfa6";
+    ctx.beginPath();
+    ctx.moveTo(-9 * s, -4 * s);
+    ctx.lineTo(0, 12 * s);
+    ctx.lineTo(9 * s, -4 * s);
+    ctx.closePath();
+    ctx.fill();
+    // badge
+    ctx.fillStyle = "#d6453d";
+    ctx.fillRect(9 * s, 10 * s, 8 * s, 10 * s);
+    ctx.fillStyle = "rgba(0,0,0,0.25)";
+    ctx.fillRect(10 * s, 12 * s, 6 * s, 1.5 * s);
+
+    // arms
+    ctx.strokeStyle = "#fdf8ec";
+    ctx.lineWidth = 8 * s;
+    ctx.lineCap = "round";
+    ctx.beginPath();
+    ctx.moveTo(-17 * s, 8 * s);
+    ctx.lineTo(-26 * s, panic ? -10 * s : 22 * s);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(17 * s, 8 * s);
+    ctx.lineTo(26 * s, panic ? -10 * s : 22 * s);
+    ctx.stroke();
+
+    // head
+    ctx.fillStyle = "#e8b98d";
+    ctx.beginPath(); ctx.arc(0, -16 * s, 13 * s, 0, 6.2832); ctx.fill();
+    ctx.fillStyle = "#2b2118";
+    ctx.beginPath();
+    ctx.arc(0, -18 * s, 13 * s, Math.PI * 1.05, Math.PI * 1.95);
+    ctx.fill();
+    // glasses
+    ctx.strokeStyle = "#16303a";
+    ctx.lineWidth = 1.6 * s;
+    ctx.beginPath(); ctx.arc(-5 * s, -16 * s, 4 * s, 0, 6.2832); ctx.stroke();
+    ctx.beginPath(); ctx.arc(5 * s, -16 * s, 4 * s, 0, 6.2832); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(-1 * s, -16 * s); ctx.lineTo(1 * s, -16 * s); ctx.stroke();
+    ctx.fillStyle = "#16303a";
+    ctx.beginPath(); ctx.arc(-5 * s, -16 * s, 1.5 * s, 0, 6.2832); ctx.fill();
+    ctx.beginPath(); ctx.arc(5 * s, -16 * s, 1.5 * s, 0, 6.2832); ctx.fill();
+    // mouth
+    ctx.strokeStyle = "#16303a";
+    ctx.lineWidth = 1.5 * s;
+    ctx.beginPath();
+    if (panic) ctx.arc(0, -8 * s, 3.5 * s, Math.PI, 0);
+    else ctx.arc(0, -10 * s, 4 * s, 0.2, Math.PI - 0.2);
+    ctx.stroke();
+
+    // held syringe, ready
+    drawSyringe(26 * s, panic ? -14 * s : 20 * s, 0.9, panic ? -0.4 : -0.15);
+    ctx.restore();
+
+    // lane pointer on the floor
+    ctx.save();
+    ctx.globalAlpha = 0.55;
+    ctx.strokeStyle = "#f2b134";
+    ctx.lineWidth = 2;
+    var lx = laneNear(g.lane);
+    ctx.beginPath();
+    ctx.moveTo(lx - 16, COUNTER - 6);
+    ctx.lineTo(lx, COUNTER - 16);
+    ctx.lineTo(lx + 16, COUNTER - 6);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  function drawOverlayFx() {
+    var g = game;
+    ctx.save();
+    ctx.textAlign = "center";
+    for (var i = 0; i < g.pops.length; i++) {
+      var p = g.pops[i];
+      ctx.globalAlpha = Math.max(0, Math.min(1, p.life));
+      ctx.fillStyle = p.tone;
+      ctx.font = '600 15px "IBM Plex Mono", monospace';
+      ctx.fillText(p.txt, p.x, p.y);
+    }
+    ctx.globalAlpha = 1;
+    for (var b = 0; b < g.bits.length; b++) {
+      var bit = g.bits[b];
+      ctx.globalAlpha = Math.max(0, Math.min(1, bit.life * 1.6));
+      ctx.fillStyle = bit.tone;
+      ctx.fillRect(bit.x - 1.5, bit.y - 1.5, 3.5, 3.5);
+    }
+    ctx.restore();
+
+    if (g.flash > 0) {
+      ctx.fillStyle = "rgba(214,69,61," + (g.flash * 0.34).toFixed(3) + ")";
+      ctx.fillRect(0, 0, W, H);
+    }
+  }
+
+  function draw() {
+    var g = game;
+    ctx.clearRect(0, 0, W, H);
+    ctx.save();
+    if (g.shake > 0 && !REDUCED) {
+      ctx.translate((Math.random() - 0.5) * g.shake, (Math.random() - 0.5) * g.shake * 0.6);
+    }
+
+    drawBackdrop();
+
+    // entities, far to near
+    var order = g.patients.slice().sort(function (a, b) { return a.d - b.d; });
+    for (var i = 0; i < order.length; i++) drawPatient(order[i]);
+
+    for (var s = 0; s < g.shots.length; s++) {
+      var sh = g.shots[s];
+      var sc = depthScale(sh.d);
+      drawSyringe(laneX(sh.lane, sh.d), depthY(sh.d) - 44 * sc, sc * 1.05, Math.sin(sh.spin) * 0.28);
+    }
+
+    drawCounter();
+    drawPharmacist();
+    drawOverlayFx();
+    ctx.restore();
+  }
+
+  /* ---------- loop ---------- */
+  var last = 0;
+  function frame(ts) {
+    if (!last) last = ts;
+    var dt = Math.min(0.05, (ts - last) / 1000);
+    last = ts;
+    update(dt);
+    draw();
+    requestAnimationFrame(frame);
+  }
+
+  /* ---------- input ---------- */
+  document.addEventListener("keydown", function (e) {
+    var k = e.key;
+    if (k === " " || k === "ArrowUp" || k === "ArrowLeft" || k === "ArrowRight" || k === "ArrowDown") e.preventDefault();
+    if (game.mode === "title" && (k === " " || k === "Enter")) { startGame(); return; }
+    if (game.mode === "over" && (k === " " || k === "Enter")) { startGame(); return; }
+    if (k === "p" || k === "P" || k === "Escape") { togglePause(); return; }
+    if (k === "m" || k === "M") { el.mute.click(); return; }
+    if (k === "ArrowLeft" || k === "a" || k === "A") moveLane(-1);
+    else if (k === "ArrowRight" || k === "d" || k === "D") moveLane(1);
+    else if (k === " " || k === "ArrowUp" || k === "Enter") throwDose();
+  });
+
+  function laneFromPointer(e) {
+    var r = canvas.getBoundingClientRect();
+    var px = ((e.clientX - r.left) / r.width) * W;
+    return Math.max(0, Math.min(LANES - 1, Math.floor(px / LANE_W)));
+  }
+  canvas.addEventListener("pointerdown", function (e) {
+    if (game.mode !== "playing") return;
+    e.preventDefault();
+    canvas.focus({ preventScroll: true });
+    game.lane = laneFromPointer(e);
+    throwDose();
+  });
+
+  function togglePause() {
+    if (game.mode === "playing") { game.mode = "paused"; el.pause.hidden = false; }
+    else if (game.mode === "paused") { game.mode = "playing"; el.pause.hidden = true; last = 0; }
+  }
+  document.addEventListener("visibilitychange", function () {
+    if (document.hidden && game.mode === "playing") togglePause();
+  });
+
+  function startGame(seed) {
+    var best = game ? game.best : loadBest();
+    game = newGame();
+    game.best = Math.max(best, game.best);
+    if (seed && seed.best) game.best = Math.max(game.best, seed.best);
+    game.mode = "playing";
+    el.title.hidden = true;
+    el.over.hidden = true;
+    el.pause.hidden = true;
+    syncHud();
+    canvas.focus({ preventScroll: true });
+    beep(392, 0.09, "square", 0.05);
+    setTimeout(function () { beep(587, 0.12, "square", 0.05); }, 110);
+  }
+
+  document.getElementById("start-btn").addEventListener("click", function () { startGame(); });
+  document.getElementById("again-btn").addEventListener("click", function () { startGame(); });
+  document.getElementById("resume-btn").addEventListener("click", togglePause);
+
+  /* ---------- boot (with hot-reload state carry) ---------- */
+  function boot(data) {
+    game = newGame();
+    if (data && typeof data.best === "number") game.best = Math.max(game.best, data.best);
+    // a few patients idling in the aisle so the clinic looks open before you start
+    for (var i = 0; i < 3; i++) { spawn(); game.patients[i].d = 0.1 + i * 0.16; }
+    syncHud();
+    requestAnimationFrame(frame);
+  }
+
+  if (window.claude && window.claude.hot && window.claude.hot.snapshot) {
+    window.claude.hot.snapshot(function () { return { best: game ? game.best : 0 }; });
+  }
+  if (window.claude && window.claude.hot && window.claude.hot.ready) {
+    window.claude.hot.ready(boot);
+  } else {
+    boot((window.claude && window.claude.hot && window.claude.hot.data) || {});
+  }
+})();
+</script>
+</body>
+</html>
