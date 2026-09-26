@@ -415,7 +415,7 @@ const searchItems = [
         { name: "AP SVT (store visit tool)  #Asset Protection", url: "https://ldp.cvsapps.com/sso" },
         { name: "Scan Rx Docs into CFRx  #Regulatory", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Scan_Pharmacy_Documents_Master_Guide_AT.pdf" },
         { name: "IMZ Mini Game #Immunixations", url: "/rxnet/imzgame" },
-        { name: "XXXXXXXXXXXXXXX  #XXXXXXXXXX", url: "XXXXXXXXXXXXXXX" },
+        { name: "Forgery Protocol  #Regulatory", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Prescription_Forgery_Protocol_Job_Aid_FV.pdf" },
         { name: "XXXXXXXXXXXXXXX  #XXXXXXXXXX", url: "XXXXXXXXXXXXXXX" },
         { name: "XXXXXXXXXXXXXXX  #XXXXXXXXXX", url: "XXXXXXXXXXXXXXX" },
         { name: "XXXXXXXXXXXXXXX  #XXXXXXXXXX", url: "XXXXXXXXXXXXXXX" },
