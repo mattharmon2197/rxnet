@@ -388,523 +388,307 @@ body {
   <script src="/rxnet/js/searchData.js"></script>
 
   <script>
-    function showCategory(id, el = null) {
-      document.querySelectorAll('.category-panel').forEach(panel => {
-        panel.style.display = 'none';
-      });
+  /* =========================================================
+     RXNET MOBILE - MAIN SCRIPT
+     ========================================================= */
 
-      document.getElementById('searchPanel').style.display = 'none';
-      document.getElementById('searchBox').value = '';
-      document.getElementById('searchResults').innerHTML = '';
-      document.getElementById('searchResults').style.display = 'none';
+  /* ---------- POPUP HELPERS (one set, used by every popup) ----------
+     Every popup is created on the fly with the class "dynamic-popup",
+     and closePopup() only ever removes those. Nothing else on the page
+     is touched, so popups can be opened and cancelled in any order. */
+  function closePopup() {
+    document.querySelectorAll(".dynamic-popup").forEach(el => el.remove());
+  }
 
-      document.querySelectorAll('.nav-button').forEach(btn => {
-        btn.classList.remove('active');
-      });
+  function showPopup(innerHTML) {
+    closePopup();
+    const overlay = document.createElement("div");
+    overlay.className = "popup-overlay dynamic-popup";
+    overlay.innerHTML = '<div class="popup-box">' + innerHTML + "</div>";
+    document.body.appendChild(overlay);
+    return overlay;
+  }
 
-      if (el) {
-        el.classList.add('active');
-      }
+  function openLink(url) {
+    window.open(url, "_blank", "noopener,noreferrer");
+    closePopup();
+  }
 
-      if (id === 'search') {
-        document.getElementById('searchPanel').style.display = 'block';
-        setTimeout(() => {
-          document.getElementById('searchBox').focus();
-        }, 50);
-      } else {
-        document.getElementById(id).style.display = 'grid';
-      }
-    }
+  /* A popup with a title, one button per option, and Cancel */
+  function choicePopup(title, options) {
+    const overlay = showPopup("<h3></h3>");
+    overlay.querySelector("h3").textContent = title;
+    const box = overlay.querySelector(".popup-box");
+    options.forEach(function (opt) {
+      const b = document.createElement("button");
+      b.textContent = opt[0];
+      b.onclick = opt[1];
+      box.appendChild(b);
+    });
+    const cancel = document.createElement("button");
+    cancel.textContent = "Cancel";
+    cancel.onclick = closePopup;
+    box.appendChild(cancel);
+  }
 
-    function searchFunction() {
-      let input = document.getElementById("searchBox").value.toLowerCase();
-      let resultsDiv = document.getElementById("searchResults");
-      resultsDiv.innerHTML = "";
+  /* A popup that asks for a 5-digit store number, then opens buildUrl(store) */
+  function askStoreNumber(title, buildUrl) {
+    const overlay = showPopup(
+      "<h3></h3>" +
+      '<input type="text" inputmode="numeric" placeholder="5-digit store #" style="padding:8px; width:80%; font-size:1rem;">' +
+      '<div class="store-error" style="color:#b00020; font-size:0.9rem; margin-top:8px;"></div>' +
+      "<br>" +
+      '<button class="go">Continue</button>' +
+      '<button class="cancel">Cancel</button>'
+    );
+    overlay.querySelector("h3").textContent = title;
+    const input = overlay.querySelector("input");
+    const error = overlay.querySelector(".store-error");
 
-      if (input.length === 0) {
-        resultsDiv.style.display = "none";
+    function go() {
+      const store = input.value.trim();
+      if (!/^\d{5}$/.test(store)) {
+        error.textContent = "Please enter a valid 5-digit store number.";
         return;
       }
-
-      let matches = searchItems.filter(item => item.name.toLowerCase().includes(input));
-
-      if (matches.length > 0) {
-        resultsDiv.style.display = "block";
-        matches.forEach(item => {
-          let link = document.createElement("a");
-          link.innerText = item.name;
-          link.className = "search-result";
-
-          if (item.url.includes("XXXXX")) {
-            link.href = "#";
-            link.onclick = function () {
-              let store = prompt("Enter your store number:");
-              if (store) window.open(item.url.replace("XXXXX", store), "_blank");
-            };
-          } else if (item.url.includes("YYYYYYYYYY")) {
-            link.href = "#";
-            link.onclick = function () {
-              let npi = prompt("Enter your NPI number:");
-              if (npi) window.open(item.url.replace("YYYYYYYYYY", npi), "_blank");
-            };
-          } else {
-            link.href = item.url;
-            link.target = "_blank";
-          }
-
-          resultsDiv.appendChild(link);
-        });
-      } else {
-        resultsDiv.style.display = "none";
-      }
+      openLink(buildUrl(store));
     }
 
-    function openDynamicURL(baseURL) {
-      if (baseURL.includes("XXXXX")) {
-        let storeNumber = prompt("Enter your store number:");
-        if (storeNumber) {
-          let finalURL = baseURL.replace("XXXXX", encodeURIComponent(storeNumber));
-          window.open(finalURL, "_blank", "noopener,noreferrer");
-        }
-      } else if (baseURL.includes("YYYYYYYYYY")) {
-        let npi = prompt("Enter your NPI number:");
-        if (npi) {
-          let finalURL = baseURL.replace("YYYYYYYYYY", encodeURIComponent(npi));
-          window.open(finalURL, "_blank", "noopener,noreferrer");
-        }
-      } else {
-        window.open(baseURL, "_blank", "noopener,noreferrer");
-      }
-    }
+    overlay.querySelector(".go").onclick = go;
+    overlay.querySelector(".cancel").onclick = closePopup;
+    input.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") go();
+    });
+    input.focus();
+  }
 
-    function chooseCitrix() {
-      document.getElementById("citrixPopup").style.display = "flex";
-    }
-
-    function openCitrix(choice) {
-      if (choice === "corp") {
-        window.open("https://remote.cvscaremark.com/Citrix/remotecorpWeb/", "_blank", "noopener,noreferrer");
-      } else if (choice === "cvs") {
-        window.open("https://remote.cvshealth.com/Citrix/remotecvsWeb/", "_blank", "noopener,noreferrer");
-      } else if (choice === "epic") {
-        window.open("https://appsmc.minclinic.local/Citrix/appsmcWeb/", "_blank", "noopener,noreferrer");
-      } else if (choice === "appsportal") {
-        window.open("https://apps.cvshealth.com/logon/LogonPoint/tmindex.html/", "_blank", "noopener,noreferrer");
-      }
-      closeCitrixPopup();
-    }
-
-    function closeCitrixPopup() {
-      document.getElementById("citrixPopup").style.display = "none";
-    }
-
-    document.addEventListener("click", function (event) {
-      let searchBox = document.getElementById("searchBox");
-      let resultsDiv = document.getElementById("searchResults");
-      if (!searchBox.contains(event.target) && !resultsDiv.contains(event.target)) {
-        resultsDiv.style.display = "none";
-      }
+  /* ---------- CATEGORY / NAV ---------- */
+  function showCategory(id, el = null) {
+    document.querySelectorAll(".category-panel").forEach(panel => {
+      panel.style.display = "none";
     });
 
-    window.onload = function () {
-      showCategory('operational');
-      const operationalBtn = Array.from(document.getElementsByClassName('nav-button'))
-        .find(btn => btn.textContent.includes('Ops'));
-      if (operationalBtn) operationalBtn.classList.add('active');
-    };
-  </script>
+    document.getElementById("searchPanel").style.display = "none";
+    document.getElementById("searchBox").value = "";
+    document.getElementById("searchResults").innerHTML = "";
+    document.getElementById("searchResults").style.display = "none";
 
+    document.querySelectorAll(".nav-button").forEach(btn => {
+      btn.classList.remove("active");
+    });
 
-  
-  <script>
-  /* ---------- CLOSE ANY OPEN POPUP ---------- */
-  function closePopup() {
-    const existing = document.querySelector(".popup-overlay");
-    if (existing) existing.remove();
+    if (el) {
+      el.classList.add("active");
+    }
+
+    if (id === "search") {
+      document.getElementById("searchPanel").style.display = "block";
+      setTimeout(() => {
+        document.getElementById("searchBox").focus();
+      }, 50);
+    } else {
+      document.getElementById(id).style.display = "grid";
+    }
   }
 
-  /* ---------- STANDARD LOGIN ---------- */
-  function launchSmartSenseStandard() {
-    window.open("https://app.smartsense.co", "_blank", "noopener");
-    closePopup();
-  }
+  /* ---------- SEARCH ---------- */
+  function searchFunction() {
+    let input = document.getElementById("searchBox").value.toLowerCase();
+    let resultsDiv = document.getElementById("searchResults");
+    resultsDiv.innerHTML = "";
 
-  /* ---------- FIRST POPUP (CHOICE) ---------- */
-  function openSmartSensePopup() {
-    closePopup();
-
-    const overlay = document.createElement("div");
-    overlay.className = "popup-overlay";
-
-    overlay.innerHTML = `
-      <div class="popup-box">
-        <h3>SmartSense Login</h3>
-
-        <button onclick="launchSmartSenseStandard()">
-          Standard Login
-        </button>
-
-        <button onclick="openSmartSenseStore()">
-          Store SSO
-        </button>
-
-        <button onclick="closePopup()">Cancel</button>
-      </div>
-    `;
-
-    document.body.appendChild(overlay);
-  }
-
-  /* ---------- STORE NUMBER POPUP ---------- */
-  function openSmartSenseStore() {
-    closePopup();
-
-    const overlay = document.createElement("div");
-    overlay.className = "popup-overlay";
-
-    overlay.innerHTML = `
-      <div class="popup-box">
-        <h3>Enter Store Number</h3>
-
-        <input
-          type="text"
-          id="smartsenseStore"
-          placeholder="5-digit store #"
-          style="padding:8px; width:80%; font-size:1rem;"
-          onkeydown="if (event.key === 'Enter') launchSmartSenseSSO();"
-        />
-
-        <br><br>
-
-        <button onclick="launchSmartSenseSSO()">Continue</button>
-        <button onclick="closePopup()">Cancel</button>
-      </div>
-    `;
-
-    document.body.appendChild(overlay);
-    document.getElementById("smartsenseStore").focus();
-  }
-
-  /* ---------- LAUNCH SSO ---------- */
-  function launchSmartSenseSSO() {
-    const store = document.getElementById("smartsenseStore")?.value.trim();
-
-    if (!/^\d{5}$/.test(store)) {
-      alert("Please enter a valid 5-digit store number.");
+    if (input.length === 0) {
+      resultsDiv.style.display = "none";
       return;
     }
 
-    const url =
-      "https://app.smartsense.co/api/Saml/InitiateSingleSignOn/CVS" +
-      "?returnUrl=https://app.smartsense.co/start/" + store;
+    let matches = searchItems.filter(item => item.name.toLowerCase().includes(input));
 
-    window.open(url, "_blank", "noopener");
-    closePopup();
-  }
-  </script>
-  
-  
-  
-  
-  <script>
-  /* ---------- CLOSE ANY OPEN POPUP ---------- */
-  function closePopup() {
-    const existing = document.querySelector(".popup-overlay");
-    if (existing) existing.remove();
-  }
+    if (matches.length > 0) {
+      resultsDiv.style.display = "block";
+      matches.forEach(item => {
+        let link = document.createElement("a");
+        link.innerText = item.name;
+        link.className = "search-result";
 
-  /* ---------- STANDARD LOGIN ---------- */
-  function launchZiplineStandard() {
-    window.open("https://cvs.retailzipline.com/field/dashboard", "_blank", "noopener");
-    closePopup();
-  }
+        if (item.url.includes("XXXXX")) {
+          link.href = "#";
+          link.onclick = function () {
+            let store = prompt("Enter your store number:");
+            if (store) window.open(item.url.replace("XXXXX", store), "_blank");
+          };
+        } else if (item.url.includes("YYYYYYYYYY")) {
+          link.href = "#";
+          link.onclick = function () {
+            let npi = prompt("Enter your NPI number:");
+            if (npi) window.open(item.url.replace("YYYYYYYYYY", npi), "_blank");
+          };
+        } else {
+          link.href = item.url;
+          link.target = "_blank";
+        }
 
-  /* ---------- FIRST POPUP (CHOICE) ---------- */
-  function openZiplinePopup() {
-    closePopup();
-
-    const overlay = document.createElement("div");
-    overlay.className = "popup-overlay";
-
-    overlay.innerHTML = `
-      <div class="popup-box">
-        <h3>Zipline Login</h3>
-
-        <button onclick="launchZiplineStandard()">
-          Default Login
-        </button>
-
-        <button onclick="openZiplineStore()">
-          Floater Login
-        </button>
-
-        <button onclick="closePopup()">Cancel</button>
-      </div>
-    `;
-
-    document.body.appendChild(overlay);
-  }
-
-  /* ---------- STORE NUMBER POPUP ---------- */
-  function openZiplineStore() {
-    closePopup();
-
-    const overlay = document.createElement("div");
-    overlay.className = "popup-overlay";
-
-    overlay.innerHTML = `
-      <div class="popup-box">
-        <h3>Enter Store Number</h3>
-
-        <input
-          type="text"
-          id="ziplineStore"
-          placeholder="5-digit store #"
-          style="padding:8px; width:80%; font-size:1rem;"
-          onkeydown="if (event.key === 'Enter') launchZiplineField();"
-        />
-
-        <br><br>
-
-        <button onclick="launchZiplineField()">Continue</button>
-        <button onclick="closePopup()">Cancel</button>
-      </div>
-    `;
-
-    document.body.appendChild(overlay);
-    document.getElementById("ziplineStore").focus();
-  }
-
-  /* ---------- LAUNCH SSO ---------- */
-  function launchZiplineField() {
-    const store = document.getElementById("ziplineStore")?.value.trim();
-
-    if (!/^\d{5}$/.test(store)) {
-      alert("Please enter a valid 5-digit store number.");
-      return;
+        resultsDiv.appendChild(link);
+      });
+    } else {
+      resultsDiv.style.display = "none";
     }
-
-    const url =
-      "https://federatione.cvs.com/affwebservices/public/saml2sso?SPID=cvshealthsp_png_cvscom&RelayState=https://authsvc.cvshealth.com/idp/startSSO.ping?PartnerSpId=https://cvs.retailzipline.com/sso/saml/metadata/?SUBSTITUTE_STORE_NUMBER=" + store;
-
-    window.open(url, "_blank", "noopener");
-    closePopup();
-  }
-  </script>
-  
-  
-  
-  
-  <script>
-  /* ---------- CLOSE ANY OPEN POPUP ---------- */
-  function closePopup() {
-    const existing = document.querySelector(".popup-overlay");
-    if (existing) existing.remove();
   }
 
-  /* ---------- LAUNCH OPTION 1 ---------- */
-  function launchCaspioGroupOne() {
-    window.open(
-      "https://c0axa109.caspio.com/dp/731b1000a87a77ff9fd24b08b4ac",
-      "_blank",
-      "noopener"
-    );
-    closePopup();
-  }
-
-  /* ---------- LAUNCH OPTION 2 ---------- */
-  function launchCaspioGroupTwo() {
-    window.open(
-      "https://c0axa109.caspio.com/dp/731b10004bfbccf50890404a9346",
-      "_blank",
-      "noopener"
-    );
-    closePopup();
-  }
-
-  /* ---------- OPEN POPUP ---------- */
-  function openCaspioPopup() {
-    closePopup();
-
-    const overlay = document.createElement("div");
-    overlay.className = "popup-overlay";
-
-    overlay.innerHTML = `
-      <div class="popup-box">
-        <h3>Select Your Role</h3>
-
-        <button onclick="launchCaspioGroupOne()">
-          Pharmacists, Interns & Techs (CA, DE, IA, LA, MD, MO, NM, OH, OR, UT, WA, WV)
-        </button>
-
-        <button onclick="launchCaspioGroupTwo()">
-          All Other Technicians
-        </button>
-
-        <button onclick="closePopup()">Cancel</button>
-      </div>
-    `;
-
-    document.body.appendChild(overlay);
-  }
-  </script>
-  
-<script>
-/* ---------- CLOSE POPUP ---------- */
-function closePopup() {
-  const existing = document.querySelector(".popup-overlay");
-  if (existing) existing.remove();
-}
-
-/* ---------- OPEN DEA CHECKER ---------- */
-function openDEAChecker() {
-  closePopup();
-
-  const overlay = document.createElement("div");
-  overlay.className = "popup-overlay";
-
-  overlay.innerHTML = `
-    <div class="popup-box">
-      <h3>DEA Number Validator</h3>
-
-      <input
-        type="text"
-        id="deaInput"
-        placeholder="Enter DEA Number"
-        style="padding:8px; width:80%; font-size:1rem; text-transform:uppercase;"
-        onkeydown="if (event.key === 'Enter') validateDEA();"
-      />
-
-      <br><br>
-
-      <button id="deaValidateButton" onclick="validateDEA()">
-        Validate
-      </button>
-
-      <button onclick="closePopup()">
-        Cancel
-      </button>
-
-      <div id="deaResult" style="margin-top:15px; font-size:0.95rem;"></div>
-    </div>
-  `;
-
-  document.body.appendChild(overlay);
-
-  const input = document.getElementById("deaInput");
-  input.focus();
-}
-
-/* ---------- DEA VALIDATION ---------- */
-function validateDEA() {
-
-  const dea = document
-    .getElementById("deaInput")
-    .value
-    .trim()
-    .toUpperCase();
-
-  const resultDiv = document.getElementById("deaResult");
-
-  /* ----- BASIC FORMAT CHECK ----- */
-  if (!/^[A-Z]{2}\d{7}$/.test(dea)) {
-    resultDiv.innerHTML = `
-      <div style="color:red;">
-        Invalid format.<br>
-        DEA numbers should be 2 letters followed by 7 digits.
-      </div>
-    `;
-    return;
-  }
-
-  const digits = dea.substring(2);
-
-  /* ----- DEA CHECKSUM ----- */
-  const d1 = parseInt(digits[0]);
-  const d2 = parseInt(digits[1]);
-  const d3 = parseInt(digits[2]);
-  const d4 = parseInt(digits[3]);
-  const d5 = parseInt(digits[4]);
-  const d6 = parseInt(digits[5]);
-  const checkDigit = parseInt(digits[6]);
-
-  const oddSum = d1 + d3 + d5;
-  const evenSum = (d2 + d4 + d6) * 2;
-
-  const total = oddSum + evenSum;
-
-  const calculatedDigit = parseInt(
-    total.toString().slice(-1)
-  );
-
-  /* ----- FINAL RESULT ----- */
-  if (calculatedDigit === checkDigit) {
-
-    resultDiv.innerHTML = `
-      <div style="color:green; font-weight:bold;">
-        DEA number appears valid.
-      </div>
-
-      <div style="margin-top:8px; font-size:0.85rem;">
-        Format and checksum pass verification.<br>
-        This does NOT confirm active registration status.
-      </div>
-    `;
-
-  } else {
-
-    resultDiv.innerHTML = `
-      <div style="color:red; font-weight:bold;">
-        DEA number failed checksum validation.
-      </div>
-
-      <div style="margin-top:8px; font-size:0.85rem;">
-        The number is likely invalid or mistyped.
-      </div>
-    `;
-  }
-}
-    
-    
-    /* =========================================================
-       mySchedule / SAML
-       ========================================================= */
-
-    function choosemySchedule() {
-      document.getElementById("mySchedulePopup").style.display = "flex";
-    }
-
-
-    function openmySchedule(choice) {
-
-      if (choice === "mySchedule") {
-
-        window.open(
-          "https://cvs.reflexisinc.com/kernel/views/authenticate/web/CVS.view",
-          "_blank",
-          "noopener,noreferrer"
-        );
-
-      } else if (choice === "rrt") {
-
-        window.open(
-          "https://federatione.cvs.com/siteminderagent/forms/enterpriselogin.fcc?TYPE=33554433&REALMOID=06-000b85c2-7455-17b6-bef3-f8a50a5ca09e&GUID=&SMAUTHREASON=0&METHOD=GET&SMAGENTNAME=-SM-4qv8ej3I%2bef50jOTXBfzddyxWLgCk4rIl4aQ5C1Iv8Cpj7PHBvrt2ao8JPl1Sd7S&TARGET=-SM-HTTPS%3a%2f%2ffederatione%2ecvs%2ecom%2fsiteminderagent%2fredirectjsp%2fredirect%2ejsp%3fSPID%3dcvshealthsp_png_cvscom%26RelayState%3dhttps%3a%2f%2fcvs%2ereflexisinc%2ecom%2fkernel%2fviews%2fauthenticate%2fweb%2fCVS%2eview%26SMPORTALURL%3dhttps-%3A-%2F-%2Ffederatione%2ecvs%2ecom-%2Faffwebservices-%2Fpublic-%2Fsaml2sso%26SAMLTRANSACTIONID%3d8f897c89--6a8931ff--f5e8b1b2--dd468af6--3b0c612e--6",
-          "_blank",
-          "noopener,noreferrer"
-        );
+  function openDynamicURL(baseURL) {
+    if (baseURL.includes("XXXXX")) {
+      let storeNumber = prompt("Enter your store number:");
+      if (storeNumber) {
+        window.open(baseURL.replace("XXXXX", encodeURIComponent(storeNumber)), "_blank", "noopener,noreferrer");
       }
+    } else if (baseURL.includes("YYYYYYYYYY")) {
+      let npi = prompt("Enter your NPI number:");
+      if (npi) {
+        window.open(baseURL.replace("YYYYYYYYYY", encodeURIComponent(npi)), "_blank", "noopener,noreferrer");
+      }
+    } else {
+      window.open(baseURL, "_blank", "noopener,noreferrer");
+    }
+  }
 
-      closemySchedulePopup();
+  document.addEventListener("click", function (event) {
+    let searchBox = document.getElementById("searchBox");
+    let resultsDiv = document.getElementById("searchResults");
+    if (!searchBox.contains(event.target) && !resultsDiv.contains(event.target)) {
+      resultsDiv.style.display = "none";
+    }
+  });
+
+  /* =========================================================
+     POPUPS
+     ========================================================= */
+
+  /* ---------- Citrix ---------- */
+  function chooseCitrix() {
+    choicePopup("Select Citrix Domain", [
+      ["EPIC",             () => openLink("https://appsmc.minclinic.local/Citrix/appsmcWeb/")],
+      ["Apps Portal",      () => openLink("https://apps.cvshealth.com/logon/LogonPoint/tmindex.html/")],
+      ["CORP (external)",  () => openLink("https://remote.cvscaremark.com/Citrix/remotecorpWeb/")],
+      ["CVS (external)",   () => openLink("https://remote.cvshealth.com/Citrix/remotecvsWeb/")]
+    ]);
+  }
+
+  /* ---------- SmartSense ---------- */
+  function openSmartSensePopup() {
+    choicePopup("SmartSense Login", [
+      ["Standard Login", () => openLink("https://app.smartsense.co")],
+      ["Store SSO",      openSmartSenseStore]
+    ]);
+  }
+
+  function openSmartSenseStore() {
+    askStoreNumber("Enter Store Number", function (store) {
+      return "https://app.smartsense.co/api/Saml/InitiateSingleSignOn/CVS" +
+             "?returnUrl=https://app.smartsense.co/start/" + store;
+    });
+  }
+
+  /* ---------- Zipline ---------- */
+  function openZiplinePopup() {
+    choicePopup("Zipline Login", [
+      ["Default Login",  () => openLink("https://cvs.retailzipline.com/field/dashboard")],
+      ["Floater Login",  openZiplineStore]
+    ]);
+  }
+
+  function openZiplineStore() {
+    askStoreNumber("Enter Store Number", function (store) {
+      return "https://federatione.cvs.com/affwebservices/public/saml2sso?SPID=cvshealthsp_png_cvscom" +
+             "&RelayState=https://authsvc.cvshealth.com/idp/startSSO.ping?PartnerSpId=https://cvs.retailzipline.com/sso/saml/metadata/" +
+             "?SUBSTITUTE_STORE_NUMBER=" + store;
+    });
+  }
+
+  /* ---------- mySchedule (Ping or SAML) ---------- */
+  function choosemySchedule() {
+    choicePopup("Do you want to login with Ping or SAML?", [
+      ["Ping", () => openLink("https://cvs.reflexisinc.com/kernel/views/authenticate/web/CVS.view")],
+      ["SAML", () => openLink("https://federatione.cvs.com/siteminderagent/forms/enterpriselogin.fcc?TYPE=33554433&REALMOID=06-000b85c2-7455-17b6-bef3-f8a50a5ca09e&GUID=&SMAUTHREASON=0&METHOD=GET&SMAGENTNAME=-SM-4qv8ej3I%2bef50jOTXBfzddyxWLgCk4rIl4aQ5C1Iv8Cpj7PHBvrt2ao8JPl1Sd7S&TARGET=-SM-HTTPS%3a%2f%2ffederatione%2ecvs%2ecom%2fsiteminderagent%2fredirectjsp%2fredirect%2ejsp%3fSPID%3dcvshealthsp_png_cvscom%26RelayState%3dhttps%3a%2f%2fcvs%2ereflexisinc%2ecom%2fkernel%2fviews%2fauthenticate%2fweb%2fCVS%2eview%26SMPORTALURL%3dhttps-%3A-%2F-%2Ffederatione%2ecvs%2ecom-%2Faffwebservices-%2Fpublic-%2Fsaml2sso%26SAMLTRANSACTIONID%3d8f897c89--6a8931ff--f5e8b1b2--dd468af6--3b0c612e--6")]
+    ]);
+  }
+
+  /* ---------- CPR Scheduling (Caspio) ---------- */
+  function openCaspioPopup() {
+    choicePopup("Select Your Role", [
+      ["Pharmacists, Interns & Techs (CA, DE, IA, LA, MD, MO, NM, OH, OR, UT, WA, WV)",
+        () => openLink("https://c0axa109.caspio.com/dp/731b1000a87a77ff9fd24b08b4ac")],
+      ["All Other Technicians",
+        () => openLink("https://c0axa109.caspio.com/dp/731b10004bfbccf50890404a9346")]
+    ]);
+  }
+
+  /* ---------- DEA validator ---------- */
+  function openDEAChecker() {
+    const overlay = showPopup(
+      "<h3>DEA Number Validator</h3>" +
+      '<input type="text" id="deaInput" placeholder="Enter DEA Number" style="padding:8px; width:80%; font-size:1rem; text-transform:uppercase;">' +
+      "<br><br>" +
+      '<button class="validate">Validate</button>' +
+      '<button class="cancel">Cancel</button>' +
+      '<div id="deaResult" style="margin-top:15px; font-size:0.95rem;"></div>'
+    );
+    overlay.querySelector(".validate").onclick = validateDEA;
+    overlay.querySelector(".cancel").onclick = closePopup;
+    const input = document.getElementById("deaInput");
+    input.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") validateDEA();
+    });
+    input.focus();
+  }
+
+  function validateDEA() {
+    const dea = document.getElementById("deaInput").value.trim().toUpperCase();
+    const resultDiv = document.getElementById("deaResult");
+
+    /* basic format: 2 letters + 7 digits */
+    if (!/^[A-Z]{2}\d{7}$/.test(dea)) {
+      resultDiv.innerHTML = `
+        <div style="color:red;">
+          Invalid format.<br>
+          DEA numbers should be 2 letters followed by 7 digits.
+        </div>`;
+      return;
     }
 
+    /* checksum */
+    const d = dea.substring(2).split("").map(Number);
+    const total = (d[0] + d[2] + d[4]) + (d[1] + d[3] + d[5]) * 2;
+    const calculatedDigit = total % 10;
 
-    function closemySchedulePopup() {
-      document.getElementById("mySchedulePopup").style.display = "none";
+    if (calculatedDigit === d[6]) {
+      resultDiv.innerHTML = `
+        <div style="color:green; font-weight:bold;">
+          DEA number appears valid.
+        </div>
+        <div style="margin-top:8px; font-size:0.85rem;">
+          Format and checksum pass verification.<br>
+          This does NOT confirm active registration status.
+        </div>`;
+    } else {
+      resultDiv.innerHTML = `
+        <div style="color:red; font-weight:bold;">
+          DEA number failed checksum validation.
+        </div>
+        <div style="margin-top:8px; font-size:0.85rem;">
+          The number is likely invalid or mistyped.
+        </div>`;
     }
+  }
 
-    
-    
-</script>
+  /* ---------- STARTUP ---------- */
+  window.onload = function () {
+    showCategory("operational");
+    const operationalBtn = Array.from(document.getElementsByClassName("nav-button"))
+      .find(btn => btn.textContent.includes("Ops"));
+    if (operationalBtn) operationalBtn.classList.add("active");
+  };
+  </script>
+
   
   <div id="mySchedulePopup" class="popup-overlay" style="display:none;">
     <div class="popup-box">
