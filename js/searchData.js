@@ -418,7 +418,7 @@ const searchItems = [
         { name: "Forgery Protocol  #Regulatory", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Prescription_Forgery_Protocol_Job_Aid_FV.pdf" },
         { name: "Vaccine Clinic Consent Form (English)  #Immunizations", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Vaccine_Clinic_Consent_Form_20260720120927245.pdf" },
         { name: "Vaccine Clinic Consent Form (Spanish)  #Immunizations", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Vaccine_Clinic_Consent_Form-Spanish_20260812073246588.pdf" },
-        { name: "XXXXXXXXXXXXXXX  #XXXXXXXXXX", url: "XXXXXXXXXXXXXXX" },
+        { name: "Mobile Site  #Admin", url: "/rxnet/mobile" },
         { name: "XXXXXXXXXXXXXXX  #XXXXXXXXXX", url: "XXXXXXXXXXXXXXX" },
         { name: "XXXXXXXXXXXXXXX  #XXXXXXXXXX", url: "XXXXXXXXXXXXXXX" },
         { name: "XXXXXXXXXXXXXXX  #XXXXXXXXXX", url: "XXXXXXXXXXXXXXX" },
