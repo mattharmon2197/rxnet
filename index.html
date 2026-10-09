@@ -2241,6 +2241,28 @@ document.getElementById("copyOutlook").addEventListener("click", function (e) {
   }
 });
 </script>
+<script>
+document.querySelectorAll(".copy-open").forEach(function (el) {
+  el.addEventListener("click", function () {
+    const text = el.dataset.copy;
+
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).catch(function () {});
+    } else {
+      // fallback for http:// pages or older browsers
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand("copy"); } catch (err) {}
+      ta.remove();
+    }
+    // no preventDefault: the link still opens the new tab
+  });
+});
+</script>
 
 <div id="citrixPopup" class="popup-overlay" style="display:none;">
   <div class="popup-box">
@@ -2287,27 +2309,3 @@ document.getElementById("copyOutlook").addEventListener("click", function (e) {
 </body>
 </html>
 
-
-
-<script>
-document.querySelectorAll(".copy-open").forEach(function (el) {
-  el.addEventListener("click", function () {
-    const text = el.dataset.copy;
-
-    if (navigator.clipboard && window.isSecureContext) {
-      navigator.clipboard.writeText(text).catch(function () {});
-    } else {
-      // fallback for http:// pages or older browsers
-      const ta = document.createElement("textarea");
-      ta.value = text;
-      ta.style.position = "fixed";
-      ta.style.opacity = "0";
-      document.body.appendChild(ta);
-      ta.select();
-      try { document.execCommand("copy"); } catch (err) {}
-      ta.remove();
-    }
-    // no preventDefault: the link still opens the new tab
-  });
-});
-</script>
