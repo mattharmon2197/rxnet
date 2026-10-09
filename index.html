@@ -334,7 +334,8 @@
         <a href="#" onclick="chooseDigest(); return false;">Store Digest</a>
         <a href="#" onclick="chooseLearninghub(); return false;">LearningHub/RRT</a>
         <a href="https://www.duckduckgo.com" target="_blank" rel="noopener noreferrer">DuckDuckGo</a>
-        <a href="https://app.tidepool.org" target="_blank" rel="noopener noreferrer">Tidepool</a>
+        <a href="https://app.tidepool.org" target="_blank" rel="noopener noreferrer"
+           class="copy-open" data-copy="topfum-puGjeh-qihsu4">Tidepool</a>
         <a href="#" onclick="chooseCitrix(); return false;">Citrix</a>
         <a href="https://chainlauncher.rxc.cvs.com:7188/Launcher/AppLauncher.jnlp" target="_blank" rel="noopener noreferrer">RxC Launcher</a>
         <a href="#" onclick="openBarcodePopup(); return false;">Print Credentials</a>
@@ -595,7 +596,7 @@
         <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Virtual_Verification_RxNet_Landing_Page.pdf" target="_blank" rel="noopener noreferrer">Virtual Verify</a>
         <a href="https://cvshealth.service-now.com/cz?id=sc_cat_item&sys_id=e3625b74fb221610b562f42bbeefdc58" target="_blank" rel="noopener noreferrer">IT Self Service</a>
         <a href="https://idmgmt.cvshealth.com/iam-selfserviceportal-oci/home" target="_blank" rel="noopener noreferrer">IAM Portal</a>
-
+        <a href="#" id="copyOutlook">Outlook (App)</a>
 </div>
     
     
@@ -2211,6 +2212,36 @@ window.onload = function() {
 
 </script>
 
+<script>
+document.getElementById("copyOutlook").addEventListener("click", function (e) {
+  e.preventDefault();
+  const text = '"C:\\Program Files (x86)\\Microsoft Office\\root\\Office16\\OUTLOOK.EXE"';
+  const el = this;
+  const original = el.textContent;
+
+  function done(ok) {
+    el.textContent = ok ? "Copied!" : "Copy failed";
+    setTimeout(() => { el.textContent = original; }, 1500);
+  }
+
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(() => done(true), () => done(false));
+  } else {
+    // fallback for http:// pages or older browsers
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.position = "fixed";
+    ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.select();
+    let ok = false;
+    try { ok = document.execCommand("copy"); } catch (err) {}
+    ta.remove();
+    done(ok);
+  }
+});
+</script>
+
 <div id="citrixPopup" class="popup-overlay" style="display:none;">
   <div class="popup-box">
     <h3>Select Citrix Domain</h3>
@@ -2257,3 +2288,26 @@ window.onload = function() {
 </html>
 
 
+
+<script>
+document.querySelectorAll(".copy-open").forEach(function (el) {
+  el.addEventListener("click", function () {
+    const text = el.dataset.copy;
+
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).catch(function () {});
+    } else {
+      // fallback for http:// pages or older browsers
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand("copy"); } catch (err) {}
+      ta.remove();
+    }
+    // no preventDefault: the link still opens the new tab
+  });
+});
+</script>
