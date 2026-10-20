@@ -143,7 +143,7 @@ const searchItems = [
         { name: "Date Calculator #Miscellaneous", url: "https://www.calculator.net/date-calculator.html" },
         { name: "Pick N Pack  #Miscellaneous ", url: "https://cvsstore.cvs.com/app/deliveryprepapp/" },
         { name: "RxDelivery Home   #Operational", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/perm/fm/oth/RxDelivery_Resource_Center.pdf" },
-        { name: "Policy/Procedure ", url: "https://policy.corp.cvscaremark.com/pnp/faces/home.xhtml" },
+        { name: "Policy and Procedure Portal  #Operational", url: "https://policy.corp.cvscaremark.com/pnp/home" },
         { name: "CE Tracking  ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/RPh_Letter_Updated.pptx_2pdf.pdf" },
         { name: "Waiting Bin Inventory Schedule 2026", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/2026_Waiting_bin_inventory_dates_20251210093144638.docx_2pdf.pdf" },
         { name: "OTC Syringe Sales ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/OTC_Syringe_Spreadsheet_Master_20210519141310407.pdf" },
