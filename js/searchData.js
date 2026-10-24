@@ -423,7 +423,7 @@ const searchItems = [
         { name: "COVID Testing Home Page (NEW)  #COVID", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Testing_myDocs_Page.pdf" },
         { name: "Product Verification Assist Job Aid (QP/QV2 AI Assist)  #Miscellaneous", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/PVA_Job_Aid_Using_AlertIQ_Final_20260618153216551.pdf" },
         { name: "Internal Medicare Part B Contact Information  #Dispensing", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Contact_Subpage_20240729112222856.pptx_2pdf.pdf" },
-        { name: "XXXXXXXXXXXXXXX  #XXXXXXXXXX", url: "XXXXXXXXXXXXXXX" },
+        { name: "Microsoft Teams  #Operational", url: "https://teams.cloud.microsoft" },
         { name: "XXXXXXXXXXXXXXX  #XXXXXXXXXX", url: "XXXXXXXXXXXXXXX" },
         { name: "XXXXXXXXXXXXXXX  #XXXXXXXXXX", url: "XXXXXXXXXXXXXXX" },
         { name: "XXXXXXXXXXXXXXX  #XXXXXXXXXX", url: "XXXXXXXXXXXXXXX" },
