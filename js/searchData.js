@@ -425,7 +425,7 @@ const searchItems = [
         { name: "Internal Medicare Part B Contact Information  #Dispensing", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Contact_Subpage_20240729112222856.pptx_2pdf.pdf" },
         { name: "Microsoft Teams  #Operational", url: "https://teams.cloud.microsoft" },
         { name: "Pay Stubs  #Human Resources", url: "https://www.myworkday.com/cvshealth/d/task/2997$1475.htmld" },
-        { name: "XXXXXXXXXXXXXXX  #XXXXXXXXXX", url: "XXXXXXXXXXXXXXX" },
+        { name: "Time Off Balance  #Human Resources", url: "https://www.myworkday.com/cvshealth/d/task/2998$3047.htmld" },
         { name: "XXXXXXXXXXXXXXX  #XXXXXXXXXX", url: "XXXXXXXXXXXXXXX" },
         { name: "XXXXXXXXXXXXXXX  #XXXXXXXXXX", url: "XXXXXXXXXXXXXXX" },
         { name: "XXXXXXXXXXXXXXX  #XXXXXXXXXX", url: "XXXXXXXXXXXXXXX" },
