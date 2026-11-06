@@ -291,6 +291,7 @@ body {
 <div id="references" class="grid category-panel">
   <div class="section-title">References</div>
   <a href="https://www.clinicalkey.com/pharmacology/" target="_blank" rel="noopener noreferrer">Clinical Pharmacology</a>
+  <a href="#" onclick="chooseDynamedex(); return false;">Dynamedex</a>
   <a href="https://pharmacist.therapeuticresearch.com/Home/PL/?referer=cvs/desktop.urls" target="_blank" rel="noopener noreferrer">Pharmacist Letter</a>
   <a href="https://pharmacist.therapeuticresearch.com/api/sitecore/FileGuard/GetFile?id=224468bc-80b7-4d3e-9c3d-b256e65dabfc" target="_blank" rel="noopener noreferrer">Contraceptive Interchange</a>
   <a href="https://pharmacist.therapeuticresearch.com/api/sitecore/FileGuard/GetFile?id=26b292db-44a5-48d9-955d-9321ddea591d" target="_blank" rel="noopener noreferrer">Do Not Crush List</a>
@@ -681,6 +682,44 @@ body {
     }
   }
 
+      
+      function chooseDynamedex() {
+        document.getElementById("DynamedexPopup").style.display = "flex";
+      }
+
+
+      function openDynamedex(choice) {
+
+        if (choice === "Dynamedex") {
+
+          window.open(
+            "https://dynamedex.com",
+            "_blank",
+            "noopener,noreferrer"
+          );
+
+        } else if (choice === "TrialActivation") {
+
+          window.open(
+            "https://www.dynamedex.com/store/free-trial/checkout",
+            "_blank",
+            "noopener,noreferrer"
+          );
+        }
+
+        closeDynamedexPopup();
+      }
+
+
+      function closeDynamedexPopup() {
+        document.getElementById("DynamedexPopup").style.display = "none";
+      }
+      
+      
+      
+      
+      
+      
   /* ---------- STARTUP ---------- */
   window.onload = function () {
     showCategory("operational");
@@ -697,6 +736,17 @@ body {
       <button onclick="openmySchedule('mySchedule')">Ping</button>
       <button onclick="openmySchedule('rrt')">SAML</button>
       <button onclick="closemySchedulePopup()">Cancel</button>
+    </div>
+  </div>
+  
+  
+  
+  <div id="DynamedexPopup" class="popup-overlay" style="display:none;">
+    <div class="popup-box">
+      <h3>Do you want to open Dynamedex or Trial Activation?</h3>
+      <button onclick="openDynamedex('Dynamedex')">Dynamedex</button>
+      <button onclick="openDynamedex('TrialActivation')">Trial Activation</button>
+      <button onclick="closeDynamedexPopup()">Cancel</button>
     </div>
   </div>
   

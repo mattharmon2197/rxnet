@@ -410,6 +410,8 @@
         <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Schedule_II_Non-Saleable_Returns_v2024_11_20241105125347582.pdf" target="_blank" rel="noopener noreferrer">CII Returns</a>
         <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/NIOSH_DRUGS_20191203083207826.pdf" target="_blank" rel="noopener noreferrer">NIOSH Drugs</a>
         <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/OV_Delivery_Check-In_for_Controls_Job_Aid_7-28_20260729104606719.pdf" target="_blank" rel="noopener noreferrer">CS Check-in</a>
+        <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Back_Order_Rpt.pdf" target="_blank" rel="noopener noreferrer">Warehouse Backorders</a>
+
 </div>
 
 
@@ -443,6 +445,7 @@
         <a href="https://www.clinicalkey.com/pharmacology/" target="_blank" rel="noopener noreferrer">Clinical Pharm</a>
         <a href="https://www.uptodate.com/contents/search" target="_blank" rel="noopener noreferrer">UpToDate</a>
         <a href="#" onclick="openDynamicURL('https://www.clinicalkey.com/pharmacology/find-by/ndc?ndc=ZZZZZZZZZZZ'); return false;">CP NDC Search</a>
+        <a href="#" onclick="chooseDynamedex(); return false;">Dynamedex</a>
         <a href="https://dailymed.nlm.nih.gov/dailymed/" target="_blank" rel="noopener noreferrer">DailyMed</a>
         <a href="https://www.micromedexsolutions.com/micromedex2/librarian/" target="_blank" rel="noopener noreferrer">Micromedex</a>
         <a href="https://app.plumbs.com/auth" target="_blank" rel="noopener noreferrer">Plumb's</a>
@@ -567,6 +570,8 @@
         <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Pennsylvania_Incumbent_Pharmacy_Technician_Application_Checklist_2025120917021865.pdf" target="_blank" rel="noopener noreferrer">PA Tech Licensure</a>
         <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/State_IMZ_Landing_Page__v2_20241114170446105.pptx_2pdf.pdf" target="_blank" rel="noopener noreferrer">IMZ Modules by State</a>
         <a href="https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/LearnRPh_Intern_Program_Guide_Jan26_20260604111534407.pdf" target="_blank" rel="noopener noreferrer">LearnRPh Guide</a>
+        <a href="https://cvshealth.sabacloud.com/Saba/Web_spf/NA10P1PRD006/app/workspace/pgcnt000000001567581?redirectedFormOld=true" target="_blank" rel="noopener noreferrer">Preceptor Home</a>
+
 </div>
 
 
@@ -1829,76 +1834,6 @@ function launchImageRetrieval() {
 }
 
 
-/* =========================================================
-   BARCODE / JNLP CREDENTIALS
-   ========================================================= */
-
-function openBarcodePopup() {
-
-  closePopup();
-
-  const overlay = document.createElement("div");
-
-  overlay.className = "popup-overlay dynamic-popup";
-
-  overlay.innerHTML = `
-    <div class="popup-box">
-
-      <h3>Enter JNLP RxC Credentials</h3>
-
-      <input
-        type="text"
-        id="barcodeInput"
-        placeholder="ABC"
-        maxlength="3"
-        style="padding:8px; width:80%; font-size:1rem; text-transform:uppercase;"
-        oninput="this.value=this.value.toUpperCase();"
-        onkeydown="if(event.key==='Enter') launchBarcode();"
-      />
-
-      <br><br>
-
-      <button onclick="launchBarcode()">
-        Continue
-      </button>
-
-      <button onclick="closePopup()">
-        Cancel
-      </button>
-
-    </div>
-  `;
-
-  document.body.appendChild(overlay);
-
-  document.getElementById("barcodeInput").focus();
-}
-
-
-function launchBarcode() {
-
-  const input =
-    document.getElementById("barcodeInput")?.value.trim();
-
-  if (!/^[A-Z]{3}$/.test(input)) {
-
-    alert("Please enter exactly 3 letters.");
-
-    return;
-  }
-
-  const url =
-    "https://barcode.tec-it.com/en/Code128?data=" +
-    input;
-
-  window.open(
-    url,
-    "_blank",
-    "noopener,noreferrer"
-  );
-
-  closePopup();
-}
 
 
 /* =========================================================
@@ -2039,7 +1974,44 @@ function validateDEA() {
   }
 }
 
+    
+    
+    
+    
 
+    function chooseDynamedex() {
+      document.getElementById("DynamedexPopup").style.display = "flex";
+    }
+
+
+    function openDynamedex(choice) {
+
+      if (choice === "Dynamedex") {
+
+        window.open(
+          "https://dynamedex.com",
+          "_blank",
+          "noopener,noreferrer"
+        );
+
+      } else if (choice === "TrialActivation") {
+
+        window.open(
+          "https://www.dynamedex.com/store/free-trial/checkout",
+          "_blank",
+          "noopener,noreferrer"
+        );
+      }
+
+      closeDynamedexPopup();
+    }
+
+
+    function closeDynamedexPopup() {
+      document.getElementById("DynamedexPopup").style.display = "none";
+    }
+
+    
 /* =========================================================
    PCQ
    ========================================================= */
@@ -2270,6 +2242,116 @@ document.querySelectorAll(".copy-open").forEach(function (el) {
 });
 </script>
 
+
+<script>
+    /* =========================================================
+       PRINT CREDENTIALS BARCODE (Code 128, generated locally)
+       Drop-in: replaces openBarcodePopup() / launchBarcode().
+       Needs closePopup() from the page (removes .dynamic-popup).
+       ========================================================= */
+
+    /* Code 128 bar/space run-lengths, index = symbol value (106 = STOP) */
+    const C128 = "212222,222122,222221,121223,121322,131222,122213,122312,132212,221213,221312,231212,112232,122132,122231,113222,123122,123221,223211,221132,221231,213212,223112,312131,311222,321122,321221,312212,322112,322211,212123,212321,232121,111323,131123,131321,112313,132113,132311,211313,231113,231311,112133,112331,132131,113123,113321,133121,313121,211331,231131,213113,213311,213131,311123,311321,331121,312113,312311,332111,314111,221411,431111,111224,111422,121124,121421,141122,141221,112214,112412,122114,122411,142112,142211,241211,221114,413111,241112,134111,111242,121142,121241,114212,124112,124211,411212,421112,421211,212141,214121,412121,111143,111341,131141,114113,114311,411113,411311,113141,114131,311141,411131,211412,211214,211232,2331112".split(",");
+
+    /* Build the SVG for text (Code 128 set B: covers uppercase, digits, punctuation) */
+    function code128SVG(text, label) {
+      const START_B = 104, STOP = 106;
+      const values = [START_B];
+      let sum = START_B;
+      for (let i = 0; i < text.length; i++) {
+        const v = text.charCodeAt(i) - 32;
+        if (v < 0 || v > 95) throw new Error("Character not supported: " + text[i]);
+        values.push(v);
+        sum += v * (i + 1);
+      }
+      values.push(sum % 103, STOP);
+
+      const quiet = 10, h = 80;
+      let x = quiet, bars = "";
+      values.forEach(function (v) {
+        const runs = C128[v];
+        for (let r = 0; r < runs.length; r++) {
+          const w = parseInt(runs[r], 10);
+          if (r % 2 === 0) bars += '<rect x="' + x + '" y="0" width="' + w + '" height="' + h + '"/>';
+          x += w;
+        }
+      });
+      const total = x + quiet;
+      return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + total + " " + (h + 22) +
+             '" width="3.2in" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/>' +
+             '<g fill="#000">' + bars + "</g>" +
+             '<text x="' + total / 2 + '" y="' + (h + 17) + '" text-anchor="middle" ' +
+             'font-family="Arial, sans-serif" font-size="16" font-weight="bold">' + label + "</text></svg>";
+    }
+
+    /* Print just the barcode via a hidden iframe (no popup window to get blocked) */
+    function printBarcode(text) {
+      const svg = code128SVG(text, text);
+      const frame = document.createElement("iframe");
+      frame.style.cssText = "position:fixed; right:0; bottom:0; width:0; height:0; border:0;";
+      document.body.appendChild(frame);
+
+      const doc = frame.contentWindow.document;
+      doc.open();
+      doc.write(
+        "<!DOCTYPE html><html><head><title>Barcode " + text + "</title>" +
+        "<style>@page { margin: 0.5in; } body { margin: 0; text-align: left; }</style>" +
+        "</head><body>" + svg + "</body></html>"
+      );
+      doc.close();
+
+      setTimeout(function () {
+        frame.contentWindow.focus();
+        frame.contentWindow.print();
+        setTimeout(function () { frame.remove(); }, 60000);
+      }, 150);
+    }
+
+    /* ---------- popup ---------- */
+    function openBarcodePopup() {
+      closePopup();
+
+      const overlay = document.createElement("div");
+      overlay.className = "popup-overlay dynamic-popup";
+      overlay.innerHTML =
+        '<div class="popup-box">' +
+          "<h3>Enter JNLP RxC Credentials</h3>" +
+          '<input type="text" id="barcodeInput" placeholder="ABC" maxlength="3" autocapitalize="characters" ' +
+            'style="padding:8px; width:80%; font-size:1rem; text-transform:uppercase;">' +
+          '<div id="barcodeError" style="color:#b00020; font-size:0.9rem; margin-top:8px; min-height:1.2em;"></div>' +
+          "<br>" +
+          '<button id="barcodeGo">Print</button>' +
+          '<button id="barcodeCancel">Cancel</button>' +
+        "</div>";
+      document.body.appendChild(overlay);
+
+      const input = document.getElementById("barcodeInput");
+      input.addEventListener("input", function () { input.value = input.value.toUpperCase(); });
+      input.addEventListener("keydown", function (e) { if (e.key === "Enter") launchBarcode(); });
+      document.getElementById("barcodeGo").onclick = launchBarcode;
+      document.getElementById("barcodeCancel").onclick = closePopup;
+      input.focus();
+    }
+
+    function launchBarcode() {
+      const input = (document.getElementById("barcodeInput") || {}).value || "";
+      const creds = input.trim().toUpperCase();
+
+      if (!/^[A-Z]{3}$/.test(creds)) {
+        document.getElementById("barcodeError").textContent = "Please enter exactly 3 letters.";
+        return;
+      }
+
+      closePopup();
+      printBarcode(creds);
+    }
+</script>
+
+
+
+
+
+
 <div id="citrixPopup" class="popup-overlay" style="display:none;">
   <div class="popup-box">
     <h3>Select Citrix Domain</h3>
@@ -2300,7 +2382,14 @@ document.querySelectorAll(".copy-open").forEach(function (el) {
   </div>
 </div>
 
-
+<div id="DynamedexPopup" class="popup-overlay" style="display:none;">
+  <div class="popup-box">
+    <h3>Do you want to open Dynamedex or Trial Activation?</h3>
+    <button onclick="openDynamedex('Dynamedex')">Dynamedex</button>
+    <button onclick="openDynamedex('TrialActivation')">Trial Activation</button>
+    <button onclick="closeDynamedexPopup()">Cancel</button>
+  </div>
+</div>
 
 
 <div id="mySchedulePopup" class="popup-overlay" style="display:none;">
