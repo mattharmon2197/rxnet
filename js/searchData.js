@@ -199,7 +199,7 @@ const searchItems = [
         { name: "General Cleaning  #Compounding ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Compounding_Space_Cleaning_and_Maintenance_20231020164309842.pdf" },
         { name: "FillMaster Flavoring #Compounding", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/fm/Dispensing_with_the_FLAVORx_Auto_%28002%29_20240104125806446.pdf" },
         { name: "Labeling Guide  #Compounding ", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Nonsterile_Compounding_Labels_20230607140522602.pdf" },
-        { name: "Combpounding Binder #Compounding", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Compounding_Binder_Guidance_Document_20230801144052106.pdf" },
+        { name: "Compounding Binder #Compounding", url: "https://portaldoctool.cvs.com/retailportalfiles/radar_store/temp/store/Compounding_Binder_Guidance_Document_20230801144052106.pdf" },
         { name: "First Kit Quarantine #Compounding", url: "https://cvsthinklp.my.salesforce.com/sfc/p/36000001HXbW/a/Kf000000uNSU/Pa5A628WahrLlMBtccYeZ1SasnMXokr_4S018Q2s8L0" },
         { name: "Citrix (manual login with CID) ", url: "https://appsmc.minclinic.local/Citrix/appsmcWeb/" },
         { name: "DynaMedex #Clinical", url: "https://www.dynamedex.com" },
